@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Http\Request;
+use App\Models\Position;
 class LoginController extends Controller
 {
     /*
@@ -36,5 +37,18 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+    protected function authenticated(Request $request, $user)
+    {
+        $position_code = Position::getPositionCodeByUser($user);
+        var_dump($position_code);
+        // Kiểm tra giá trị position_id của người dùng sau khi họ đăng nhập
+        if ($user->position_id === 1 ) {
+            return 111; // Điều hướng tới dashboard nếu position_id là 1 hoặc 2
+        }
+        if ( $user->position_id === 2) {
+            return 2222; // Điều hướng tới dashboard nếu position_id là 1 hoặc 2
+        }
+       // Điều hướng mặc định nếu không phù hợp
     }
 }
