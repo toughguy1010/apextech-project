@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Employee\EmployeeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,9 +18,13 @@ use Illuminate\Support\Facades\Auth;
 
 
 Auth::routes();
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        return view('home');
+    Route::prefix('admin')->group(function(){
+        Route::get('/',  [AdminController::class, 'index'])->name('admin.home');
+    });
+    Route::prefix('employee')->group(function(){
+        Route::get('/',  [EmployeeController::class, 'index'])->name('employee.home');
     });
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });

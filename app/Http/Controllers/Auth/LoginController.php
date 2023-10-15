@@ -7,6 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\Position;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /*
@@ -34,21 +36,39 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    private $user;
+
+    public function __construct(User $user)
     {
         $this->middleware('guest')->except('logout');
+        $this->user = $user;
+
+    }
+    public function logout()
+    {
+        Auth::logout(); 
+
+        return redirect('/login'); 
+       
     }
     protected function authenticated(Request $request, $user)
     {
         $position_code = Position::getPositionCodeByUser($user);
-        var_dump($position_code);
-        // Kiểm tra giá trị position_id của người dùng sau khi họ đăng nhập
-        if ($user->position_id === 1 ) {
-            return 111; // Điều hướng tới dashboard nếu position_id là 1 hoặc 2
+       
+        switch ($position_code) {
+            case 'admin':
+                return redirect()->route('admin.home');
+                break;
+            case 'employee':
+                return redirect()->route('employee.home');
+                break;
+            case 'manager':
+                return redirect()->route('manager.home');
+                break;
+            // Xử lý cho các vị trí khác (nếu cần)
+            default:
+                return redirect(RouteServiceProvider::HOME);
+                break;
         }
-        if ( $user->position_id === 2) {
-            return 2222; // Điều hướng tới dashboard nếu position_id là 1 hoặc 2
-        }
-       // Điều hướng mặc định nếu không phù hợp
     }
 }
