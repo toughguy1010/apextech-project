@@ -1,0 +1,20 @@
+@import "variables";
+
+// Bootstrap
+
+#form_user_upsert form{
+    background-color: #ffffff;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 10px;
+    padding: 15px;
+}
+#form_user_upsert h4{
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+#form_user_upsert form{
+    padding: 25px;
+}
+.row-input{
+    margin-bottom: 10px;
+}

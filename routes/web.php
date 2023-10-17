@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\UploadController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,4 +41,5 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::post('upload',[UploadController::class,'store']);
 // 
