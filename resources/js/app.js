@@ -29,7 +29,7 @@ $(function () {
                             imageUrl +
                             ' " width =  "150px"> </a>'
                     );
-                    $("#thumb").val(imageUrl);
+                    $("#avatar").val(imageUrl);
                 } else {
                     alert("upload file failed");
                 }

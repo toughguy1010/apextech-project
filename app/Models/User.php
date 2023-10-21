@@ -28,6 +28,7 @@ class User extends Authenticatable
         'off_board',
         'status',
         'position_id ',
+        'note ',
     ];
 
     /**
