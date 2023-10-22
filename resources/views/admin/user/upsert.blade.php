@@ -12,14 +12,14 @@
                     <div class="row row-input">
                         <div class="mb-3 col-6">
                             <label for="username" class="form-label required">Tên đăng nhập</label>
-                            <input type="text" name="username" class="form-control" id="username" disabled>
+                            <input type="text" name="username" class="form-control" id="username" >
                             @error('username')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-3 col-6">
                             <label for="password" class="form-label required">Mật khẩu</label>
-                            <input type="password" name="password" class="form-control" id="password" disabled>
+                            <input type="password" name="password" class="form-control" id="password" >
                             @error('password')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

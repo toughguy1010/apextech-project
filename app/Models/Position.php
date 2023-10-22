@@ -14,6 +14,12 @@ class Position extends Model
     {
         $positionId = $user->position_id;
         $position = self::find($positionId);
-        return $position ? $position->position_code : 'unknown';
+        return $position ? $position->position_code : 'Không có dữ liệu';
+    }
+    public static function getPositionNameByUser($user)
+    {
+        $positionId = $user->position_id;
+        $position = self::find($positionId);
+        return $position ? $position->position_name : 'Không có dữ liệu';
     }
 }

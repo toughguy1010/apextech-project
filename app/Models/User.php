@@ -54,4 +54,10 @@ class User extends Authenticatable
         $userName = Auth::user()->name;
         return $userName;
     }
+    public function getAllUsers($limit){
+        $limit = $limit !== null ? $limit : 10;
+        $users = User::paginate($limit);
+        return $users;
+    }
+
 }
