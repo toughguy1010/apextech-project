@@ -12,6 +12,27 @@
                     Danh sách tài khoản
                 </h4>
                 <div class="col-6 d-flex justify-content-end">
+                    {{-- <form action="" id="myForm">
+                        <div class="me-4" style="width: 150px">
+                            <?php 
+                                $positions = Position::all();
+                            ?>
+                            <select class="form-select" name="position_id" aria-label="Default select example" onchange="submitForm()">
+                                <option value="">--- Chọn vị trí ---</option>
+                                @foreach ($positions as $item)
+                                    <option value="<?= $item->id ?>" {{ isset($_GET['position_id']) && $_GET['position_id'] == $item->id ? 'selected' : '' }} ><?= $item->position_name ?></option>
+                                @endforeach
+    
+                            </select>
+                            <script>
+                                function submitForm() {
+                                    document.getElementById("myForm").submit();
+                                }
+                                </script>
+                        </div>
+                    </form> --}}
+                
+                    
                     <div class="input-group " style="width:fit-content">
                         <form action="" class="d-flex ms-0">
                             <input class="form-control search-input " type="text" placeholder="Nhập tên tài khoản/ Email"
@@ -22,7 +43,7 @@
                         </form>
                     </div>
                     <div class="export-excel ms-4">
-                        <form action="" class="me-0">
+                        <form action="{{url('admin/user/export') }}" class="me-0" method="get">
                             <button type="submit" class="btn btn-success " type="button" id="button-addon1"
                                 style="height: 45px">
                                 <i class="fa-regular fa-file-excel"></i>
@@ -50,7 +71,7 @@
                         Ngày bắt đầu
                     </th>
                     <th>
-                        Vị trí
+                       Chức vụ
                     </th>
                     <th>
                         Trạng thái
@@ -95,7 +116,9 @@
                 </tbody>
             </table>
             <div class="pagination-wrap">
-                {{ $users->links('layouts.pagination') }}
+                {{-- {{ $users->links('layouts.pagination') }} --}}
+                {{ $users->appends(['search' => $search ])->links('layouts.pagination') }}
+
             </div>
         </div>
     </section>

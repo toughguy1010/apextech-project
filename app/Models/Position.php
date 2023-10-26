@@ -22,4 +22,5 @@ class Position extends Model
         $position = self::find($positionId);
         return $position ? $position->position_name : 'Không có dữ liệu';
     }
+
 }

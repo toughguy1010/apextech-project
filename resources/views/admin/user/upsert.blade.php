@@ -85,9 +85,9 @@
                     <div class="mb-3 col-6">
                         <?php
                         ?>
-                        <label for="email" class="form-label required">Vị trí</label>
+                        <label for="email" class="form-label required">Chức vụ</label>
                         <select class="form-select" name="position_id" aria-label="Default select example">
-                            <option value="">--- Chọn vị trí ---</option>
+                            <option value="">--- Chọn chức vụ ---</option>
                             @foreach ($positions as $item)
                                 <option value="<?= $item->id ?>" {{ $id && $user->position_id === $item->id  ? 'selected' : ''}}><?= $item->position_name ?></option>
                             @endforeach

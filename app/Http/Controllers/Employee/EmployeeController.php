@@ -23,4 +23,9 @@ class EmployeeController extends Controller
             'user_name' => $this->user->getUserName()
         ]);
     }
+    public function getPersonalInfo(){
+        $user = Auth::user();
+        $user_id = $user->id;
+        return $user_id;
+    }
 }

@@ -34,10 +34,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('upsert/{id?}',[UserController::class,'store']);
             Route::get('/',[UserController::class,'index']);
             Route::delete('destroy/{id}',[UserController::class,'destroy']);
+            Route::get('/export', [UserController::class,'export']);
         });
     });
     Route::prefix('employee')->group(function(){
         Route::get('/',  [EmployeeController::class, 'index'])->name('employee.home');
+        Route::get('/personal-info',  [EmployeeController::class, 'getPersonalInfo']);
     });
 
 });

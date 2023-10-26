@@ -48,7 +48,7 @@ class UserRequest extends FormRequest
             'phone_number.numeric' => 'Số điện thoại phải đúng kí tự',
             'phone_number.required' => 'Số điện thoại không được để trống',
             'avatar.required' => 'Ảnh đại diện không được để trống',
-            'position_id.required' => 'Vị trí tài khoản không được để trống',
+            'position_id.required' => 'Chức vụ tài khoản không được để trống',
         ];
     }
 }

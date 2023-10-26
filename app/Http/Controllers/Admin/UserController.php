@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Http\Requests\Admin\UserRequest;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -19,12 +21,18 @@ class UserController extends Controller
         $this->user = $user;
         $this->position = $position;
     }
-    public function index()
+    public function export()
     {
-        $limit = 10;
-        $users = $this->user->getAllUsers($limit);
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
+    public function index(Request $request)
+    {
+        $limit = 5;
+        $search = $request->input('search', '');
+        $users = $this->user->getAllUsers($limit,  $search);
         return view('admin.user.index', [
             'users' => $users,
+            'search' => $search,
 
         ]);
     }
@@ -73,7 +81,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::where('id', $id)->first();
-       
+
         if ($user) {
             $deleted = $user->delete();
             if ($deleted) {
@@ -86,11 +94,10 @@ class UserController extends Controller
                     'error' => 'Xóa người dùng thất bại.'
                 ]);
             }
-        }else {
+        } else {
             return response()->json([
                 'error' => 'Người dùng không tồn tại.'
             ]);
         }
-        
     }
 }

@@ -54,9 +54,16 @@ class User extends Authenticatable
         $userName = Auth::user()->name;
         return $userName;
     }
-    public function getAllUsers($limit){
+    public function getAllUsers($limit, $search){
         $limit = $limit !== null ? $limit : 10;
-        $users = User::paginate($limit);
+        $query = User::query();
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%');
+        }
+       
+
+        $users = $query->paginate($limit);
         return $users;
     }
 
