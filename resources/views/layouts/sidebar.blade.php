@@ -18,10 +18,11 @@
                 </a>
             </li> --}}
             {{-- admin --}}
-            @if ($user->position_id == 1)
+
+            @if ($user !== null && $user->position_id == 1)
                @include('layouts.sidebars.admin_sidebar')
             @endif
-            @if ($user->position_id == 2)
+            @if ($user !== null &&  $user->position_id == 2)
                @include('layouts.sidebars.employee_sidebar')
             @endif
 

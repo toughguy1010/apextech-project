@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Position;
+use Illuminate\Http\Request;
+use App\Models\User;
 
 class ResetPasswordController extends Controller
 {
@@ -26,5 +30,24 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    
+    protected $redirectTo = RouteServiceProvider::RESET;
+
+    public function checkAfterReset()
+    {
+        $user = Auth::user();
+        $position_code = Position::getPositionCodeByUser($user);
+        switch ($position_code) {
+            case 'admin':
+                return redirect()->route('admin.home');
+                break;
+            case 'employee':
+                return redirect()->route('employee.home');
+                break;
+            case 'manager':
+                return redirect()->route('manager.home');
+                break;
+        }
+    }
+
 }

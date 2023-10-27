@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Position;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -44,11 +45,13 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->user = $user;
     }
+   
     public function logout()
     {
         Auth::logout();
 
         return redirect('/login');
+       
     }
     public function login(Request $request)
     {
@@ -68,16 +71,15 @@ class LoginController extends Controller
                     return redirect()->route('manager.home');
                     break;
                     // Xử lý cho các vị trí khác (nếu cần)
-                default:
-                    return redirect(RouteServiceProvider::HOME);
-                    break;
+                    // default:
+                    //     return redirect(RouteServiceProvider::HOME);
+                    //     break;
             }
-
-        }else{
-
+        } else {
         }
 
         return back()->withErrors(['username' => 'Tên đăng nhập không hợp lệ']);
     }
 
+    
 }

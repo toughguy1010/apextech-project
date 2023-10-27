@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +26,10 @@ Auth::routes();
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::middleware(['auth'])->group(function () {
-   
+Route::post('/', [LoginController::class,'login']);
 
+
+Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->group(function(){
         Route::get('/',  [AdminController::class, 'index'])->name('admin.home');
         Route::prefix('user')->group(function(){
@@ -43,7 +46,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
 });
-Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('/logout',  [LoginController::class,'logout'])->name('logout');
+Route::get('/check-after-reset',  [ResetPasswordController::class,'checkAfterReset']);
 
 Route::post('upload',[UploadController::class,'store']);
 // 
