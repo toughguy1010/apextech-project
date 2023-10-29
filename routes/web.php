@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\UploadController;
@@ -38,6 +39,13 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/',[UserController::class,'index']);
             Route::delete('destroy/{id}',[UserController::class,'destroy']);
             Route::get('/export', [UserController::class,'export']);
+        });
+        Route::prefix('department')->group(function(){
+            Route::get('upsert/{id?}',[DepartmentController::class,'viewUpsert']);
+            Route::post('upsert/{id?}',[DepartmentController::class,'store']);
+            Route::post('update-employee/',[DepartmentController::class,'updateEmployee']);
+            Route::get('/',[DepartmentController::class,'index']);
+            Route::delete('destroy/{id}',[DepartmentController::class,'destroy']);
         });
     });
     Route::prefix('employee')->group(function(){

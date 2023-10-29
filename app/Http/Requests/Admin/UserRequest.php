@@ -22,10 +22,8 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         if (!$this->id) {
-            // Nếu $id không có giá trị (thêm mới), thêm kiểm tra unique cho trường "email"
             $rules['email'] = 'required|string|unique:users,email';
         } else {
-            // Nếu $id có giá trị (sửa đổi), không thêm kiểm tra unique cho trường "email"
             $rules['email'] = 'required|string';
         }
         return [

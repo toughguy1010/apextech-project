@@ -68,9 +68,9 @@ class UserController extends Controller
             $user->off_board = $request->input('off_board');
             $user->save();
             if ($id === null) {
-                Session::flash('success', 'Thêm mới tài khoản thành công');
+                Session::flash('success', 'Thêm mới người dùng thành công');
             } else {
-                Session::flash('success', 'Cập nhật tài khoản thành công');
+                Session::flash('success', 'Cập nhật người dùng thành công');
             }
             return redirect()->back();
         } catch (\Exception $e) {

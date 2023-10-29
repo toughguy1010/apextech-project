@@ -29,6 +29,7 @@ class User extends Authenticatable
         'status',
         'position_id ',
         'note ',
+        'department_id'
     ];
 
     /**
@@ -65,6 +66,25 @@ class User extends Authenticatable
 
         $users = $query->paginate($limit);
         return $users;
+    }
+    public static function getUserLeader(){
+        $query = User::query();
+        $leader = $query->where('position_id',3)->get();
+        return $leader;
+    }
+    public static function getUserEmployee(){
+        $query = User::query();
+        $employees = $query->where('position_id',2)->get();
+        return $employees;
+    }
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function getDepartmentName()
+    {
+        return $this->department ? $this->department->name : 'Chưa có phòng ban';
     }
 
 }

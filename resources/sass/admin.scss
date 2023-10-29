@@ -28,3 +28,9 @@
     border-top-left-radius: 0 ;
     border-bottom-left-radius: 0 ;
 }
+.form-check-input:checked{
+    background-color: #0d6efd !important;
+}
+.modal-footer{
+    border-top: 0 !important;
+}
