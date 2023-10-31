@@ -89,7 +89,7 @@ class DepartmentController extends Controller
             }
         } else {
             return response()->json([
-                'error' => 'phòng ban không tồn tại.'
+                'error' => 'Phòng ban không tồn tại.'
             ]);
         }
     }

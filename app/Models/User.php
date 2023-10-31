@@ -23,12 +23,16 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
+        'birthday',
+        'gender',
         'phone_number',
+        'address',
+        'education',
+        'marital_status',
         'on_board',
         'off_board',
         'status',
         'position_id ',
-        'note ',
         'department_id'
     ];
 

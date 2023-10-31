@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\InformationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +26,12 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 
 Auth::routes();
 Route::get('/', function () {
-    return view('auth.login');
-});
+    if (Auth::check()) {
+        return view('home');
+    } else {
+        return view('auth.login');
+    }
+})->name('home');
 Route::post('/', [LoginController::class,'login']);
 
 
@@ -50,8 +55,12 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::prefix('employee')->group(function(){
         Route::get('/',  [EmployeeController::class, 'index'])->name('employee.home');
-        Route::get('/personal-info',  [EmployeeController::class, 'getPersonalInfo']);
+        // Route::get('personal-info',  [EmployeeController::class, 'getPersonalInfo']);
     });
+    Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');
+    Route::post('personal-info/{id?}',  [InformationController::class, 'store']);
+    Route::get('change-password/{id?}',  [InformationController::class, 'showChangePasswordForm']);
+    Route::post('change-password/{id?}',  [InformationController::class, 'changePassword']);
 
 });
 Route::get('/logout',  [LoginController::class,'logout'])->name('logout');
