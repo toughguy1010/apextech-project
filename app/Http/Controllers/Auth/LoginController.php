@@ -45,13 +45,12 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->user = $user;
     }
-   
+
     public function logout()
     {
         Auth::logout();
 
         return redirect('/login');
-       
     }
     public function login(Request $request)
     {
@@ -67,8 +66,11 @@ class LoginController extends Controller
                 case 'employee':
                     return redirect()->route('employee.home');
                     break;
-                case 'manager':
-                    return redirect()->route('manager.home');
+                case 'leader':
+                    return redirect()->route('leader.home');
+                    break;
+                case 'ceo':
+                    return redirect()->route('ceo.home');
                     break;
                     // Xử lý cho các vị trí khác (nếu cần)
                     // default:
@@ -80,6 +82,4 @@ class LoginController extends Controller
 
         return back()->withErrors(['username' => 'Tên đăng nhập không hợp lệ']);
     }
-
-    
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\Leader\LeaderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,9 +54,17 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('destroy/{id}',[DepartmentController::class,'destroy']);
         });
     });
+    // employee
     Route::prefix('employee')->group(function(){
         Route::get('/',  [EmployeeController::class, 'index'])->name('employee.home');
         // Route::get('personal-info',  [EmployeeController::class, 'getPersonalInfo']);
+    });
+    // leader
+    Route::prefix('leader')->group(function(){
+        Route::get('/',  [LeaderController::class, 'index'])->name('leader.home');
+        Route::get('list-employee/{id?}',  [LeaderController::class, 'listEmployee']);
+        Route::delete('remove-employee/{id?}',  [LeaderController::class, 'removeEmployee']);
+        Route::get('export/{id?}',  [LeaderController::class, 'export']);
     });
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');
     Route::post('personal-info/{id?}',  [InformationController::class, 'store']);

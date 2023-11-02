@@ -20,10 +20,13 @@
             {{-- admin --}}
 
             @if ($user !== null && $user->position_id == 1)
-               @include('layouts.sidebars.admin_sidebar')
+                @include('layouts.sidebars.admin_sidebar')
             @endif
-            @if ($user !== null &&  $user->position_id == 2)
-               @include('layouts.sidebars.employee_sidebar')
+            @if ($user !== null && $user->position_id == 2)
+                @include('layouts.sidebars.employee_sidebar')
+            @endif
+            @if ($user !== null && $user->position_id == 3)
+                @include('layouts.sidebars.leader_sidebar')
             @endif
 
             {{-- <li class="sidebar__item has-child">
@@ -111,8 +114,8 @@
                             <span class="text-white">Menu child item 1</span>
                         </a>
                     </li> --}}
-                </ul>
-            </li>
+        </ul>
+        </li>
 
         </ul>
     </div>

@@ -8,30 +8,32 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Illuminate\Support\Collection;
 
-class UsersExport implements FromCollection, WithHeadings, WithMapping
+class UsersByDepartmentExport implements FromCollection, WithHeadings, WithMapping
 {
     /**
      * @return \Illuminate\Support\Collection
      */
-
-    use Exportable;
-
+    protected $departmentId;
+    public function __construct($departmentId)
+    {
+        $this->departmentId = $departmentId;
+    }
     public function collection()
     {
-        //
-        return User::query()->select(
-            'id',
-            'name',
-            'username',
-            'email',
-            'phone_number',
-            'status',
-            'position_id',
-            'on_board',
-            'off_board',
-        )->get();
+        $users = User::where('department_id', $this->departmentId)
+            ->select(
+                'id',
+                'name',
+                'username',
+                'email',
+                'phone_number',
+                'status',
+                'position_id',
+                'on_board',
+                'off_board'
+            )->get();
+        return $users;
     }
     public function headings(): array
     {
@@ -51,7 +53,7 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
     {
         $status = $user->status == 1 ? 'Đang làm việc' : 'Đã nghỉ việc';
         $position = Position::getPositionNameByUser($user);
-        
+
         return [
             $user->id,
             $user->name,
@@ -59,7 +61,7 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
             $user->email,
             $user->phone_number,
             $status,
-            $position ,
+            $position,
             $user->on_board,
             $user->off_board,
             $user->note,
