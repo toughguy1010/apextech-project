@@ -14,13 +14,13 @@ use Maatwebsite\Excel\Facades\Excel;
 class LeaderController extends Controller
 {
     //
-    private $user;
+        private $user;
 
-    public function __construct(User $user)
-    {
-        $this->middleware('auth');
-        $this->user = $user;
-    }
+        public function __construct(User $user)
+        {
+            $this->middleware('auth');
+            $this->user = $user;
+        }
     public function export($department_id)
     {
         return Excel::download(new UsersByDepartmentExport($department_id), 'users_department.xlsx');

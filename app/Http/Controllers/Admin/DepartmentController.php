@@ -93,4 +93,23 @@ class DepartmentController extends Controller
             ]);
         }
     }
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $users = User::query()
+            ->where('name', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%')
+            ->get();
+        $usersWithDepartments = [];
+        foreach ($users as $user) {
+            $departmentName = $user->getDepartmentName(); 
+            $userWithDepartment = $user->toArray(); 
+            $userWithDepartment['department_name'] = $departmentName; 
+
+            $usersWithDepartments[] = $userWithDepartment; 
+        }
+        return response()->json([
+            'users' => $usersWithDepartments,
+        ]);
+    }
 }

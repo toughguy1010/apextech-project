@@ -18,15 +18,6 @@
                             </button>
                         </form>
                     </div>
-                    {{-- <div class="export-excel ms-4">
-                        <form action="{{url('admin/user/export') }}" class="me-0" method="get">
-                            <button type="submit" class="btn btn-success " type="button" id="button-addon1"
-                                style="height: 45px">
-                                <i class="fa-regular fa-file-excel"></i>
-                                Xuất file excel
-                            </button>
-                        </form>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -55,16 +46,22 @@
                     @foreach ($departments as $department)
                         <tr id="department-{{ $department->id }}">
                             <td>{{ $department->name }}</td>
-                            <td>{{ $department->getLeaderName($department->leader_id)}}</td>
+                            <td>{{ $department->getLeaderName($department->leader_id) }}</td>
                             <td>{{ $department->description }}</td>
                             <td>{{ $department->countUsers() }}</td>
-
-
                             <td class="">
-                                <a href="{{ url('admin/department/upsert', $department->id) }}" class="me-4">
-                                    <i class="fa-solid fa-user-pen"></i>
-                                </a>
-                                <a href="#" class="btn-delete" data-url="{{ url('admin/department/destroy', $department->id) }}">
+                                @if (Auth::user()->position_id == 4)
+                                    <a href="{{ url('ceo/department/upsert', $department->id) }}" class="me-4">
+                                        <i class="fa-solid fa-user-pen"></i>
+                                    </a>
+                                @else
+                                    <a href="{{ url('admin/department/upsert', $department->id) }}" class="me-4">
+                                        <i class="fa-solid fa-user-pen"></i>
+                                    </a>
+                                @endif
+
+                                <a href="#" class="btn-delete"
+                                    data-url="{{ url('admin/department/destroy', $department->id) }}">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>
@@ -72,6 +69,8 @@
                     @endforeach
                 </tbody>
             </table>
+
+
             <div class="pagination-wrap">
                 {{ $departments->appends(['search' => $search])->links('layouts.pagination') }}
 

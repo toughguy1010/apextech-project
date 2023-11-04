@@ -28,6 +28,9 @@
             @if ($user !== null && $user->position_id == 3)
                 @include('layouts.sidebars.leader_sidebar')
             @endif
+            @if ($user !== null && $user->position_id == 4)
+                @include('layouts.sidebars.ceo_sidebar')
+            @endif
 
             {{-- <li class="sidebar__item has-child">
                 <div class="arrow">

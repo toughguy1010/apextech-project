@@ -54,9 +54,20 @@
                             <div class="modal-dialog" style="    max-width: 800px !important;">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Danh sách nhân viên</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                                        <h5 class="modal-title" id="exampleModalLabel" style="    flex: 0 0 50%;">Danh sách
+                                            nhân viên</h5>
+                                        <div action="" class="d-flex ms-0 form-search-emp">
+                                            <input class="form-control search-emp-input " type="text"
+                                                placeholder="Nhập tên phòng ban" name="search"
+                                                style="border-top-right-radius:0;border-bottom-right-radius:0">
+                                            <div type="submit" class="btn btn-primary search-emp-btn" type="button"
+                                                id="button-addon1"
+                                                style="height: 45px; padding: 10px 15px;border-top-left-radius:0;border-bottom-left-radius:0"
+                                                data-url="{{ url('admin/department/search') }}"
+                                                data-departmentID="{{ $id }}">
+                                                <i class="fa-solid fa-magnifying-glass"></i>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="modal-body">
                                         <table class="table" style="box-shadow: none">
@@ -66,22 +77,21 @@
                                                 <th>Tên tài khoản</th>
                                                 <th>Phòng ban</th>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="employee-list">
                                                 @foreach ($employees as $employee)
                                                     <tr class="">
                                                         <td>
                                                             <input class="form-check-input" type="checkbox"
-                                                            value="{{ $employee->id }}" name="employees_id[]"
-                                                            id="flexCheckChecked"
-                                                            {{ $id && $employee->department_id == $id ? 'checked' : ' ' }}
-                                                            data-url = "{{ url('admin/department/update-employee') }}"
-                                                            data-department = "{{  $employee->department_id == null || $employee->department_id == $id ? 1 : 0 }}">
+                                                                value="{{ $employee->id }}" name="employees_id[]"
+                                                                id="flexCheckChecked"
+                                                                {{ $id && $employee->department_id == $id ? 'checked' : ' ' }}
+                                                                data-department = "{{ $employee->department_id == null || $employee->department_id == $id ? 1 : 0 }}">
                                                         </td>
                                                         <td>
-                                                            {{ $employee->name }} 
+                                                            {{ $employee->name }}
                                                         </td>
                                                         <td>
-                                                            {{ $employee->username }} 
+                                                            {{ $employee->username }}
                                                         </td>
                                                         <td>
                                                             {{ $employee->getDepartmentName() }}
@@ -105,8 +115,7 @@
                         @enderror
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary save-update"
-                    data-url="{{ url('admin/department/save-employee') }}">{{ $id ? 'Cập nhật' : 'Thêm' }} phòng
+                <button type="submit" class="btn btn-primary save-update">{{ $id ? 'Cập nhật' : 'Thêm' }} phòng
                     ban</button>
                 <a href="{{ url('admin/department') }}" class="btn ms-3 btn-danger">Quay lại</a>
             </form>

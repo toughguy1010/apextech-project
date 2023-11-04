@@ -12,7 +12,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
                     {{ __('Leader') }}
                 </div>
             </div>

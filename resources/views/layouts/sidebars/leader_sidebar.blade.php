@@ -1,6 +1,6 @@
 
 <li class="sidebar__item ">
-    <a href="#" class="sidebar__link">
+    <a href="{{ url('leader/list-employee', Auth::user()->id) }}" class="sidebar__link">
         <i class="fa-solid fa-user text-white" ></i>
         <span class="text-white ms-2">Danh sách nhân viên</span>
     </a>
