@@ -11,13 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('leader_id')->nullable();
+            $table->string('name');
             $table->string('description')->nullable();
+            $table->text('content')->nullable();
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
+            $table->unsignedInteger('priority');
+            $table->unsignedInteger('status');
             $table->timestamps();
         });
+
+        
     }
 
     /**
@@ -25,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('tasks');
     }
 };

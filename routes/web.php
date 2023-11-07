@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\TasksController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\UploadController;
@@ -53,6 +54,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', [DepartmentController::class, 'index']);
             Route::delete('destroy/{id}', [DepartmentController::class, 'destroy']);
             Route::get('search/{search?}', [DepartmentController::class, 'search']);
+        });
+        Route::prefix('task')->group(function () {
+            Route::get('upsert/{id?}', [TasksController::class, 'viewUpsert']);
+            Route::post('upsert/{id?}', [TasksController::class, 'store']);
+            Route::get('/', [TasksController::class, 'index']);
         });
     });
     // employee

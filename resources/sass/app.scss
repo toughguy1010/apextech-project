@@ -103,10 +103,13 @@ textarea:focus-within,
 select:focus,
 select:active,
 select:visited,
-select:focus-within {
+select:focus-within, textarea:focus-visible {
     border-color: #4634ff !important;
     box-shadow: 0 3px 9px rgba(50, 50, 9, 0.05),
         3px 4px 8px rgba(115, 103, 240, 0.1) !important;
+}
+textarea:focus-visible{
+    outline: none;
 }
 label.form-label{
     font-size: 16px;

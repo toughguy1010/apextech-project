@@ -91,4 +91,8 @@ class User extends Authenticatable
         return $this->department ? $this->department->name : 'Chưa có phòng ban';
     }
 
+    public function assignedProcesses() {
+        return $this->belongsToMany(TaskProcess::class, 'task_process_assignees', 'user_id', 'task_process_id');
+    }
+
 }
