@@ -35,7 +35,65 @@
                         <input type="date" name="end_date" class="form-control" id="" value="{{ $id ? $task->end_date : "" }}">
                     </div>
                 </div>
+                <div class="row row-input">
+                    <div class="mb-3 col-6">
+                        <div type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Nhân viên được bàn giao
+                        </div>
 
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" style="    max-width: 800px !important;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel" style="flex: 0 0 50%;">Danh sách
+                                            nhân viên</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table" style="box-shadow: none">
+                                            <thead>
+                                                <th>Chọn</th>
+                                                <th>Tên nhân viên</th>
+                                                <th>Tên tài khoản</th>
+                                                <th>Phòng ban</th>
+                                            </thead>
+                                            <tbody id="employee-list">
+                                                @foreach ($employees as $employee)
+                                                    <tr class="">
+                                                        <td>
+                                                            <input class="form-check-input" type="checkbox"
+                                                                value="{{ $employee->id }}" name="employees_id[]"
+                                                                id="flexCheckChecked"
+                                                                @if( $id && $task->assignees->contains('id', $employee->id)) checked @endif
+                                                                >
+                                                        </td>
+                                                        <td>
+                                                            {{ $employee->name }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $employee->username }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $employee->getDepartmentName() }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Đóng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php 
+                        ?>
+                    </div>
+                </div>
                 <div class="row row-input">
                     <div class="mb-3 col-6">
                         <div for="name" class="form-label fw-bold">Nội dung công việc</div>

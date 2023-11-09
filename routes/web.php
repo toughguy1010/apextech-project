@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('upsert/{id?}', [TasksController::class, 'viewUpsert']);
             Route::post('upsert/{id?}', [TasksController::class, 'store']);
             Route::get('/', [TasksController::class, 'index']);
+            Route::delete('destroy/{id}', [TasksController::class, 'destroy']);
         });
     });
     // employee

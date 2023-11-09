@@ -93,8 +93,7 @@
                 </tbody>
             </table>
             <div class="pagination-wrap">
-                {{-- {{ $users->links('layouts.pagination') }} --}}
-                {{-- {{ $users->appends(['search' => $search ])->links('layouts.pagination') }} --}}
+                {{ $tasks->appends(['search' => $search ])->links('layouts.pagination') }}
 
             </div>
         </div>

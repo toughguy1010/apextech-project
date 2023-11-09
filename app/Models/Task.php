@@ -23,12 +23,7 @@ class Task extends Model
     const HIGH = 2;
     const URGENT = 3;
 
-    public function processes() {
-        return $this->hasMany(TaskProcess::class, 'task_id', 'id');
-    }
-    public function assignees() {
-        return $this->belongsToMany(User::class, 'task_process_assignees', 'task_id', 'user_id');
-    }
+  
     public static function getStatus($status)
     {
         switch ($status) {
@@ -71,5 +66,12 @@ class Task extends Model
 
         $tasks = $query->paginate($limit);
         return $tasks;
+    }
+
+    public function processes() {
+        return $this->hasMany(TaskProcess::class, 'task_id', 'id');
+    }
+    public function assignees() {
+        return $this->belongsToMany(User::class, 'task_assignees', 'task_id', 'user_id');
     }
 }

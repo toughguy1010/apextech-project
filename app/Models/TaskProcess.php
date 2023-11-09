@@ -9,11 +9,7 @@ class TaskProcess extends Model
 {
     use HasFactory;
     public function task() {
-        return $this->belongsTo(Task::class, 'task_id', 'id');
-    }
-
-    public function assignees() {
-        return $this->belongsToMany(User::class, 'task_process_assignees', 'task_process_id', 'user_id');
+        return $this->belongsToMany(Task::class, 'task_id', 'id');
     }
 
 }
