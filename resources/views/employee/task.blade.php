@@ -1,0 +1,140 @@
+@extends('layouts.app')
+@section('content')
+    <?php
+    use App\Models\Task;
+    ?>
+    <section id="list_user_section">
+        <div class="message">
+        </div>
+        <div class="list_user_header">
+            <div class="row align-items-center">
+                <h4 class="col-6">
+                    Danh sách công việc
+                </h4>
+                <div class="col-6 d-flex justify-content-end">
+                    <div class="input-group " style="width:fit-content">
+                        <form action="" class="d-flex ms-0">
+                            <input class="form-control search-input " type="text" placeholder="Nhập tên công việc"
+                                name="search">
+                            <button type="submit" class="btn btn-primary search-btn" type="button" id="button-addon1">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
+                    </div>
+                    {{-- <div class="export-excel ms-4">
+                        <form action="{{url('admin/user/export') }}" class="me-0" method="get">
+                            <button type="submit" class="btn btn-success " type="button" id="button-addon1"
+                                style="height: 45px">
+                                <i class="fa-regular fa-file-excel"></i>
+                                Xuất file excel
+                            </button>
+                        </form>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+        <div class="list-task-status">
+            <div class="list-status-header d-flex">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="tw-w-5 tw-h-5 tw-text-neutral-500 tw-mr-1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z">
+                    </path>
+                </svg>
+                Tóm lược trạng thái các công việc
+            </div>
+            <div class="list-status-body">
+                <div class="task-status-item not-start">
+                    <span>{{ Task::countTasksByStatus(Task::NOT_START, Auth::user()->id) }}</span> Chưa bắt đầu
+                </div>
+                <div class="task-status-item inprogress">
+                    <span>{{ Task::countTasksByStatus(Task::INPROGRESS, Auth::user()->id) }}</span> Đang tiến hành
+                </div>
+                <div class="task-status-item testing">
+                    <span>{{ Task::countTasksByStatus(Task::TESTING, Auth::user()->id) }}</span> Đang kiểm tra
+                </div>
+                <div class="task-status-item complete">
+                    <span>{{ Task::countTasksByStatus(Task::COMPLETE, Auth::user()->id) }}</span> Hoàn thành
+                </div>
+            </div>
+        </div>
+        <div class="list_user_body mt-5">
+            <table class="table ">
+                <thead>
+                    <th style="border-top-left-radius: 10px;">
+                        Tên công việc
+                    </th>
+                    <th>
+                        Mô tả công việc
+                    </th>
+                    <th>
+                        Ngày bắt đầu
+                    </th>
+                    <th>
+                        Ngày kết thúc
+                    </th>
+                    <th>
+                        Trạng thái
+                    </th>
+                    <th>
+                        Độ ưu tiên
+                    </th>
+                    <th>
+                        Nhân viên được giao
+                    </th>
+                </thead>
+                <tbody>
+                    @foreach ($tasks as $task)
+                        <tr id="task-{{ $task->id }}">
+                            <td>
+                                {{ $task->name }}
+                            </td>
+                            <td>
+                                {{ $task->description }}
+                            </td>
+                            <td>
+                                {{ $task->start_date }}
+                            </td>
+                            <td>
+                                {{ $task->end_date }}
+                            </td>
+                            <td>
+                                <select name="update-task-status" class="update-task-status" data-url="{{ url("employee/update-task-status", $task->id) }}">
+                                    <option value="{{ Task::NOT_START }}" @if($task->status == Task::NOT_START) selected @endif> Chưa bắt đầu</option>
+                                    <option value="{{ Task::INPROGRESS }}" @if($task->status == Task::INPROGRESS) selected @endif> Đang tiến hành</option>
+                                </select>
+                            </td>
+                            <td>
+                                {{ Task::getPriority($task->priority) }}
+                            </td>
+                            <th>
+                                <div class="avt_user">
+
+                                    @if (count($task->assignees) > 0)
+                                        @foreach ($task->assignees as $assignee)
+                                            <img src=" {{ $assignee->avatar }}" alt="">
+                                        @endforeach
+                                    @else
+                                        <span>
+                                            Chưa giao cho nhân viên nào
+                                        </span>
+                                    @endif
+
+                                </div>
+
+                            </th>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="message-status">
+                <i class="fa-regular fa-bell me-2"></i>
+            </div>
+            <div class="pagination-wrap">
+                {{-- {{ $tasks->appends(['search' => $search])->links('layouts.pagination') }} --}}
+
+            </div>
+        </div>
+    </section>
+    @vite(['resources/js/employee/task.js'])
+@endsection

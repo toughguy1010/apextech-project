@@ -67,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/',  [EmployeeController::class, 'index'])->name('employee.home');
         Route::get('department/{id?}',  [EmployeeController::class, 'getUserDepartment']);
         Route::get('task/{id?}',  [EmployeeController::class, 'getUserTask']);
+        Route::post('update-task-status/{id?}',  [EmployeeController::class, 'updateTaskStatus']);
         // Route::get('personal-info',  [EmployeeController::class, 'getPersonalInfo']);
     });
     // leader

@@ -5,6 +5,12 @@
         <span class="text-white ms-2">Thông tin phòng ban</span>
     </a>
 </li>
+<li class="sidebar__item ">
+    <a href="{{ url('employee/task', Auth::user()->id) }}" class="sidebar__link">
+        <i class="fa-solid fa-square-check text-white"></i>
+        <span class="text-white ms-2">Công việc</span>
+    </a>
+</li>
 <li class="sidebar__item has-child">
     <div class="arrow">
 

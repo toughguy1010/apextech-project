@@ -14,8 +14,7 @@ class Task extends Model
     const NOT_START = 0;
     const INPROGRESS = 1;
     const TESTING = 2;
-    const WAIT_RESPONE = 3;
-    const COMPLETE = 4;
+    const COMPLETE = 3;
     // status
 
     const LOW = 0;
@@ -23,7 +22,7 @@ class Task extends Model
     const HIGH = 2;
     const URGENT = 3;
 
-  
+
     public static function getStatus($status)
     {
         switch ($status) {
@@ -33,13 +32,18 @@ class Task extends Model
                 return 'Đang tiến hành';
             case self::TESTING:
                 return 'Đang kiểm tra';
-            case self::WAIT_RESPONE:
-                return 'Chờ phản hồi';
             case self::COMPLETE:
                 return 'Hoàn thành';
             default:
                 return 'Không xác định';
         }
+    }
+    public static function countTasksByStatus($status, $userId )
+    {
+        return self::where('status', $status)->whereHas('assignees', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+            ->count();
     }
     public static function getPriority($priority)
     {
@@ -56,33 +60,37 @@ class Task extends Model
                 return 'Không xác định';
         }
     }
-    public static function getAllTask($limit, $search){
+    public static function getAllTask($limit, $search)
+    {
         $limit = $limit !== null ? $limit : 10;
         $query = Task::query();
         if ($search) {
             $query->where('name', 'like', '%' . $search . '%');
         }
-       
+
 
         $tasks = $query->paginate($limit);
         return $tasks;
     }
 
-    public function processes() {
+    public function processes()
+    {
         return $this->hasMany(TaskProcess::class, 'task_id', 'id');
     }
-    public function assignees() {
+    public function assignees()
+    {
         return $this->belongsToMany(User::class, 'task_assignees', 'task_id', 'user_id');
     }
-    public static function getTaskByUser($id = null){
+    public static function getTaskByUser($id = null)
+    {
         if ($id === null) {
             return [];
         }
-    
+
         $tasks = Task::whereHas('assignees', function ($query) use ($id) {
             $query->where('user_id', $id);
         })->get();
-    
+
         return $tasks;
     }
 }

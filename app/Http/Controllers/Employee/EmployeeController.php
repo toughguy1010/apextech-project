@@ -54,7 +54,25 @@ class EmployeeController extends Controller
         ]);
     }
     public function getUserTask($id = null){
-        $task = Task::getTaskByUser($id);
-        dd($task);
+        $tasks = Task::getTaskByUser($id);
+        return view('employee.task',[
+            'tasks' => $tasks,
+        ]);
+    }
+    public function updateTaskStatus(Request $request, $id = null){
+        $task = Task::findOrFail($id);
+        $status = $request->post('status');
+        $task->status =  $status ;
+        $status_name = Task::getStatus($status);
+        $result =  $task->save();
+        if($result){
+            return response()->json([
+                'message' => 'Cập nhật trạng thái '.$status_name.' thành công.',
+            ]);
+        }else{
+            return response()->json([
+                'message' => 'Cập nhật trạng thái '.$status_name.' thất bại.',
+            ]);
+        }
     }
 }

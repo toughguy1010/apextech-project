@@ -166,3 +166,62 @@ label.form-label{
     vertical-align: middle;
     color: #5b6e88;
 }
+.list-status-body{
+    display: flex;
+    margin-top: 10px;
+
+}
+.list-status-header svg{
+    width: 20px;
+    height: 20px;
+}
+
+.task-status-item{
+    padding: 0px 20px;
+    border-right: 1px solid #5b6e88;
+    font-size: 16px;
+}
+.task-status-item:first-child{
+    padding-left: 0;
+}
+.task-status-item:last-child{
+    border-right: 0px solid #5b6e88;
+
+}
+.task-status-item span{
+    font-weight: 600;
+    margin-right: 15px;
+    font-size: 22px;
+
+}
+.list-task-status{
+    margin-top: 15px;
+}
+.update-task-status{
+    color: #3b82f6;
+    border: 1px solid #b1cdfb;
+    background: #f7faff;
+    padding: 5px;
+    border-radius: 8px;
+}
+.update-task-status:focus-visible{
+    outline: 0;
+}
+.message-status{
+    top: 20%;
+    position: fixed;
+    right: 0;
+    padding: 20px;
+    background-color: #c0ffb9;
+    color: #0faf2b;
+    font-weight: 700;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 999;
+    transform: translate(100%);
+    transition: 0.5s;
+}
+.active-message-status{
+    transform: translate(0%);
+
+}
