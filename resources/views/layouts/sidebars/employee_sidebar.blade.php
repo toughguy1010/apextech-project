@@ -1,10 +1,9 @@
 
 <li class="sidebar__item ">
-    <a href="#" class="sidebar__link">
-        <i class="fa-solid fa-user text-white" ></i>
-        <span class="text-white ms-2">Thông tin cá nhân</span>
+    <a href="{{ url('employee/department', Auth::user()->id) }}" class="sidebar__link">
+        <i class="fa-solid fa-building-user text-white"></i>
+        <span class="text-white ms-2">Thông tin phòng ban</span>
     </a>
-    
 </li>
 <li class="sidebar__item has-child">
     <div class="arrow">

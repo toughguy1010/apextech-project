@@ -46,29 +46,37 @@ class Department extends Model
         $department =  $query->where('leader_id', $leader_id)->first();
         return  $department;
     }
-    public static function getAllUsersByDepartment($department_id,$perPage = 2,$search = null)
+    public static function getAllUsersByDepartment($department_id, $perPage = 2, $search = null)
     {
         if ($department_id === null) {
             return "Không có phòng ban";
         }
-    
+
         $department = Department::find($department_id);
-    
-        $query = $department->users(); 
-    
+
+        $query = $department->users();
+
         if ($search) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('email', 'like', '%' . $search . '%');
+                    ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
-    
+
         $users = $query->paginate($perPage);
-    
+
         if (!$users) {
             return "Không có nhân viên";
         }
         return $users;
+    }
+    public static function getDepartmentByUser($user_id)
+    {
+        $department = Department::whereHas('users', function ($query) use ($user_id) {
+            $query->where('id', $user_id);
+        })->first();
+
+        return $department ?? null;
     }
 
     public function users()

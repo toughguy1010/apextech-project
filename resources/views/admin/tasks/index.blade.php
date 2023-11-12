@@ -55,6 +55,9 @@
                         Độ ưu tiên
                     </th>
                     <th>
+                        Nhân viên được giao
+                    </th>
+                    <th>
 
                     </th>
 
@@ -80,6 +83,22 @@
                             <td>
                                 {{ Task::getPriority($task->priority) }}
                             </td>
+                            <th>
+                                <div class="avt_user">
+
+                                    @if ( count($task->assignees) > 0)
+                                        @foreach ($task->assignees as $assignee)
+                                            <img src=" {{ $assignee->avatar }}" alt="">
+                                        @endforeach
+                                    @else
+                                    <span>
+                                        Chưa giao cho nhân viên nào
+                                    </span>
+                                    @endif
+
+                                </div>
+
+                            </th>
                             <td class="">
                                 <a href="{{ url('admin/task/upsert', $task->id) }}" class="me-4">
                                     <i class="fa-solid fa-user-pen"></i>
@@ -93,7 +112,7 @@
                 </tbody>
             </table>
             <div class="pagination-wrap">
-                {{ $tasks->appends(['search' => $search ])->links('layouts.pagination') }}
+                {{ $tasks->appends(['search' => $search])->links('layouts.pagination') }}
 
             </div>
         </div>

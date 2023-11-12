@@ -146,3 +146,23 @@ label.form-label{
     margin-left: auto;
     margin-top: 35px;
 }
+.avt_user{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-left: 15px;
+}
+.avt_user img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+.avt_user span{
+    padding: 15px 0px;
+    font-size: 14px;
+    font-weight: 500;
+    vertical-align: middle;
+    color: #5b6e88;
+}

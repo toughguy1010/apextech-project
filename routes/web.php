@@ -65,6 +65,8 @@ Route::middleware(['auth'])->group(function () {
     // employee
     Route::prefix('employee')->group(function () {
         Route::get('/',  [EmployeeController::class, 'index'])->name('employee.home');
+        Route::get('department/{id?}',  [EmployeeController::class, 'getUserDepartment']);
+        Route::get('task/{id?}',  [EmployeeController::class, 'getUserTask']);
         // Route::get('personal-info',  [EmployeeController::class, 'getPersonalInfo']);
     });
     // leader
@@ -88,6 +90,11 @@ Route::middleware(['auth'])->group(function () {
             Route::post('upsert/{id?}', [DepartmentController::class, 'store']);
             Route::post('update-employee/', [DepartmentController::class, 'updateEmployee']);
             Route::get('/', [DepartmentController::class, 'index']);
+        });
+        Route::prefix('task')->group(function () {
+            Route::get('upsert/{id?}', [TasksController::class, 'viewUpsert']);
+            Route::post('upsert/{id?}', [TasksController::class, 'store']);
+            Route::get('/', [TasksController::class, 'index']);
         });
     });
 

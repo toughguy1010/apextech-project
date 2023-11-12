@@ -74,4 +74,15 @@ class Task extends Model
     public function assignees() {
         return $this->belongsToMany(User::class, 'task_assignees', 'task_id', 'user_id');
     }
+    public static function getTaskByUser($id = null){
+        if ($id === null) {
+            return [];
+        }
+    
+        $tasks = Task::whereHas('assignees', function ($query) use ($id) {
+            $query->where('user_id', $id);
+        })->get();
+    
+        return $tasks;
+    }
 }
