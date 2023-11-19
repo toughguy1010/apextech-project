@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
 {
@@ -38,12 +39,21 @@ class Task extends Model
                 return 'Không xác định';
         }
     }
-    public static function countTasksByStatus($status, $userId )
+    public static function countTasksByStatus($status, $userId, $role)
     {
-        return self::where('status', $status)->whereHas('assignees', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
+        $role_statement = $role == 'managers' ? 'manager_id' : 'user_id';
+        return self::where('status', $status)->whereHas($role, function ($query) use ($userId, $role_statement) {
+            $query->where($role_statement, $userId);
         })
             ->count();
+    }
+    public static function getTaskNameByID($id){
+        $task = Task::find($id);
+        if ($task) {
+            return $task->name;
+        } else {
+            return null; 
+        }
     }
     public static function getPriority($priority)
     {
@@ -72,25 +82,66 @@ class Task extends Model
         $tasks = $query->paginate($limit);
         return $tasks;
     }
+    public static function getCurrentAssigne($user_id)
+    {
+        // Find the task associated with the user
+        $task = self::whereHas('assignees', function ($query) use ($user_id) {
+            $query->where('users.id', $user_id);
+        })->first();
 
+        // If the task is found, get the assignees
+        if ($task) {
+            $assignees = $task->assignees()->wherePivot('user_id', $user_id)->get();
+
+            // You can further process the assignees if needed
+            return $assignees;
+        }
+
+        // If no assignee is found, you can return null or an empty collection
+        return null;
+    }
     public function processes()
     {
         return $this->hasMany(TaskProcess::class, 'task_id', 'id');
     }
     public function assignees()
     {
-        return $this->belongsToMany(User::class, 'task_assignees', 'task_id', 'user_id');
+        return $this->belongsToMany(User::class, 'task_assignees', 'task_id', 'user_id')
+            ->withPivot('id');
     }
-    public static function getTaskByUser($id = null)
+    public static function getCurrentUserAndAssigneesId($taskId)
     {
-        if ($id === null) {
-            return [];
+        $user = Auth::user();
+        $task = self::find($taskId);
+
+        if ($user && $task) {
+            $assignee = $task->assignees->where('id', $user->id)->first();
+
+            if ($assignee) {
+                return [
+                    'userID' => $user->id,
+                    'task_assignees_id' => $assignee->pivot->id,
+                ];
+            }
         }
 
-        $tasks = Task::whereHas('assignees', function ($query) use ($id) {
-            $query->where('user_id', $id);
-        })->get();
+        return null;
+    }
 
+    public function managers()
+    {
+        return $this->belongsToMany(User::class, 'task_managers', 'task_id', 'manager_id');
+    }
+
+    public static function getTaskByUser($id = null, $option = null)
+    {
+        if ($id === null && $option === null) {
+            return [];
+        }
+        $position_id = $option == 'managers' ? 'manager_id' : 'user_id';
+        $tasks = Task::whereHas($option, function ($query) use ($id, $position_id) {
+            $query->where($position_id, $id);
+        })->get();
         return $tasks;
     }
 }

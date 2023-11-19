@@ -59,6 +59,15 @@ class User extends Authenticatable
         $userName = Auth::user()->name;
         return $userName;
     }
+    public static function getUserNameByID($id){
+        $user = User::find($id);
+
+        if ($user) {
+            return $user->name;
+        } else {
+            return null; 
+        }
+    }
     public function getAllUsers($limit, $search){
         $limit = $limit !== null ? $limit : 10;
         $query = User::query();
@@ -81,11 +90,22 @@ class User extends Authenticatable
         $employees = $query->where('position_id',2)->get();
         return $employees;
     }
+    public static function getTaskManager(){
+        $query = User::query();
+        $task_managers = $query->where('position_id','!=',2)
+                                ->where('position_id','!=',1)
+                                ->get();
+        return $task_managers;
+    }
     public function department()
     {
         return $this->belongsTo(Department::class);
     }
-
+    public static function getAvatarByUserID($id){
+        $user = User::findOrFail($id);
+        $avatar_src = $user->avatar;
+        return $avatar_src;
+    }
     public function getDepartmentName()
     {
         return $this->department ? $this->department->name : 'Chưa có phòng ban';
@@ -93,6 +113,10 @@ class User extends Authenticatable
 
     public function assignedProcesses() {
         return $this->belongsToMany(TaskProcess::class, 'task_process_assignees', 'user_id', 'task_process_id');
+    }
+    public function receivedNotifications()
+    {
+        return $this->hasMany(ReceiverNotification::class, 'receiver_ids');
     }
 
 }

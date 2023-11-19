@@ -49,7 +49,7 @@
     </div>
     <a href="#" class="sidebar__link">
         <i class="fa-solid fa-briefcase text-white"></i>
-        <span class="text-white ms-2">Quản công việc</span>
+        <span class="text-white ms-2">Quản lý công việc</span>
     </a>
     <ul class="siderbar__submenu">
         <li class="siderbar__submenu-item">
@@ -65,4 +65,12 @@
             </a>
         </li>
     </ul>
+</li>
+<li class="sidebar__item ">
+    <div class="arrow">
+    </div>
+    <a href="#" class="sidebar__link">
+        <i class="fa-solid fa-list-check text-white"></i>
+        <span class="text-white ms-2">Theo dõi công việc</span>
+    </a>
 </li>

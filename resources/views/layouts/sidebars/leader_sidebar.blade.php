@@ -1,10 +1,15 @@
-
 <li class="sidebar__item ">
     <a href="{{ url('leader/list-employee', Auth::user()->id) }}" class="sidebar__link">
-        <i class="fa-solid fa-user text-white" ></i>
+        <i class="fa-solid fa-user text-white"></i>
         <span class="text-white ms-2">Danh sách nhân viên</span>
     </a>
-    
+
+</li>
+<li class="sidebar__item ">
+    <a href="{{ url('leader/list-task-management', Auth::user()->id) }}" class="sidebar__link">
+        <i class="fa-solid fa-list-check text-white"></i>
+        <span class="text-white ms-2">Tiến trình công việc</span>
+    </a>
 </li>
 <li class="sidebar__item has-child">
     <div class="arrow">

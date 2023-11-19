@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\ReportNotification;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
 class EmployeeController extends Controller
 {
     //
@@ -54,7 +54,8 @@ class EmployeeController extends Controller
         ]);
     }
     public function getUserTask($id = null){
-        $tasks = Task::getTaskByUser($id);
+        $option = 'assignees';
+        $tasks = Task::getTaskByUser($id,$option);
         return view('employee.task',[
             'tasks' => $tasks,
         ]);
@@ -68,11 +69,55 @@ class EmployeeController extends Controller
         if($result){
             return response()->json([
                 'message' => 'Cập nhật trạng thái '.$status_name.' thành công.',
+                'status' => $task->status 
             ]);
         }else{
             return response()->json([
                 'message' => 'Cập nhật trạng thái '.$status_name.' thất bại.',
             ]);
         }
+    }
+    public function showTaskDetail($id = null){
+        $task = Task::findOrFail($id);
+        
+        if($task){
+            $current_task_assignees = Task::getCurrentUserAndAssigneesId($task->id);
+            return view('employee.task-modal', [
+                'task' => $task,
+                'current_task_assignees' => $current_task_assignees,
+            ]);
+        }else{
+            return response()->json([
+                'task' => [],
+                'message' => "Không tìm thấy task"
+            ]);
+        }
+    }
+    public function reportTaskStatus( Request $request, $id = null){
+        $task_id = $id;
+        $task = Task::find($task_id);
+        if($task){
+            $receiver_ids = $task->managers->pluck('id')->toArray();
+            if (empty($receiver_ids)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Không có người theo dõi",
+                ]);
+            }
+            $from_user = $request->post('fromUser');
+            
+            $type = 1;
+            $addReport = ReportNotification::addNotification($from_user,$receiver_ids,$type,$task_id );
+            if($addReport){
+                return response()->json([
+                    'success' => true,
+                    'message' => "Đã báo cáo  $task->name ",
+                ]);
+            }
+        }
+        return response()->json([
+            'success' => false,
+            'message' => "Báo cáo thất bại",
+        ]);
     }
 }

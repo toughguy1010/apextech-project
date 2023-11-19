@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('task_assignees', function (Blueprint $table) {
+        Schema::create('report_notifications', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('task_id');
-            $table->unsignedBigInteger('user_id');
+            $table->integer('type')->nullable();
+            $table->dateTime('datetime')->nullable();
+            $table->unsignedBigInteger('from_user');
+            $table->unsignedBigInteger('to_user');
+            $table->integer('is_readed')->default(0);
+            $table->foreign('task_id')->references('id')->on('tasks');
             $table->timestamps();
-            $table->foreign('task_id')->references('id')->on('task')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users');
-
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('task_assignees');
+        Schema::dropIfExists('report_notifications');
     }
 };

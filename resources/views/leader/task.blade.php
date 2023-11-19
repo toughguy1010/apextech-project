@@ -21,6 +21,15 @@
                             </button>
                         </form>
                     </div>
+                    {{-- <div class="export-excel ms-4">
+                        <form action="{{url('admin/user/export') }}" class="me-0" method="get">
+                            <button type="submit" class="btn btn-success " type="button" id="button-addon1"
+                                style="height: 45px">
+                                <i class="fa-regular fa-file-excel"></i>
+                                Xuất file excel
+                            </button>
+                        </form>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -36,7 +45,7 @@
             </div>
             <div class="list-status-body">
                 <?php
-                $role = 'assignees';
+                $role = 'managers';
                 ?>
                 <div class="task-status-item not-start">
                     <span>{{ Task::countTasksByStatus(Task::NOT_START, Auth::user()->id, $role) }}</span> Chưa bắt đầu
@@ -64,7 +73,9 @@
                     <th>
                         Ngày bắt đầu
                     </th>
-
+                    <th>
+                        Ngày kết thúc
+                    </th>
                     <th>
                         Trạng thái
                     </th>
@@ -75,18 +86,14 @@
                         Nhân viên được giao
                     </th>
                     <th>
-                        Người theo dõi
+                        Nguời theo dõi
                     </th>
                 </thead>
                 <tbody>
                     @foreach ($tasks as $task)
                         <tr id="task-{{ $task->id }}">
                             <td>
-                                <div class="open-task-model" id="task-{{ $task->id }}"
-                                    data-url="{{ url('employee/show-task-detail', $task->id) }}">
-                                    {{ $task->name }}
-
-                                </div>
+                                {{ $task->name }}
                             </td>
                             <td>
                                 {{ $task->description }}
@@ -94,14 +101,18 @@
                             <td>
                                 {{ $task->start_date }}
                             </td>
-
+                            <td>
+                                {{ $task->end_date }}
+                            </td>
                             <td>
                                 <select name="update-task-status" class="update-task-status"
-                                    data-url="{{ url('employee/update-task-status', $task->id) }}">
+                                    data-url="{{ url('leader/update-task-status', $task->id) }}">
                                     <option value="{{ Task::NOT_START }}"
                                         @if ($task->status == Task::NOT_START) selected @endif> Chưa bắt đầu</option>
                                     <option value="{{ Task::INPROGRESS }}"
                                         @if ($task->status == Task::INPROGRESS) selected @endif> Đang tiến hành</option>
+                                    <option value="{{ Task::TESTING }}" @if ($task->status == Task::TESTING) selected @endif>
+                                        Đang kiểm tra</option>
                                 </select>
                             </td>
                             <td>
@@ -109,7 +120,6 @@
                             </td>
                             <th>
                                 <div class="avt_user">
-
                                     @if (count($task->assignees) > 0)
                                         @foreach ($task->assignees as $assignee)
                                             <img src=" {{ $assignee->avatar }}" alt="">
@@ -121,7 +131,6 @@
                                     @endif
 
                                 </div>
-
                             </th>
                             <th>
                                 <div class="avt_user">
@@ -144,15 +153,11 @@
             <div class="message-status">
                 <i class="fa-regular fa-bell me-2"></i>
             </div>
-            <div id="modal-show">
-                
-            </div>
             <div class="pagination-wrap">
                 {{-- {{ $tasks->appends(['search' => $search])->links('layouts.pagination') }} --}}
 
             </div>
         </div>
     </section>
-    @vite(['resources/js/employee/task.js'])
-    @vite(['resources/sass/employee.scss'])
+    @vite(['resources/js/leader/task.js'])
 @endsection

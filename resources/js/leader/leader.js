@@ -3,6 +3,7 @@ $(function () {
         $(this).on("click", function (e) {
             e.preventDefault();
             var url = $(this).data("url");
+            if (confirm("Bạn có muốn xóa người dùng ra khỏi phòng này?")) {
                 $.ajax({
                     url: url,
                     type: "DELETE",
@@ -32,7 +33,7 @@ $(function () {
                         }, 3000);
                     },
                 });
-            
+            }
         });
     });
 });

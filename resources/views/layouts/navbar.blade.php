@@ -20,6 +20,17 @@
                     @endif
                 @else
                     <li class="nav-item dropdown">
+                        <a id="notification" class="nav-link text-white" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            data-url="{{ url('get-notification', Auth::user()->id) }}">
+                            <i class="fa-regular fa-bell"></i>
+                        </a>
+
+                        <div id="notification_item" class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}
@@ -29,7 +40,7 @@
                             <a class="dropdown-item" href="{{ route('personalInfo', ['id' => Auth::user()->id]) }}">
                                 {{ __('Thông tin cá nhân') }}
                             </a>
-                            <a class="btn " href="{{ url('change-password',Auth::user()->id) }}">
+                            <a class="btn dropdown-item " href="{{ url('change-password', Auth::user()->id) }}">
                                 {{ __('Đổi mật khẩu') }}
                             </a>
                             <a class="dropdown-item" href="{{ route('logout') }}"

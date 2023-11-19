@@ -1,23 +1,22 @@
 @extends('layouts.app')
 @section('content')
-<?php 
-use App\Models\Position;
+    <?php
+    use App\Models\Position;
+    
+    ?>
+    <style>
+        .un_selectable {
+            pointer-events: none;
+            opacity: .5;
 
-?>
-<style>
-    .un_selectable {
-    pointer-events: none;
-    opacity: .5;
-   
-}
-
-</style>
+        }
+    </style>
     <section id="form_user_upsert" class="container-fluid">
         <div class="">
             <h4>
-               Thông tin cá nhân
+                Thông tin cá nhân
             </h4>
-            <form action="{{ url('personal-info', $id) }}" method="post" enctype="multipart/form-data" class="">
+            <form id="personal-info" action="{{ url('personal-info', $id) }}" method="post" enctype="multipart/form-data" class="">
                 @csrf
                 @include('admin.noti')
                 <div class="row row-input">
@@ -89,10 +88,11 @@ use App\Models\Position;
                 <div class="row row-input">
                     <div class="mb-3 col-6">
                         <label for="education" class="form-label ">Trình độ học vấn</label>
-                        <select class="form-select" name="education" aria-label="Default select example" >
+                        <select class="form-select" name="education" aria-label="Default select example">
                             <option value="1" {{ $id && $user->education === 1 ? 'selected' : '' }}>Đã tốt nghiệp
                             </option>
-                            <option value="0" {{ $id && $user->education === 0 ? 'selected' : '' }}>Chưa tốt nghiệp</option>
+                            <option value="0" {{ $id && $user->education === 0 ? 'selected' : '' }}>Chưa tốt nghiệp
+                            </option>
                         </select>
 
                     </div>
@@ -100,10 +100,11 @@ use App\Models\Position;
                         <?php
                         ?>
                         <label for="marital_status" class="form-label ">Tình trạng hôn nhân</label>
-                        <select class="form-select" name="marital_status" aria-label="Default select example" >
+                        <select class="form-select" name="marital_status" aria-label="Default select example">
                             <option value="1" {{ $id && $user->marital_status === 1 ? 'selected' : '' }}>Đã kết hôn
                             </option>
-                            <option value="0" {{ $id && $user->marital_status === 0 ? 'selected' : '' }}>Chưa kết hôn</option>
+                            <option value="0" {{ $id && $user->marital_status === 0 ? 'selected' : '' }}>Chưa kết hôn
+                            </option>
 
                         </select>
 
@@ -112,7 +113,7 @@ use App\Models\Position;
                 <div class="row row-input">
                     <div class="mb-3 col-6">
                         <label for="status" class="form-label ">Trạng thái</label>
-                        <select class="form-select un_selectable" name="status" aria-label="Default select example" >
+                        <select class="form-select un_selectable" name="status" aria-label="Default select example">
                             <option value="1" {{ $id && $user->status === 1 ? 'selected' : '' }}>Đang làm việc
                             </option>
                             <option value="0" {{ $id && $user->status === 0 ? 'selected' : '' }}>Nghỉ việc</option>
@@ -123,15 +124,16 @@ use App\Models\Position;
                         <?php
                         ?>
                         <label for="email" class="form-label ">Chức vụ</label>
-                        <select class="form-select un_selectable" name="position_id" aria-label="Default select example"  >
+                        <select class="form-select un_selectable" name="position_id" aria-label="Default select example">
                             <option value="">--- Chọn chức vụ ---</option>
                             @foreach ($positions as $item)
-                                <option value="<?= $item->id ?>" {{ $id && $user->position_id === $item->id ? 'selected' : '' }}>
+                                <option value="<?= $item->id ?>"
+                                    {{ $id && $user->position_id === $item->id ? 'selected' : '' }}>
                                     <?= $item->position_name ?></option>
                             @endforeach
 
                         </select>
-                        
+
                     </div>
                 </div>
                 <div class="row row-input">
@@ -146,12 +148,11 @@ use App\Models\Position;
                             value="{{ $id ? $user->off_board : '' }}">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">{{ $id ? 'Cập nhật' : 'Thêm' }} thông tin</button>
+                <button type="submit" class="btn btn-primary confirm">{{ $id ? 'Cập nhật' : 'Thêm' }} thông tin</button>
                 <button type="submit" class="btn ms-3 btn-danger">Quay lại</button>
             </form>
         </div>
-        <script>
+        @vite(['resources/js/app.js'])
 
-        </script>
     </section>
 @endsection

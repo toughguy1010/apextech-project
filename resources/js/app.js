@@ -11,7 +11,6 @@ $(function () {
         const form = new FormData();
         form.append("file", this.files[0]);
         const url = $(this).data("url");
-        console.log(url);
         $.ajax({
             type: "post",
             dataType: "json",
@@ -46,4 +45,30 @@ $(function () {
         $(this).siblings(".siderbar__submenu").slideToggle();
         $(this).siblings(".arrow").toggleClass("up-arrow");
     });
+
+
+    // confirm update infomation
+    $(".confirm").on("click",function(e){
+        e.preventDefault()
+        if(confirm("Bạn có muốn lưu lại thông tin đã thay đổi?")){
+            $("#personal-info").submit()
+        }
+    })
+
+    $('#notification').on("click", function(e){
+        e.preventDefault()
+        var url = $(this).data("url")
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: url,
+            success: function(response){
+                console.log(response)
+                $("#notification_item").html(response)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error:", textStatus, errorThrown);
+            },
+        })
+    })
 });

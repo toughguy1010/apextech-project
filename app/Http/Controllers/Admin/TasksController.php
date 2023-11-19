@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use App\Models\User;
 
 class TasksController extends Controller
 {
@@ -25,10 +25,12 @@ class TasksController extends Controller
     {
         $task = $id ? Task::findOrFail($id) : null;
         $employees = User::getUserEmployee();
+        $task_managers = User::getTaskManager();
         return view('admin.tasks.upsert', [
             'id' => $id,
             'task' => $task,
             'employees' => $employees,
+            'task_managers' => $task_managers,
         ]);
     }
     public function store(Request $request, $id = null)
@@ -47,20 +49,22 @@ class TasksController extends Controller
             $task->content = $request->input('content');
             $task->priority = $request->input('priority');
             $employeesID = $request->input('employees_id');
+            $task_mangersID = $request->input('task_manager');
 
             $task->save();
+            // employee handle
 
             if ($employeesID !== null) {
                 // Lấy danh sách nhân viên đã được gán cho công việc
                 $currentEmployees = $task->assignees->pluck('id')->toArray();
-    
+
                 if (!empty($currentEmployees)) {
                     // Tìm những nhân viên bị bỏ chọn
                     $uncheckedEmployees = array_diff($currentEmployees, $employeesID);
-    
+
                     // Cập nhật danh sách nhân viên gán cho công việc
                     $task->assignees()->sync($employeesID);
-    
+
                     if (!empty($uncheckedEmployees)) {
                         // Bỏ gán những nhân viên bị bỏ chọn
                         $task->assignees()->detach($uncheckedEmployees);
@@ -73,10 +77,27 @@ class TasksController extends Controller
                 // Nếu không có nhân viên được chọn, loại bỏ tất cả nhân viên được gán trước đó
                 $task->assignees()->detach();
             }
+
+            // task manager handle
+
+            if ($task_mangersID != null) {
+                $currentTaskManagers = $task->managers->pluck('id')->toArray();
+                $task->managers()->sync($task_mangersID);
+                if (!empty($currentTaskManagers)) {
+                    $uncheckedManagers = array_diff($currentTaskManagers, $task_mangersID);
+                    if (!empty($uncheckedManagers)) {
+                        $task->managers()->detach($uncheckedManagers);
+                    }
+                } else {
+                    $task->managers()->sync($task_mangersID);
+                }
+            } else {
+                $task->managers()->detach();
+            }
             if ($id === null) {
                 Session::flash('success', 'Tạo công việc thành công');
             } else {
-                Session::flash('success', 'Cập nhật công việ thành công');
+                Session::flash('success', 'Cập nhật công việc thành công');
             }
             return redirect()->back();
         } catch (\Exception $e) {

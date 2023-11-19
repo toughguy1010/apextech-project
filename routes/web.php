@@ -13,6 +13,8 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Ceo\CeoController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\Leader\LeaderController;
+use App\Http\Controllers\Notification;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -68,6 +70,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('department/{id?}',  [EmployeeController::class, 'getUserDepartment']);
         Route::get('task/{id?}',  [EmployeeController::class, 'getUserTask']);
         Route::post('update-task-status/{id?}',  [EmployeeController::class, 'updateTaskStatus']);
+        Route::post('show-task-detail/{id?}',  [EmployeeController::class, 'showTaskDetail']);
+        Route::post('report-task-status/{id?}',  [EmployeeController::class, 'reportTaskStatus']);
         // Route::get('personal-info',  [EmployeeController::class, 'getPersonalInfo']);
     });
     // leader
@@ -76,6 +80,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('list-employee/{id?}',  [LeaderController::class, 'listEmployee']);
         Route::delete('remove-employee/{id?}',  [LeaderController::class, 'removeEmployee']);
         Route::get('export/{id?}',  [LeaderController::class, 'export']);
+        Route::post('update-task-status/{id?}',  [LeaderController::class, 'updateTaskStatus']);
+        Route::get('list-task-management/{id?}', [LeaderController::class, 'taskManagement']);
     });
     Route::prefix('ceo')->group(function () {
         Route::get('/',  [CeoController::class, 'index'])->name('ceo.home');
@@ -95,6 +101,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('task')->group(function () {
             Route::get('upsert/{id?}', [TasksController::class, 'viewUpsert']);
             Route::post('upsert/{id?}', [TasksController::class, 'store']);
+            // Route::get('list-task-management/{id?}', [CeoController::class, 'taskManagement']);
             Route::get('/', [TasksController::class, 'index']);
         });
     });
@@ -103,6 +110,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('personal-info/{id?}',  [InformationController::class, 'store']);
     Route::get('change-password/{id?}',  [InformationController::class, 'showChangePasswordForm']);
     Route::post('change-password/{id?}',  [InformationController::class, 'changePassword']);
+
+    Route::get('get-notification/{id?}',  [Notification::class, 'getNotification']);
 });
 Route::get('/logout',  [LoginController::class, 'logout'])->name('logout');
 Route::get('/check-after-reset',  [ResetPasswordController::class, 'checkAfterReset']);

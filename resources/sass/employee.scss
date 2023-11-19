@@ -1,0 +1,89 @@
+@import "variables";
+
+// Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+.modal-dialog{
+    max-width: 800px;
+}
+.modal-title{
+    font-size: 20px;
+    font-weight: 600;
+}
+.task-status span{
+    color: #64748b;
+    border: 1px solid #c1c7d1;
+    background: #f9fafb;
+    padding: 3px 7px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+.task-header{
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+}
+.sub-task-col{
+    background-color: #ededed;
+    padding-right: 0;
+    padding-top: 20px;
+    padding-bottom: 50px;
+}
+.main-task-col{
+    padding-top: 20px;
+    padding-bottom: 50px;
+}
+.modal-body{
+    padding-top: 0;
+}
+a{
+    text-decoration: none;
+}
+.task-body-item-label{
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+}
+.task-body-item-label p {
+    margin-bottom: 0;
+    font-size: 15px;
+    color: #939393;
+}
+.task-body-item-label i{
+    color: #939393;
+
+}
+.sub-task-body-item{
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+.sub-task-body{
+    margin-top: 20px;
+}
+.assigness-wrap{
+    margin-top: 40px;
+}
+.people-label{
+    align-items: baseline;
+    gap: 10px;
+}
+.people-imgs{
+    display: flex;
+    gap: 10px;
+}
+.people-imgs img{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+.task-btn-group, .task-description-wrap{
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d2d2d2;
+}
+.task-description-title span, .task-content-title span{
+    font-size: 16px;
+    font-weight: 500;
+}

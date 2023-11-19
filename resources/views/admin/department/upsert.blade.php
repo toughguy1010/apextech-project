@@ -46,7 +46,7 @@
                     </div>
                     <div class="mb-3 col-6">
                         <div type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            {{ $id ? 'Cập nhật' : 'Thêm mới' }} nhân viên
+                            Phân công nhân viên
                         </div>
 
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"

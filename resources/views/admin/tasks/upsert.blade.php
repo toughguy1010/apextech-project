@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+<?php 
+use App\Models\Position;
+
+
+?>
     <section id="form_user_upsert" class="container-fluid">
         <div class="">
             <h4>
@@ -37,11 +42,11 @@
                 </div>
                 <div class="row row-input">
                     <div class="mb-3 col-6">
-                        <div type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <div type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#employeeModal">
                             Nhân viên được bàn giao
                         </div>
 
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog" style="    max-width: 800px !important;">
                                 <div class="modal-content">
@@ -55,6 +60,7 @@
                                                 <th>Chọn</th>
                                                 <th>Tên nhân viên</th>
                                                 <th>Tên tài khoản</th>
+                                                <th>Vị trí</th>
                                                 <th>Phòng ban</th>
                                             </thead>
                                             <tbody id="employee-list">
@@ -74,7 +80,71 @@
                                                             {{ $employee->username }}
                                                         </td>
                                                         <td>
+                                                            {{ Position::getPositionNameByUser($employee) }}
+                                                        </td>
+                                                        <td>
                                                             {{ $employee->getDepartmentName() }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Đóng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php 
+                        ?>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <div type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskManagementModal">
+                            Người theo dõi
+                        </div>
+
+                        <div class="modal fade" id="taskManagementModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" style="    max-width: 800px !important;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel" style="flex: 0 0 50%;">Danh sách
+                                            người dùng</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table" style="box-shadow: none">
+                                            <thead>
+                                                <th>Chọn</th>
+                                                <th>Tên người dùng</th>
+                                                <th>Tên tài khoản</th>
+                                                <th>Vị trí</th>
+                                                <th>Phòng ban</th>
+                                            </thead>
+                                            <tbody id="task-managers-list">
+                                                @foreach ($task_managers as $task_manager)
+                                                    <tr class="">
+                                                        <td>
+                                                            <input class="form-check-input" type="checkbox"
+                                                                value="{{ $task_manager->id }}" name="task_manager[]"
+                                                                @if( $id && $task->managers->contains('id', $task_manager->id)) checked @endif
+                                                                id="flexCheckChecked"
+                                                                >
+                                                        </td>
+                                                        <td>
+                                                            {{ $task_manager->name }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $task_manager->username }}
+                                                        </td>
+                                                        <td>
+                                                            {{ Position::getPositionNameByUser($task_manager)}}
+                                                        </td>
+                                                        <td>
+                                                            {{ $task_manager->getDepartmentName() }}
                                                         </td>
                                                     </tr>
                                                 @endforeach
