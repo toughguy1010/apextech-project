@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Leader;
 
 use App\Exports\UsersByDepartmentExport;
+use App\Models\ReportNotification;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\ReceiverNotification;
@@ -119,7 +120,25 @@ class LeaderController extends Controller
             ]);
         }
     }
-    public function reportTaskStatus($id = null){
-        
+    public function reportTaskStatus( Request $request, $id = null){
+        $task_id = $id;
+        $task = Task::findOrFail($task_id);
+        if($task){
+            $ceo_id = $request->post('ceoId');
+            $from_user = $request->post('fromUser');
+            $type = 1; 
+            $ceo_ids_array = is_array($ceo_id) ? $ceo_id : [$ceo_id];
+            $addReport = ReportNotification::addNotification($from_user,$ceo_ids_array,$type,$task_id );
+            if($addReport){
+                return response()->json([
+                    'success' => true,
+                    'message' => "Đã báo cáo  $task->name ",
+                ]);
+            }
+        }
+        return response()->json([
+            'success' => false,
+            'message' => "Báo cáo thất bại",
+        ]);
     }
 }

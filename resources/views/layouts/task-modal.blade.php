@@ -52,7 +52,8 @@ $ceo_id = $ceo_ids[0];
                                 </select>
                                 <div class="btn btn-success btn-report ms-3 mt-3 "
                                     data-url="{{ url('leader/report-task-status', $task->id) }} "
-                                    data-userID="{{ $ceo_id }}">
+                                    data-ceoID="{{ $ceo_id }}"
+                                    data-userID="{{ Auth::user()->id }}">
                                     <i class="fa-regular fa-paper-plane me-1"></i>
                                     Báo cáo
                                 </div>
@@ -223,6 +224,7 @@ $ceo_id = $ceo_ids[0];
     $(".btn-report").on("click", function() {
         var url = $(this).data("url")
         var fromUser = $(this).data("userid");
+        var ceoId = $(this).data("ceoid")
         var button = $(this);
         $.ajax({
             url: url,
@@ -230,6 +232,7 @@ $ceo_id = $ceo_ids[0];
             dataType: "json",
             data: {
                 fromUser: fromUser,
+                ceoId: ceoId,
             },
             success: function(response) {
                 if (response.success == true) {
