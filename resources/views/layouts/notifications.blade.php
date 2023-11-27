@@ -28,7 +28,7 @@ use App\Models\Task;
         padding-right: 44px !important;
     }
 
-    .dropdown-item:first-child {
+    /* .dropdown-item:first-child {
         border-top-left-radius: 10px !important;
         border-top-right-radius: 10px !important;
     }
@@ -36,6 +36,10 @@ use App\Models\Task;
     .dropdown-item:first-child:hover {
         border-top-left-radius: 10px !important;
         border-top-right-radius: 10px !important;
+    } */
+    .dropdown-noti-wrap {
+        height: 440px;
+        overflow-y: auto;
     }
 
     .dropdown-item:last-child {
@@ -99,31 +103,40 @@ use App\Models\Task;
 </style>
 <span class="triangle"></span>
 <span class="heading">Notifications</span>
-@foreach ($notifications as $notification)
-    <?php
-    $is_read = $notification->is_readed == 1 ? '' : 'unread';
-    $task_id = $notification->notifications->task_id;
-    ?>
-    <div class="dropdown-item {{ $is_read }} notification-item"
-        data-url="{{ url('/leader/show-task-detail', $task_id) }}" data-id="{{ $notification->id }}">
-        @if ($notification->notifications->type == 1)
-            <?php
-            $from_user = User::getUserNameByID($notification->notifications->from_user);
-            $task_name = Task::getTaskNameByID($notification->notifications->task_id);
-            ?>
-            <strong>{{ $from_user }}</strong> đã báo cáo công việc {{ $task_name }}
-            <div class="noti-datetime">
-                <?php
+<div class="dropdown-noti-wrap">
+    @foreach ($notifications as $notification)
+        <?php
+        $is_read = $notification->is_readed == 1 ? '' : 'unread';
+        $task_id = $notification->notifications->task_id;
+        ?>
+        <div class="dropdown-item {{ $is_read }} notification-item"
+            data-url="{{ url('/leader/show-task-detail', $task_id) }}" data-id="{{ $notification->id }}">
+            @php
+                $from_user = User::getUserNameByID($notification->notifications->from_user);
+                $task_name = Task::getTaskNameByID($notification->notifications->task_id);
                 $originalDateTimeString = $notification->notifications->datetime;
                 $originalDateTime = new DateTime($originalDateTimeString);
                 $noti_datetime = $originalDateTime->format('H:i d-m-Y');
-                
-                ?>
+            @endphp
+
+            @if ($notification->notifications->type == 1)
+                <strong>{{ $from_user }}</strong> đã báo cáo công việc {{ $task_name }}
+            @elseif($notification->notifications->type == 2)
+                @php
+                    $task = Task::findOrFail($notification->notifications->task_id);
+                    $task_status = Task::getStatus($task->status);
+                @endphp
+                <strong>{{ $from_user }}</strong> đã xác nhận công việc {{ $task_name }}
+                <span style="text-transform: lowercase">{{ $task_status }}</span>
+            @endif
+
+            <div class="noti-datetime">
                 {{ $noti_datetime }}
             </div>
-        @endif
-    </div>
-@endforeach
+        </div>
+    @endforeach
+</div>
+
 
 
 <script>
@@ -141,7 +154,7 @@ use App\Models\Task;
             url: url,
             success: function(response) {
                 $("#modal-show").html(response)
-                var isReadUrl = "leader/is-read-notification/" + notificationId;
+                var isReadUrl = "/is-read-notification/" + notificationId;
                 $.ajax({
                     type: "post",
                     dataType: "json",
@@ -150,6 +163,11 @@ use App\Models\Task;
                         console.log(response)
                         notificationItem.removeClass('unread')
                         $("#notification_item").removeClass('show')
+                        var unreadNotificationCount = parseInt($("#unread_notification")
+                            .text().trim());
+                        if (unreadNotificationCount > 0) {
+                            $("#unread_notification").text(unreadNotificationCount - 1);
+                        }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.log("Error:", textStatus, errorThrown);

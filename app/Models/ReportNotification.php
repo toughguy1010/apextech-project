@@ -33,4 +33,5 @@ class ReportNotification extends Model
     
         return $notification;
     }
+    
 }

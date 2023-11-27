@@ -22,6 +22,13 @@ class ReceiverNotification extends Model
     {
         return self::with('notifications')
             ->where('receiver_ids', $receiverId)
+            ->orderBy('created_at', 'desc')
             ->get();
+    }
+    public static function countUnreadNotifications($receiverId)
+    {
+        return self::where('receiver_ids', $receiverId)
+        ->where('is_readed', 0)
+        ->count();
     }
 }

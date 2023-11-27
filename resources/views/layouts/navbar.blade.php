@@ -1,3 +1,7 @@
+<?php
+use App\Models\ReceiverNotification;
+
+?>
 <nav id="app-navbar" class="navbar navbar-expand-md navbar-light background-default shadow-sm ">
     <div class="container">
 
@@ -24,6 +28,11 @@
                             data-bs-toggle="dropdown" aria-expanded="false"
                             data-url="{{ url('get-notification', Auth::user()->id) }}">
                             <i class="fa-regular fa-bell"></i>
+                            @if (ReceiverNotification::countUnreadNotifications(Auth::user()->id) > 0)
+                            <div id="unread_notification">
+                                {{  ReceiverNotification::countUnreadNotifications(Auth::user()->id) }}
+                            </div>   
+                            @endif
                         </a>
 
                         <div id="notification_item" class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

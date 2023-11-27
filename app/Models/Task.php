@@ -16,6 +16,7 @@ class Task extends Model
     const INPROGRESS = 1;
     const TESTING = 2;
     const COMPLETE = 3;
+    const NOTCOMPLETE = 4;
     // status
 
     const LOW = 0;
@@ -35,6 +36,8 @@ class Task extends Model
                 return 'Đang kiểm tra';
             case self::COMPLETE:
                 return 'Hoàn thành';
+            case self::NOTCOMPLETE:
+                return 'Chưa hoàn thành';
             default:
                 return 'Không xác định';
         }
@@ -47,12 +50,13 @@ class Task extends Model
         })
             ->count();
     }
-    public static function getTaskNameByID($id){
+    public static function getTaskNameByID($id)
+    {
         $task = Task::find($id);
         if ($task) {
             return $task->name;
         } else {
-            return null; 
+            return null;
         }
     }
     public static function getPriority($priority)

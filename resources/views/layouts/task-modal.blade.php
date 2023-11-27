@@ -52,10 +52,19 @@ $ceo_id = $ceo_ids[0];
                                 </select>
                                 <div class="btn btn-success btn-report ms-3 mt-3 "
                                     data-url="{{ url('leader/report-task-status', $task->id) }} "
-                                    data-ceoID="{{ $ceo_id }}"
-                                    data-userID="{{ Auth::user()->id }}">
+                                    data-ceoID="{{ $ceo_id }}" data-userID="{{ Auth::user()->id }}">
                                     <i class="fa-regular fa-paper-plane me-1"></i>
                                     Báo cáo
+                                </div>
+                            @elseif(Position::getPositionCodeByUser(Auth::user()) == 'ceo')
+                                <div class="btn {{ $task->status != 3 ? 'btn-primary' : 'btn-danger' }} btn-confirm ms-3 mt-3 "
+                                    data-url="{{ url('ceo/confirm-task-status', $task->id) }} "
+                                    data-userID="{{ Auth::user()->id }}" data-status="{{ $task->status }}">
+
+
+                                    {!! $task->status != 3
+                                        ? '<i class="fa-solid fa-check me-1"></i> Xác nhận hoàn thành'
+                                        : '<i class="fa-solid fa-exclamation me-1"></i> Đánh dấu chưa hoàn thành' !!}
                                 </div>
                             @endif
 
@@ -169,6 +178,10 @@ $ceo_id = $ceo_ids[0];
     <i class="fa-regular fa-bell me-2"></i>
 </div>
 
+<div class="message-confirm">
+    <i class="fa-regular fa-bell me-2"></i>
+</div>
+
 <script>
     $(function() {
         $("#task-detail-modal").modal('show')
@@ -179,7 +192,6 @@ $ceo_id = $ceo_ids[0];
         var currentStatus = $(this).data("curstatus")
         var url = $(this).data("url")
         var statusSending = currentStatus == 1 ? 0 : 1
-        console.log(statusSending)
         var button = $(this);
         $.ajax({
             url: url,
@@ -249,10 +261,9 @@ $ceo_id = $ceo_ids[0];
         });
     })
 
-    $(".update-task-status").on("change",function(){
+    $(".update-task-status").on("change", function() {
         var url = $(this).data("url")
         var status = $(this).val()
-        console.log(status)
         $.ajax({
             url: url,
             type: "POST",
@@ -260,17 +271,58 @@ $ceo_id = $ceo_ids[0];
             data: {
                 status: status,
             },
-            success: function (response) {
-              $(".message-status").html(response.message)
-              $(".message-status").addClass("active-message-status")
-              setTimeout(function(){
-                $(".message-status").fadeOut();
-              },3000)
+            success: function(response) {
+                $(".message-status").html(response.message)
+                $(".message-status").addClass("active-message-status")
+                setTimeout(function() {
+                    $(".message-status").fadeOut();
+                }, 3000)
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-              console.log(textStatus,errorThrown)
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown)
             },
         });
     })
 
+    $(".btn-confirm").on("click", function() {
+        var url = $(this).data("url")
+        var curStatus = $(this).data("status")
+        var fromUser = $(this).data("userid")
+        btnConfirm = $(this)
+        $.ajax({
+            url: url,
+            type: "post",
+            dataType: "json",
+            data: {
+                status: curStatus
+            },
+            success: function(response) {
+                btnConfirm.data("status", response.status)
+                if (response.status != 3) {
+                    btnConfirm.html('<i class="fa-solid fa-check me-1"></i> Xác nhận hoàn thành');
+                    btnConfirm.removeClass('btn-danger').addClass('btn-primary');
+                } else {
+                    btnConfirm.html(
+                        '<i class="fa-solid fa-exclamation me-1"></i> Đánh dấu chưa hoàn thành');
+                    btnConfirm.removeClass('btn-primary').addClass('btn-danger');
+                }
+                const notifiSatus = response.status
+                $.ajax({
+                    type: "post",
+                    url: "/ceo/confirm-notification/" + {{ $task->id }},
+                    datatype: "json",
+                    data : {
+                        notifiSatus : notifiSatus,
+                        fromUser: fromUser
+                    },
+                    success: function(response){
+                        console.log(response)
+                    }
+                })
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown)
+            },
+        })
+    })
 </script>

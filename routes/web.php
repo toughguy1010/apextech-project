@@ -83,7 +83,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('export/{id?}',  [LeaderController::class, 'export']);
         Route::post('update-task-status/{id?}',  [LeaderController::class, 'updateTaskStatus']);
         Route::post('show-task-detail/{id?}',  [LeaderController::class, 'showTaskDetail']);
-        Route::post('is-read-notification/{id?}',  [LeaderController::class, 'isReadNotification']);
         Route::post('report-task-status/{id?}',  [LeaderController::class, 'reportTaskStatus']);
         Route::get('list-task-management/{id?}', [LeaderController::class, 'taskManagement']);
     });
@@ -108,13 +107,15 @@ Route::middleware(['auth'])->group(function () {
             // Route::get('list-task-management/{id?}', [CeoController::class, 'taskManagement']);
             Route::get('/', [TasksController::class, 'index']);
         });
+        Route::post('confirm-task-status/{id?}',[CeoController::class,'confirmTaskStatus']);
+        Route::post('confirm-notification/{id?}',[CeoController::class,'confirmNotification']);
     });
 
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');
     Route::post('personal-info/{id?}',  [InformationController::class, 'store']);
     Route::get('change-password/{id?}',  [InformationController::class, 'showChangePasswordForm']);
     Route::post('change-password/{id?}',  [InformationController::class, 'changePassword']);
-
+    Route::post('is-read-notification/{id?}',  [Notification::class, 'isReadNotification']);
     Route::get('get-notification/{id?}',  [Notification::class, 'getNotification']);
 });
 Route::get('/logout',  [LoginController::class, 'logout'])->name('logout');

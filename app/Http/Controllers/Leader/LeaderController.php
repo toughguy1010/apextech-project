@@ -110,16 +110,7 @@ class LeaderController extends Controller
             ]);
         }
     }
-    public function isReadNotification($id = null){
-        if($id != null){
-            $receiverNotification = ReceiverNotification::findOrFail($id);
-            $receiverNotification->is_readed = 1;
-            $receiverNotification->save();
-            return response()->json([
-                'message' => 'Cập nhật trạng thái thành công.',
-            ]);
-        }
-    }
+   
     public function reportTaskStatus( Request $request, $id = null){
         $task_id = $id;
         $task = Task::findOrFail($task_id);
