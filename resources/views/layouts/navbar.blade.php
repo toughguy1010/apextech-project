@@ -27,7 +27,6 @@
                         </a>
 
                         <div id="notification_item" class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-
                         </div>
                     </li>
                     <li class="nav-item dropdown">

@@ -93,7 +93,11 @@
                     @foreach ($tasks as $task)
                         <tr id="task-{{ $task->id }}">
                             <td>
-                                {{ $task->name }}
+                                <div class="open-task-model" id="task-{{ $task->id }}"
+                                    data-url="{{ url('leader/show-task-detail', $task->id) }}">
+                                    {{ $task->name }}
+
+                                </div>
                             </td>
                             <td>
                                 {{ $task->description }}

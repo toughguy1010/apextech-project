@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('update-task-status/{id?}',  [EmployeeController::class, 'updateTaskStatus']);
         Route::post('show-task-detail/{id?}',  [EmployeeController::class, 'showTaskDetail']);
         Route::post('report-task-status/{id?}',  [EmployeeController::class, 'reportTaskStatus']);
+        
         // Route::get('personal-info',  [EmployeeController::class, 'getPersonalInfo']);
     });
     // leader
@@ -81,6 +82,9 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('remove-employee/{id?}',  [LeaderController::class, 'removeEmployee']);
         Route::get('export/{id?}',  [LeaderController::class, 'export']);
         Route::post('update-task-status/{id?}',  [LeaderController::class, 'updateTaskStatus']);
+        Route::post('show-task-detail/{id?}',  [LeaderController::class, 'showTaskDetail']);
+        Route::post('is-read-notification/{id?}',  [LeaderController::class, 'isReadNotification']);
+        Route::post('report-task-status/{id?}',  [LeaderController::class, 'reportTaskStatus']);
         Route::get('list-task-management/{id?}', [LeaderController::class, 'taskManagement']);
     });
     Route::prefix('ceo')->group(function () {

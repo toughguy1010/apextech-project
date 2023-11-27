@@ -22,10 +22,10 @@ use App\Models\Task;
     .dropdown-item {
         white-space: unset;
         padding: 20px 15px;
-        border-bottom: 1px solid #cfcfcf ;
+        border-bottom: 1px solid #cfcfcf;
         cursor: pointer;
         line-height: 19px;
-        padding-right: 44px !important; 
+        padding-right: 44px !important;
     }
 
     .dropdown-item:first-child {
@@ -65,6 +65,7 @@ use App\Models\Task;
         color: #000;
         font-weight: 700;
         position: relative;
+        background-color: #b1b1b1;
     }
 
     .unread::after {
@@ -89,17 +90,76 @@ use App\Models\Task;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
     }
+
+    .noti-datetime {
+        font-size: 11px;
+        font-style: italic;
+        color: #7a7a7a;
+    }
 </style>
 <span class="triangle"></span>
 <span class="heading">Notifications</span>
 @foreach ($notifications as $notification)
-    <div class="dropdown-item unread" href="#">
+    <?php
+    $is_read = $notification->is_readed == 1 ? '' : 'unread';
+    $task_id = $notification->notifications->task_id;
+    ?>
+    <div class="dropdown-item {{ $is_read }} notification-item"
+        data-url="{{ url('/leader/show-task-detail', $task_id) }}" data-id="{{ $notification->id }}">
         @if ($notification->notifications->type == 1)
             <?php
             $from_user = User::getUserNameByID($notification->notifications->from_user);
             $task_name = Task::getTaskNameByID($notification->notifications->task_id);
             ?>
             <strong>{{ $from_user }}</strong> đã báo cáo công việc {{ $task_name }}
+            <div class="noti-datetime">
+                <?php
+                $originalDateTimeString = $notification->notifications->datetime;
+                $originalDateTime = new DateTime($originalDateTimeString);
+                $noti_datetime = $originalDateTime->format('H:i d-m-Y');
+                
+                ?>
+                {{ $noti_datetime }}
+            </div>
         @endif
     </div>
 @endforeach
+
+
+<script>
+    var hostName = window.location.hostname;
+    var portNumber = window.location.port;
+
+    var hostWithPort = hostName + (portNumber ? ":" + portNumber : "");
+    $(".notification-item").on("click", function(e) {
+        var url = $(this).data("url");
+        var notificationId = $(this).data("id")
+        var notificationItem = $(this)
+        $.ajax({
+            type: "post",
+            dataType: "html",
+            url: url,
+            success: function(response) {
+                $("#modal-show").html(response)
+                var isReadUrl = "leader/is-read-notification/" + notificationId;
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: isReadUrl,
+                    success: function(response) {
+                        console.log(response)
+                        notificationItem.removeClass('unread')
+                        $("#notification_item").removeClass('show')
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log("Error:", textStatus, errorThrown);
+                    },
+                })
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Error:", textStatus, errorThrown);
+            },
+        })
+    })
+</script>
+<script src="{{ asset('js/app.js') }}"></script>

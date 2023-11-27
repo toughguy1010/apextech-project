@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Leader;
 use App\Exports\UsersByDepartmentExport;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\ReceiverNotification;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -91,5 +92,34 @@ class LeaderController extends Controller
                 'message' => 'Cập nhật trạng thái '.$status_name.' thất bại.',
             ]);
         }
+    }
+    public function showTaskDetail($id = null){
+        $task = Task::findOrFail($id);
+        
+        if($task){
+            $current_task_assignees = Task::getCurrentUserAndAssigneesId($task->id);
+            return view('layouts.task-modal', [
+                'task' => $task,
+                'current_task_assignees' => $current_task_assignees,
+            ]);
+        }else{
+            return response()->json([
+                'task' => [],
+                'message' => "Không tìm thấy task"
+            ]);
+        }
+    }
+    public function isReadNotification($id = null){
+        if($id != null){
+            $receiverNotification = ReceiverNotification::findOrFail($id);
+            $receiverNotification->is_readed = 1;
+            $receiverNotification->save();
+            return response()->json([
+                'message' => 'Cập nhật trạng thái thành công.',
+            ]);
+        }
+    }
+    public function reportTaskStatus($id = null){
+        
     }
 }

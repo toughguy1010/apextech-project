@@ -82,7 +82,7 @@ class EmployeeController extends Controller
         
         if($task){
             $current_task_assignees = Task::getCurrentUserAndAssigneesId($task->id);
-            return view('employee.task-modal', [
+            return view('layouts.task-modal', [
                 'task' => $task,
                 'current_task_assignees' => $current_task_assignees,
             ]);

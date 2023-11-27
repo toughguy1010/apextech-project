@@ -118,5 +118,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(ReceiverNotification::class, 'receiver_ids');
     }
-
+    public function position()
+    {
+        return $this->belongsTo(Position::class, 'position_id');
+    }
 }

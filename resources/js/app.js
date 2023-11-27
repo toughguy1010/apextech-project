@@ -57,13 +57,13 @@ $(function () {
 
     $('#notification').on("click", function(e){
         e.preventDefault()
-        var url = $(this).data("url")
+        var url = $(this).data("url");
+        $(this).toggleClass("show")
         $.ajax({
             type: "get",
             dataType: "html",
             url: url,
             success: function(response){
-                console.log(response)
                 $("#notification_item").html(response)
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -71,4 +71,5 @@ $(function () {
             },
         })
     })
+    
 });

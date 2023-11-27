@@ -1,5 +1,11 @@
 <?php
 use App\Models\Task;
+use App\Models\Position;
+
+$get_ceo = Position::getUsersByPositionCode('ceo');
+$ceo_ids = $get_ceo->pluck('id')->toArray();
+$ceo_id = $ceo_ids[0];
+
 ?>
 <div class="modal fade" id="task-detail-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -19,18 +25,40 @@ use App\Models\Task;
             <div class="modal-body" style="padding-bottom: 0">
                 <div class="row">
                     <div class="col-8 main-task-col">
+
                         <div class="task-btn-group">
-                            <div class="btn btn-outline-primary btn-status"
-                                data-url="{{ url('employee/update-task-status', $task->id) }}"
-                                data-curStatus="{{ $task->status }}">
-                                {{ $task->status == 1 ? 'Bỏ tiến hành' : 'Bắt đầu tiến hành' }}
-                            </div>
-                            <div class="btn btn-success btn-report ms-3 "
-                                data-url="{{ url('employee/report-task-status', $task->id) }} "
-                                data-userID="{{ $current_task_assignees['userID'] }}">
-                                <i class="fa-regular fa-paper-plane me-1"></i>
-                                Báo cáo
-                            </div>
+                            @if (Position::getPositionCodeByUser(Auth::user()) == 'employee')
+                                <div class="btn btn-outline-primary btn-status"
+                                    data-url="{{ url('employee/update-task-status', $task->id) }}"
+                                    data-curStatus="{{ $task->status }}">
+                                    {{ $task->status == 1 ? 'Bỏ tiến hành' : 'Bắt đầu tiến hành' }}
+                                </div>
+                                <div class="btn btn-success btn-report ms-3 "
+                                    data-url="{{ url('employee/report-task-status', $task->id) }} "
+                                    data-userID="{{ $current_task_assignees['userID'] }}">
+                                    <i class="fa-regular fa-paper-plane me-1"></i>
+                                    Báo cáo
+                                </div>
+                            @elseif(Position::getPositionCodeByUser(Auth::user()) == 'leader')
+                                <select name="update-task-status" class="update-task-status "
+                                    data-url="{{ url('leader/update-task-status', $task->id) }}">
+                                    <option value="{{ Task::NOT_START }}"
+                                        @if ($task->status == Task::NOT_START) selected @endif> Chưa bắt đầu</option>
+                                    <option value="{{ Task::INPROGRESS }}"
+                                        @if ($task->status == Task::INPROGRESS) selected @endif> Đang tiến hành</option>
+                                    <option value="{{ Task::TESTING }}"
+                                        @if ($task->status == Task::TESTING) selected @endif>
+                                        Đang kiểm tra</option>
+                                </select>
+                                <div class="btn btn-success btn-report ms-3 mt-3 "
+                                    data-url="{{ url('leader/report-task-status', $task->id) }} "
+                                    data-userID="{{ $ceo_id }}">
+                                    <i class="fa-regular fa-paper-plane me-1"></i>
+                                    Báo cáo
+                                </div>
+                            @endif
+
+
                         </div>
                         <div class="task-description-wrap">
                             <div class="task-description-title">
@@ -196,7 +224,6 @@ use App\Models\Task;
         var url = $(this).data("url")
         var fromUser = $(this).data("userid");
         var button = $(this);
-        console.log(fromUser)
         $.ajax({
             url: url,
             type: "POST",
@@ -218,4 +245,29 @@ use App\Models\Task;
             },
         });
     })
+
+    $(".update-task-status").on("change",function(){
+        var url = $(this).data("url")
+        var status = $(this).val()
+        console.log(status)
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: "json",
+            data: {
+                status: status,
+            },
+            success: function (response) {
+              $(".message-status").html(response.message)
+              $(".message-status").addClass("active-message-status")
+              setTimeout(function(){
+                $(".message-status").fadeOut();
+              },3000)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.log(textStatus,errorThrown)
+            },
+        });
+    })
+
 </script>
