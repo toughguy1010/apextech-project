@@ -356,3 +356,16 @@ a{
 .dropdown-noti-wrap{
     
 }
+.task-process-item{
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+.process-action{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.plus-process, .minus-process{
+    cursor: pointer;
+}

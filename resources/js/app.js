@@ -72,4 +72,16 @@ $(function () {
         })
     })
     
+    $('.plus-process').on('click', function () {
+        var clone = $(this).closest('.task-process-item').clone(true);
+        $(this).closest('.task-process-item').after(clone);
+    });
+    $('.minus-process').on('click', function () {
+        // Kiểm tra có nhiều hơn một task-process-item không
+        if ($('.task-process-item').length > 1) {
+            // Xóa task-process-item gần nhất
+            $(this).closest('.task-process-item').remove();
+        }
+    });
 });
+

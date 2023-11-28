@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ReceiverNotification;
+use App\Models\ReportNotification;
 use App\Models\Task;
+use App\Models\TaskProcess;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -50,10 +53,33 @@ class TasksController extends Controller
             $task->priority = $request->input('priority');
             $employeesID = $request->input('employees_id');
             $task_mangersID = $request->input('task_manager');
-
+            $process_details = $request->input('proccess_detail');
             $task->save();
-            // employee handle
 
+
+            // Lấy danh sách task_process hiện tại
+            $currentProcesses = $task->processes;
+
+            // Lặp qua process_details từ form
+            foreach ($process_details as $index => $detail) {
+                // Nếu process có sẵn, cập nhật nó
+                if (isset($currentProcesses[$index])) {
+                    $currentProcesses[$index]->process_details = $detail;
+                    $currentProcesses[$index]->save();
+                } else {
+                    // Nếu không có, thêm mới process
+                    $taskProcess = new TaskProcess(['process_details' => $detail]);
+                    $task->processes()->save($taskProcess);
+                }
+            }
+
+            // Xóa các task_process không còn tồn tại trong process_details mới
+            $deletedProcesses = count($process_details);
+            if ($task->processes->count() > $deletedProcesses) {
+                $task->processes->splice($deletedProcesses)->each->delete();
+            }
+            // var_dump($currentProcesses);
+            // employee handle
             if ($employeesID !== null) {
                 // Lấy danh sách nhân viên đã được gán cho công việc
                 $currentEmployees = $task->assignees->pluck('id')->toArray();
@@ -72,6 +98,7 @@ class TasksController extends Controller
                 } else {
                     // Nếu không có nhân viên nào được gán trước đó, thì gán mới
                     $task->assignees()->sync($employeesID);
+                    // Add notification
                 }
             } else {
                 // Nếu không có nhân viên được chọn, loại bỏ tất cả nhân viên được gán trước đó
