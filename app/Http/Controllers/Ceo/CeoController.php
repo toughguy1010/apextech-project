@@ -73,4 +73,16 @@ class CeoController extends Controller
             }
         }
     }
+    public function taskManagement(Request $request){
+        $limit = 5;
+        $search = null;
+        $search = $request->input('search', '');
+        $tasks = Task::getAllTask($limit, $search);
+       return view('ceo.task',[
+        
+            'tasks' => $tasks,
+            'search' => $search,
+        ]);
+        
+    }
 }

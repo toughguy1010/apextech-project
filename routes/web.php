@@ -109,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::post('confirm-task-status/{id?}',[CeoController::class,'confirmTaskStatus']);
         Route::post('confirm-notification/{id?}',[CeoController::class,'confirmNotification']);
+        Route::get('task-management',[CeoController::class,'taskManagement']);
     });
 
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');

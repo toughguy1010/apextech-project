@@ -42,6 +42,9 @@ $ceo_id = $ceo_ids[0];
                             @elseif(Position::getPositionCodeByUser(Auth::user()) == 'leader')
                                 <select name="update-task-status" class="update-task-status "
                                     data-url="{{ url('leader/update-task-status', $task->id) }}">
+                                    @if ($task->status != Task::NOT_START && $task->status != Task::INPROGRESS && $task->status != Task::TESTING)
+                                    <option value="{{ $task->status }}"> {{ Task::getStatus($task->status) }}</option>
+                                    @endif
                                     <option value="{{ Task::NOT_START }}"
                                         @if ($task->status == Task::NOT_START) selected @endif> Chưa bắt đầu</option>
                                     <option value="{{ Task::INPROGRESS }}"
@@ -177,7 +180,9 @@ $ceo_id = $ceo_ids[0];
 <div class="message-report">
     <i class="fa-regular fa-bell me-2"></i>
 </div>
-
+<div class="message-status">
+    <i class="fa-regular fa-bell me-2"></i>
+</div>
 <div class="message-confirm">
     <i class="fa-regular fa-bell me-2"></i>
 </div>
@@ -277,6 +282,7 @@ $ceo_id = $ceo_ids[0];
                 setTimeout(function() {
                     $(".message-status").fadeOut();
                 }, 3000)
+                $(".task-status-text").html(response.status_name)
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(textStatus, errorThrown)
@@ -311,11 +317,11 @@ $ceo_id = $ceo_ids[0];
                     type: "post",
                     url: "/ceo/confirm-notification/" + {{ $task->id }},
                     datatype: "json",
-                    data : {
-                        notifiSatus : notifiSatus,
+                    data: {
+                        notifiSatus: notifiSatus,
                         fromUser: fromUser
                     },
-                    success: function(response){
+                    success: function(response) {
                         console.log(response)
                     }
                 })

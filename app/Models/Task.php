@@ -45,6 +45,9 @@ class Task extends Model
     public static function countTasksByStatus($status, $userId, $role)
     {
         $role_statement = $role == 'managers' ? 'manager_id' : 'user_id';
+        if($role =  'ceo'){
+            return self::where('status', $status)->count();
+        }
         return self::where('status', $status)->whereHas($role, function ($query) use ($userId, $role_statement) {
             $query->where($role_statement, $userId);
         })

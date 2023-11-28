@@ -86,6 +86,7 @@ class LeaderController extends Controller
         $result =  $task->save();
         if($result){
             return response()->json([
+                'status_name' => $status_name,
                 'message' => 'Cập nhật trạng thái '.$status_name.' thành công.',
             ]);
         }else{
