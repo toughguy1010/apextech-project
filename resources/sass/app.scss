@@ -72,7 +72,8 @@ form {
     // width: 75% ;
     margin: 0 auto;
 }
-input.form-control, select.form-select {
+input.form-control,
+select.form-select {
     height: 45px;
     padding: 10px 20px;
 }
@@ -103,30 +104,31 @@ textarea:focus-within,
 select:focus,
 select:active,
 select:visited,
-select:focus-within, textarea:focus-visible {
+select:focus-within,
+textarea:focus-visible {
     border-color: #4634ff !important;
     box-shadow: 0 3px 9px rgba(50, 50, 9, 0.05),
         3px 4px 8px rgba(115, 103, 240, 0.1) !important;
 }
-textarea:focus-visible{
+textarea:focus-visible {
     outline: none;
 }
-label.form-label{
+label.form-label {
     font-size: 16px;
     font-weight: 500;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 }
-#show_img img{
+#show_img img {
     width: 150px;
     height: 150px;
     object-fit: cover;
     margin: 20px 0;
 }
-.table{
+.table {
     border-radius: 10px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-.table thead th{
+.table thead th {
     font-weight: 400;
     padding-left: 25px;
     padding-right: 25px;
@@ -134,80 +136,77 @@ label.form-label{
     color: #ffffff;
     background-color: #4634ff;
 }
-.table tbody tr td{
+.table tbody tr td {
     padding: 15px 25px;
     font-size: 14px;
     font-weight: 500;
     vertical-align: middle;
     color: #5b6e88;
 }
-.pagination-wrap{
+.pagination-wrap {
     width: fit-content;
     margin-left: auto;
     margin-top: 35px;
 }
-.avt_user{
+.avt_user {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
     padding-left: 15px;
 }
-.avt_user img{
+.avt_user img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
 }
-.avt_user span{
+.avt_user span {
     padding: 15px 0px;
     font-size: 14px;
     font-weight: 500;
     vertical-align: middle;
     color: #5b6e88;
 }
-.list-status-body{
+.list-status-body {
     display: flex;
     margin-top: 10px;
-
 }
-.list-status-header svg{
+.list-status-header svg {
     width: 20px;
     height: 20px;
 }
 
-.task-status-item{
+.task-status-item {
     padding: 0px 20px;
     border-right: 1px solid #5b6e88;
     font-size: 16px;
 }
-.task-status-item:first-child{
+.task-status-item:first-child {
     padding-left: 0;
 }
-.task-status-item:last-child{
+.task-status-item:last-child {
     border-right: 0px solid #5b6e88;
-
 }
-.task-status-item span{
+.task-status-item span {
     font-weight: 600;
     margin-right: 15px;
     font-size: 22px;
-
 }
-.list-task-status{
+.list-task-status {
     margin-top: 15px;
 }
-.update-task-status{
+.update-task-status {
     color: #3b82f6;
     border: 1px solid #b1cdfb;
     background: #f7faff;
     padding: 5px;
     border-radius: 8px;
 }
-.update-task-status:focus-visible{
+.update-task-status:focus-visible {
     outline: 0;
 }
-.message-status{
+.message-status {
     top: 20%;
     position: fixed;
     right: 0;
@@ -221,16 +220,16 @@ label.form-label{
     transform: translate(100%);
     transition: 0.5s;
 }
-.active-message-status{
+.active-message-status {
     transform: translate(0%);
-
 }
-.open-task-model{
+.open-task-model {
     cursor: pointer;
 }
 
-
-.message-report, .message-confirm{
+.message-report,
+.message-confirm,
+.message-progess {
     top: 20%;
     position: fixed;
     right: 0;
@@ -244,17 +243,18 @@ label.form-label{
     transform: translate(100%);
     transition: 0.5s;
 }
-.active-message-report , .active-message-confirm{
+.active-message-report,
+.active-message-confirm,
+.active-message-progess {
     transform: translate(0%);
-
 }
-.modal-body{
+.modal-body {
     padding-top: 0;
 }
-a{
+a {
     text-decoration: none;
 }
-.task-body-item-label{
+.task-body-item-label {
     display: flex;
     align-items: baseline;
     gap: 7px;
@@ -264,17 +264,16 @@ a{
     font-size: 15px;
     color: #939393;
 }
-.task-body-item-label i{
+.task-body-item-label i {
     color: #939393;
-
 }
-.sub-task-body-item{
+.sub-task-body-item {
     display: flex;
     align-items: baseline;
     gap: 12px;
     margin-bottom: 15px;
 }
-.task-status span{
+.task-status span {
     color: #64748b;
     border: 1px solid #c1c7d1;
     background: #f9fafb;
@@ -282,60 +281,63 @@ a{
     border-radius: 10px;
     font-size: 12px;
 }
-.task-header{
+.task-header {
     display: flex;
     gap: 10px;
     align-items: baseline;
 }
-.modal-dialog{
+.modal-dialog {
     max-width: 800px;
 }
-.task-header{
+.task-header {
     display: flex;
     gap: 10px;
     align-items: baseline;
 }
-.sub-task-col{
+.sub-task-col {
     background-color: #ededed;
     padding-right: 0;
     padding-top: 20px;
     padding-bottom: 50px;
 }
-.modal-title{
+.modal-title {
     font-size: 20px;
     font-weight: 600;
 }
-.sub-task-body{
+.sub-task-body {
     margin-top: 20px;
 }
-.assigness-wrap{
+.assigness-wrap {
     margin-top: 40px;
 }
-.people-label{
+.people-label {
     align-items: baseline;
     gap: 10px;
 }
-.people-imgs{
+.people-imgs {
     display: flex;
     gap: 10px;
 }
-.people-imgs img{
+.people-imgs img {
     width: 55px;
     height: 55px;
     border-radius: 50%;
 }
-.task-btn-group, .task-description-wrap{
+.task-btn-group,
+.task-description-wrap {
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid #d2d2d2;
     display: flex;
     align-items: baseline;
 }
-.task-description-title span, .task-content-title span{
+.task-description-title span,
+.task-content-title span,
+.task-proccess-title span {
     font-size: 16px;
     font-weight: 500;
 }
-#unread_notification{
+#unread_notification {
     position: absolute;
     top: -8px;
     right: -8px;
@@ -349,23 +351,144 @@ a{
     justify-content: center;
     border-radius: 50%;
 }
-#notification{
+#notification {
     margin-right: 20px;
     position: relative;
 }
-.dropdown-noti-wrap{
-    
+.dropdown-noti-wrap {
 }
-.task-process-item{
+.task-process-item {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
 }
-.process-action{
+.process-action {
     display: flex;
     gap: 10px;
     align-items: center;
 }
-.plus-process, .minus-process{
+.plus-process,
+.minus-process {
     cursor: pointer;
+}
+
+.process-detail {
+    font-size: 16px;
+}
+.task-proccess-wrap {
+    position: relative;
+}
+.task-total {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.user-complete {
+    margin-left: 35px;
+    font-size: 13px;
+    font-style: italic;
+    color: #979797;
+}
+.modal-title p {
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 0;
+    color: #979797;
+}
+.task-inprocess-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+.overview-task-col {
+    padding: 30px 25px;
+    background-color: #fff;
+    flex: 0 0 1;
+    width: 31.4%;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.task-user-total {
+    font-weight: 600;
+    text-transform: uppercase;
+}
+// .table-hidden{
+//     height: 200px;
+//     overflow: hidden;
+// }
+.overview-task-body table {
+    box-shadow: none !important;
+}
+.overview-task-body .list_user_body {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.overview-task-body .table tbody tr td {
+    background-color: #fff;
+}
+.overview-task-body .table thead th {
+    background-color: #c6c6c6;
+    width: calc(100% / 4);
+}
+.show-more span {
+    display: block;
+    font-size: 13px;
+    color: #c1c7d1;
+    font-style: italic;
+}
+.show-more {
+    text-align: end;
+}
+.show-more a:hover {
+    color: #0062ff !important;
+}
+.overview_information-body {
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid rgb(238, 238, 238);
+    margin-top: 15px;
+}
+.overview-task-body {
+    gap: 20px;
+}
+.overview-information-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.overview-avatar img {
+    height: 40px;
+    width: 40px;
+
+    border-radius: 50%;
+    object-fit: cover;
+}
+.overview-name a {
+    font-size: 20px;
+    font-weight: 600;
+    color: #34495e;
+}
+.overview_information-wrap {
+    padding: 20px 0px;
+    margin-left: 25px;
+}
+.overview_information-item i {
+    font-size: 18px;
+    color: #7c7c7c;
+}
+.overview_information-item {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 10px;
+}
+.overview_information-block span {
+    font-weight: 600;
+    // color: #939393;
+}
+ .task-description-wrap, .task-content-wrap{
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d2d2d2;
+    display: block;
 }

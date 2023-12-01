@@ -1,7 +1,7 @@
 @import "variables";
 
 // Bootstrap
-@import "bootstrap/scss/bootstrap";
+// @import "bootstrap/scss/bootstrap";
 
 .modal-dialog{
     max-width: 800px;
@@ -78,10 +78,11 @@ a{
     height: 55px;
     border-radius: 50%;
 }
-.task-btn-group, .task-description-wrap{
+.task-btn-group, .task-description-wrap, .task-content-wrap{
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid #d2d2d2;
+    display: block;
 }
 .task-description-title span, .task-content-title span{
     font-size: 16px;

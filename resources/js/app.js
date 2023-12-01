@@ -83,5 +83,6 @@ $(function () {
             $(this).closest('.task-process-item').remove();
         }
     });
+    
 });
 

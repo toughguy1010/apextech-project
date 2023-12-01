@@ -9,6 +9,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+
 class EmployeeController extends Controller
 {
     //
@@ -21,8 +22,20 @@ class EmployeeController extends Controller
     }
     public function index()
     {
+
+        $option = 'assignees';
+        $user_id =  Auth::user()->id;
+        $user = User::findorFail($user_id);
+        $limit = 5;
+        $tasks = Task::getTaskByUser($user_id, $option, $limit);
+        $tasks_total = Task::getTaskByUser($user_id, $option);
+        $department = Department::getDepartmentByUser($user->id);
         return view('employee.home', [
-            'user_name' => $this->user->getUserName()
+            'user_name' => $this->user->getUserName(),
+            'tasks' =>  $tasks,
+            'tasks_total' =>  $tasks_total,
+            'user' =>  $user,
+            'department' =>  $department,
         ]);
     }
     public function getPersonalInfo()
@@ -36,67 +49,71 @@ class EmployeeController extends Controller
         $perPage = 2;
         $search = $request->input('search', '');
         $department = Department::getDepartmentByUser($id);
-    
+
         if ($department === null) {
             return view('employee.department')->with('message', 'Người dùng không có phòng ban.');
         }
-    
+
         $users = Department::getAllUsersByDepartment($department->id, $perPage, $search);
-    
+
         if ($users === null) {
             return view('employee.department')->with('message', 'Không có nhân viên trong phòng ban.');
         }
-    
+
         return view('employee.department', [
             'department' => $department,
             'users' => $users,
             'search' => $search,
         ]);
     }
-    public function getUserTask($id = null){
+    public function getUserTask($id = null)
+    {
         $option = 'assignees';
-        $tasks = Task::getTaskByUser($id,$option);
-        return view('employee.task',[
+        $tasks = Task::getTaskByUser($id, $option);
+        return view('employee.task', [
             'tasks' => $tasks,
         ]);
     }
-    public function updateTaskStatus(Request $request, $id = null){
+    public function updateTaskStatus(Request $request, $id = null)
+    {
         $task = Task::findOrFail($id);
         $status = $request->post('status');
-        $task->status =  $status ;
+        $task->status =  $status;
         $status_name = Task::getStatus($status);
         $result =  $task->save();
-        if($result){
+        if ($result) {
             return response()->json([
-                'message' => 'Cập nhật trạng thái '.$status_name.' thành công.',
-                'status' => $task->status 
+                'message' => 'Cập nhật trạng thái ' . $status_name . ' thành công.',
+                'status' => $task->status
             ]);
-        }else{
+        } else {
             return response()->json([
-                'message' => 'Cập nhật trạng thái '.$status_name.' thất bại.',
+                'message' => 'Cập nhật trạng thái ' . $status_name . ' thất bại.',
             ]);
         }
     }
-    public function showTaskDetail($id = null){
+    public function showTaskDetail($id = null)
+    {
         $task = Task::findOrFail($id);
-        
-        if($task){
+
+        if ($task) {
             $current_task_assignees = Task::getCurrentUserAndAssigneesId($task->id);
             return view('layouts.task-modal', [
                 'task' => $task,
                 'current_task_assignees' => $current_task_assignees,
             ]);
-        }else{
+        } else {
             return response()->json([
                 'task' => [],
                 'message' => "Không tìm thấy task"
             ]);
         }
     }
-    public function reportTaskStatus( Request $request, $id = null){
+    public function reportTaskStatus(Request $request, $id = null)
+    {
         $task_id = $id;
         $task = Task::find($task_id);
-        if($task){
+        if ($task) {
             $receiver_ids = $task->managers->pluck('id')->toArray();
             if (empty($receiver_ids)) {
                 return response()->json([
@@ -105,10 +122,10 @@ class EmployeeController extends Controller
                 ]);
             }
             $from_user = $request->post('fromUser');
-            
+
             $type = 1;
-            $addReport = ReportNotification::addNotification($from_user,$receiver_ids,$type,$task_id );
-            if($addReport){
+            $addReport = ReportNotification::addNotification($from_user, $receiver_ids, $type, $task_id);
+            if ($addReport) {
                 return response()->json([
                     'success' => true,
                     'message' => "Đã báo cáo  $task->name ",

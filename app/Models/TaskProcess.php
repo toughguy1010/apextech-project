@@ -12,6 +12,7 @@ class TaskProcess extends Model
         'process_details',
         'process_status',
         'task_id',
+        'user_complete',
     ];
 
     use HasFactory;

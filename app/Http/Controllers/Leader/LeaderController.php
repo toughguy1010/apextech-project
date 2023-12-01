@@ -17,21 +17,32 @@ use Maatwebsite\Excel\Facades\Excel;
 class LeaderController extends Controller
 {
     //
-        private $user;
+    private $user;
 
-        public function __construct(User $user)
-        {
-            $this->middleware('auth');
-            $this->user = $user;
-        }
+    public function __construct(User $user)
+    {
+        $this->middleware('auth');
+        $this->user = $user;
+    }
     public function export($department_id)
     {
         return Excel::download(new UsersByDepartmentExport($department_id), 'users_department.xlsx');
     }
     public function index()
     {
+        $option = 'managers';
+        $user_id =  Auth::user()->id;
+        $user = User::findorFail($user_id);
+        $limit = 5;
+        $tasks = Task::getTaskByUser($user_id, $option, $limit);
+        $tasks_total = Task::getTaskByUser($user_id, $option);
+        $department = Department::getDepartmentByLeader($user->id);
         return view('leader.home', [
-            'user_name' => $this->user->getUserName()
+            'user_name' => $this->user->getUserName(),
+            'tasks' =>  $tasks,
+            'tasks_total' =>  $tasks_total,
+            'user' =>  $user,
+            'department' =>  $department,
         ]);
     }
     public function listEmployee(Request $request, $id = null)
@@ -71,57 +82,62 @@ class LeaderController extends Controller
     }
 
 
-    public function taskManagement($id = null){
+    public function taskManagement($id = null)
+    {
         $option = 'managers';
-        $tasks = Task::getTaskByUser($id,$option);
-        return view('leader.task',[
+
+        $tasks = Task::getTaskByUser($id, $option);
+        return view('leader.task', [
             'tasks' => $tasks,
         ]);
     }
-    public function updateTaskStatus(Request $request, $id = null){
+    public function updateTaskStatus(Request $request, $id = null)
+    {
         $task = Task::findOrFail($id);
         $status = $request->post('status');
-        $task->status =  $status ;
+        $task->status =  $status;
         $status_name = Task::getStatus($status);
         $result =  $task->save();
-        if($result){
+        if ($result) {
             return response()->json([
                 'status_name' => $status_name,
-                'message' => 'Cập nhật trạng thái '.$status_name.' thành công.',
+                'message' => 'Cập nhật trạng thái ' . $status_name . ' thành công.',
             ]);
-        }else{
+        } else {
             return response()->json([
-                'message' => 'Cập nhật trạng thái '.$status_name.' thất bại.',
+                'message' => 'Cập nhật trạng thái ' . $status_name . ' thất bại.',
             ]);
         }
     }
-    public function showTaskDetail($id = null){
+    public function showTaskDetail($id = null)
+    {
         $task = Task::findOrFail($id);
-        
-        if($task){
+
+        if ($task) {
             $current_task_assignees = Task::getCurrentUserAndAssigneesId($task->id);
             return view('layouts.task-modal', [
                 'task' => $task,
                 'current_task_assignees' => $current_task_assignees,
             ]);
-        }else{
+        } else {
             return response()->json([
                 'task' => [],
                 'message' => "Không tìm thấy task"
             ]);
         }
     }
-   
-    public function reportTaskStatus( Request $request, $id = null){
+
+    public function reportTaskStatus(Request $request, $id = null)
+    {
         $task_id = $id;
         $task = Task::findOrFail($task_id);
-        if($task){
+        if ($task) {
             $ceo_id = $request->post('ceoId');
             $from_user = $request->post('fromUser');
-            $type = 1; 
+            $type = 1;
             $ceo_ids_array = is_array($ceo_id) ? $ceo_id : [$ceo_id];
-            $addReport = ReportNotification::addNotification($from_user,$ceo_ids_array,$type,$task_id );
-            if($addReport){
+            $addReport = ReportNotification::addNotification($from_user, $ceo_ids_array, $type, $task_id);
+            if ($addReport) {
                 return response()->json([
                     'success' => true,
                     'message' => "Đã báo cáo  $task->name ",

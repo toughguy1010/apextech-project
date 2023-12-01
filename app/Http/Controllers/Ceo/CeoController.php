@@ -41,7 +41,7 @@ class CeoController extends Controller
         } else {
             $task->status =  4;
         }
-        $status_name = Task::getStatus($status);
+        $status_name = Task::getStatus($task->status);
         $result =  $task->save();
         if ($result) {
             return response()->json([

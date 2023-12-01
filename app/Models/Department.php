@@ -16,7 +16,7 @@ class Department extends Model
         'description',
     ];
 
-    public static function getAllDepartment($limit, $search)
+    public static function getAllDepartment($limit, $search, $all)
     {
         $limit = $limit !== null ? $limit : 10;
         $query = Department::query();
@@ -24,8 +24,12 @@ class Department extends Model
             $query->where('name', 'like', '%' . $search . '%');
         }
 
-
-        $departments = $query->paginate($limit);
+        if($all == null){
+            $departments = $query->paginate($limit);
+        }else{
+            $departments = $query->get();
+            
+        }
         return $departments;
     }
     public  function getLeaderName($leader_id)
@@ -78,6 +82,7 @@ class Department extends Model
 
         return $department ?? null;
     }
+   
 
     public function users()
     {

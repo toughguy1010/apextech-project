@@ -206,18 +206,17 @@
                                 </div>
                             @endforeach
                         @else
-                        <div class="task-process-item">
-                            <input type="text" name="proccess_detail[]" class="form-control"
-                                value="">
-                            <div class="process-action">
-                                <div class="plus-process">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <div class="minus-process">
-                                    <i class="fa-solid fa-minus"></i>
+                            <div class="task-process-item">
+                                <input type="text" name="proccess_detail[]" class="form-control" value="">
+                                <div class="process-action">
+                                    <div class="plus-process">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </div>
+                                    <div class="minus-process">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endif
                     </div>
                 </div>

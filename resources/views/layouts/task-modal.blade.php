@@ -1,6 +1,7 @@
 <?php
 use App\Models\Task;
 use App\Models\Position;
+use App\Models\User;
 
 $get_ceo = Position::getUsersByPositionCode('ceo');
 $ceo_ids = $get_ceo->pluck('id')->toArray();
@@ -13,7 +14,11 @@ $ceo_id = $ceo_ids[0];
         <div class="modal-content">
             <div class="modal-header">
                 <div class="task-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">{{ $task->name }}</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">{{ $task->name }}
+                        <p class="task-description-content">
+                            {{ $task->description }}
+                        </p>
+                    </h5>
                     <div class="task-status">
                         <span class="task-status-text">
                             {{ Task::getStatus($task->status) }}
@@ -24,7 +29,7 @@ $ceo_id = $ceo_ids[0];
             </div>
             <div class="modal-body" style="padding-bottom: 0">
                 <div class="row">
-                    <div class="col-8 main-task-col">
+                    <div class="col-8 main-task-col pb-3">
 
                         <div class="task-btn-group">
                             @if (Position::getPositionCodeByUser(Auth::user()) == 'employee')
@@ -43,7 +48,8 @@ $ceo_id = $ceo_ids[0];
                                 <select name="update-task-status" class="update-task-status "
                                     data-url="{{ url('leader/update-task-status', $task->id) }}">
                                     @if ($task->status != Task::NOT_START && $task->status != Task::INPROGRESS && $task->status != Task::TESTING)
-                                    <option value="{{ $task->status }}"> {{ Task::getStatus($task->status) }}</option>
+                                        <option value="{{ $task->status }}"> {{ Task::getStatus($task->status) }}
+                                        </option>
                                     @endif
                                     <option value="{{ Task::NOT_START }}"
                                         @if ($task->status == Task::NOT_START) selected @endif> Chưa bắt đầu</option>
@@ -60,11 +66,9 @@ $ceo_id = $ceo_ids[0];
                                     Báo cáo
                                 </div>
                             @elseif(Position::getPositionCodeByUser(Auth::user()) == 'ceo')
-                                <div class="btn {{ $task->status != 3 ? 'btn-primary' : 'btn-danger' }} btn-confirm ms-3 mt-3 "
+                                <div class="btn {{ $task->status != 3 ? 'btn-primary' : 'btn-danger' }} btn-confirm  mt-3 "
                                     data-url="{{ url('ceo/confirm-task-status', $task->id) }} "
                                     data-userID="{{ Auth::user()->id }}" data-status="{{ $task->status }}">
-
-
                                     {!! $task->status != 3
                                         ? '<i class="fa-solid fa-check me-1"></i> Xác nhận hoàn thành'
                                         : '<i class="fa-solid fa-exclamation me-1"></i> Đánh dấu chưa hoàn thành' !!}
@@ -72,15 +76,6 @@ $ceo_id = $ceo_ids[0];
                             @endif
 
 
-                        </div>
-                        <div class="task-description-wrap">
-                            <div class="task-description-title">
-                                <span>Mô tả</span>
-                                <i class="fa-regular fa-pen-to-square text-primary ms-1"></i>
-                            </div>
-                            <p class="task-description-content">
-                                {{ $task->description }}
-                            </p>
                         </div>
                         <div class="task-content-wrap">
                             <div class="task-content-title">
@@ -90,6 +85,55 @@ $ceo_id = $ceo_ids[0];
                             <p class="task-content-content">
                                 {{ $task->content }}
                             </p>
+                        </div>
+                        <div class="task-content-wrap task-proccess-wrap">
+                            <div class="task-proccess-title">
+                                <span>Tiến trình công việc</span>
+
+                            </div>
+                            <div class="task-proccess-list">
+                                <?php
+                                $total = 0;
+                                $complete_tasks = 0;
+                                
+                                ?>
+                                @foreach ($task->processes as $index => $processes)
+                                    <div class="process-item">
+                                        <div class="form-check mt-2">
+                                            <input class="form-check-input process_status" type="checkbox"
+                                                value="" id="flexCheckDefault" name=""
+                                                {{ $processes->process_status == 1 ? 'checked' : '' }}
+                                                data-url ="{{ url('change-proccess-status', $processes->id) }}"
+                                                data-user="{{ Auth::user()->id }}">
+                                            <div class="process-detail ms-2">
+                                                <?php echo $processes->process_details; ?>
+                                            </div>
+                                        </div>
+                                        <div class="user-complete">
+                                            <?php
+                                            if ($processes->process_status == 1) {
+                                                $user_complete = User::getUserNameByID($processes->user_complete);
+                                                echo 'Đã được hoàn thành bởi  <strong>' . $user_complete . '</strong>';
+                                            } else {
+                                                echo 'Chưa được hoàn thành';
+                                            }
+                                            ?>
+                                        </div>
+
+                                    </div>
+                                    <?php
+                                    if ($processes->process_status == 1) {
+                                        $complete_tasks++;
+                                    }
+                                    $total++;
+                                    ?>
+                                @endforeach
+                            </div>
+                            <div class="task-total">
+                               <span class="change-process-status">{{ $complete_tasks }}</span>  /
+                                {{ $total }}
+                                <i class="fa-solid fa-bars-progress ms-1 text-primary"></i>
+                            </div>
                         </div>
 
                     </div>
@@ -186,7 +230,9 @@ $ceo_id = $ceo_ids[0];
 <div class="message-confirm">
     <i class="fa-regular fa-bell me-2"></i>
 </div>
-
+<div class="message-progess">
+    <i class="fa-regular fa-bell me-2"></i>
+</div>
 <script>
     $(function() {
         $("#task-detail-modal").modal('show')
@@ -307,10 +353,24 @@ $ceo_id = $ceo_ids[0];
                 if (response.status != 3) {
                     btnConfirm.html('<i class="fa-solid fa-check me-1"></i> Xác nhận hoàn thành');
                     btnConfirm.removeClass('btn-danger').addClass('btn-primary');
+                    $(".message-report").html(response.message);
+                    $(".message-report").addClass("active-message-report");
+                    setTimeout(function() {
+                        $(".message-report").fadeOut();
+                    }, 3000);
+
+                    $(".task-status-text").html('Hoàn thành')
                 } else {
                     btnConfirm.html(
                         '<i class="fa-solid fa-exclamation me-1"></i> Đánh dấu chưa hoàn thành');
                     btnConfirm.removeClass('btn-primary').addClass('btn-danger');
+                    $(".message-report").html(response.message);
+                    $(".message-report").addClass("active-message-report");
+                    setTimeout(function() {
+                        $(".message-report").fadeOut();
+                    }, 3000);
+                    $(".task-status-text").html('Chưa hoàn thành')
+
                 }
                 const notifiSatus = response.status
                 $.ajax({
@@ -331,4 +391,53 @@ $ceo_id = $ceo_ids[0];
             },
         })
     })
+    var changeProcessStatusHtml = $('.change-process-status');
+
+    $(".process_status").on("change", function() {
+        var url = $(this).data("url");
+        var userComplete = $(this).data("user")
+        var status;
+        var processItem = $(this).closest('.process-item');
+        var userCompleteHtml = processItem.find('.user-complete');
+        if ($(this).is(':checked')) {
+            status = 1
+        } else {
+            status = 0
+        }
+        $.ajax({
+            url: url,
+            datatype: "json",
+            type: "post",
+            data: {
+                userComplete: userComplete,
+                status: status
+            },
+            success: function(response) {
+                if (response.success) {
+                    $(".message-progess").html(response.message)
+                    $(".message-progess").addClass("active-message-progess")
+                    setTimeout(function() {
+                        $(".message-progess").fadeOut();
+                    }, 3000)
+                    if (response.status == 1) {
+                        userCompleteHtml.html(" Đã được hoàn thành bởi <strong> "+response.user_name +"</strong> ")
+                        updateTaskCount(1);
+                    } else {
+                        userCompleteHtml.html(" Chưa được hoàn thành ")
+                        updateTaskCount(-1);
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown)
+            },
+
+        })
+    })
+
+    function updateTaskCount(change) {
+        var currentCount = parseInt(changeProcessStatusHtml.text());
+        var newCount = currentCount + change;
+        changeProcessStatusHtml.text(newCount);
+    }
 </script>

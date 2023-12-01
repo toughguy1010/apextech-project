@@ -16,8 +16,9 @@ class DepartmentController extends Controller
     public function index(Request $request)
     {
         $limit = 5;
+        $all = null;
         $search = $request->input('search', '');
-        $departments = Department::getAllDepartment($limit, $search);
+        $departments = Department::getAllDepartment($limit, $search, $all);
         return view('admin.department.index', [
             'departments' => $departments,
             'search' => $search,
@@ -102,11 +103,11 @@ class DepartmentController extends Controller
             ->get();
         $usersWithDepartments = [];
         foreach ($users as $user) {
-            $departmentName = $user->getDepartmentName(); 
-            $userWithDepartment = $user->toArray(); 
-            $userWithDepartment['department_name'] = $departmentName; 
+            $departmentName = $user->getDepartmentName();
+            $userWithDepartment = $user->toArray();
+            $userWithDepartment['department_name'] = $departmentName;
 
-            $usersWithDepartments[] = $userWithDepartment; 
+            $usersWithDepartments[] = $userWithDepartment;
         }
         return response()->json([
             'users' => $usersWithDepartments,

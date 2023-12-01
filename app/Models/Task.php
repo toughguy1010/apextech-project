@@ -49,7 +49,7 @@ class Task extends Model
     public static function countTasksByStatus($status, $userId, $role)
     {
         $role_statement = $role == 'managers' ? 'manager_id' : 'user_id';
-        if($role =  'ceo'){
+        if($role == 'ceo'){
             return self::where('status', $status)->count();
         }
         return self::where('status', $status)->whereHas($role, function ($query) use ($userId, $role_statement) {
@@ -141,15 +141,27 @@ class Task extends Model
         return $this->belongsToMany(User::class, 'task_managers', 'task_id', 'manager_id');
     }
 
-    public static function getTaskByUser($id = null, $option = null)
+    public static function getTaskByUser($id = null, $option = null, $limit = null)
     {
         if ($id === null && $option === null) {
             return [];
         }
+    
         $position_id = $option == 'managers' ? 'manager_id' : 'user_id';
-        $tasks = Task::whereHas($option, function ($query) use ($id, $position_id) {
+    
+        $query = Task::whereHas($option, function ($query) use ($id, $position_id) {
             $query->where($position_id, $id);
-        })->get();
+        });
+    
+        // Check if $limit is provided
+        if ($limit !== null) {
+            // Use paginate with the provided limit
+            $tasks = $query->paginate($limit);
+        } else {
+            // If $limit is not provided, use get() to retrieve all records
+            $tasks = $query->get();
+        }
+    
         return $tasks;
     }
 }

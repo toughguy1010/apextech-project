@@ -14,6 +14,7 @@ use App\Http\Controllers\Ceo\CeoController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\Leader\LeaderController;
 use App\Http\Controllers\Notification;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,7 +73,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('update-task-status/{id?}',  [EmployeeController::class, 'updateTaskStatus']);
         Route::post('show-task-detail/{id?}',  [EmployeeController::class, 'showTaskDetail']);
         Route::post('report-task-status/{id?}',  [EmployeeController::class, 'reportTaskStatus']);
-        
         // Route::get('personal-info',  [EmployeeController::class, 'getPersonalInfo']);
     });
     // leader
@@ -118,6 +118,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('change-password/{id?}',  [InformationController::class, 'changePassword']);
     Route::post('is-read-notification/{id?}',  [Notification::class, 'isReadNotification']);
     Route::get('get-notification/{id?}',  [Notification::class, 'getNotification']);
+    Route::post('change-proccess-status/{id?}',  [TaskController::class, 'changeProccessStatus']);
 });
 Route::get('/logout',  [LoginController::class, 'logout'])->name('logout');
 Route::get('/check-after-reset',  [ResetPasswordController::class, 'checkAfterReset']);
