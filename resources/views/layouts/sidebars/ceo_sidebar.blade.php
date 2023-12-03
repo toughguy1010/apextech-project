@@ -67,7 +67,6 @@
     </ul>
 </li>
 <li class="sidebar__item ">
-   
     <a href="{{ url('ceo/task-management') }}" class="sidebar__link">
         <i class="fa-solid fa-list-check text-white"></i>
         <span class="text-white ms-2">Theo dõi công việc</span>

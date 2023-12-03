@@ -104,6 +104,7 @@
                         <?php
                         ?>
                     </div>
+                    @if ( $task_managers !== null)
                     <div class="mb-3 col-6">
                         <div type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#taskManagementModal">
@@ -165,6 +166,8 @@
                         <?php
                         ?>
                     </div>
+                    @endif
+                    
                 </div>
                 <div class="row row-input">
                     <div class="mb-3 col-6">

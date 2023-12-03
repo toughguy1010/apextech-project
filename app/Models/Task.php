@@ -28,7 +28,7 @@ class Task extends Model
     {
         return $this->hasMany(TaskProcess::class, 'task_id', 'id');
     }
-    
+
     public static function getStatus($status)
     {
         switch ($status) {
@@ -48,12 +48,16 @@ class Task extends Model
     }
     public static function countTasksByStatus($status, $userId, $role)
     {
+        $user = Auth::user();
         $role_statement = $role == 'managers' ? 'manager_id' : 'user_id';
-        if($role == 'ceo'){
+        if ($role == 'ceo') {
             return self::where('status', $status)->count();
         }
-        return self::where('status', $status)->whereHas($role, function ($query) use ($userId, $role_statement) {
+        return self::where('status', $status)->whereHas($role, function ($query) use ($userId, $role_statement,$user) {
             $query->where($role_statement, $userId);
+            if($user !== 2){
+                $query->orWhere('task_creater', $userId);
+            }
         })
             ->count();
     }
@@ -111,7 +115,7 @@ class Task extends Model
         // If no assignee is found, you can return null or an empty collection
         return null;
     }
-    
+
     public function assignees()
     {
         return $this->belongsToMany(User::class, 'task_assignees', 'task_id', 'user_id')
@@ -141,27 +145,41 @@ class Task extends Model
         return $this->belongsToMany(User::class, 'task_managers', 'task_id', 'manager_id');
     }
 
-    public static function getTaskByUser($id = null, $option = null, $limit = null)
+    public static function getTaskByUser($id = null, $option = null, $limit = null, $task_creater)
     {
         if ($id === null && $option === null) {
             return [];
         }
-    
+
         $position_id = $option == 'managers' ? 'manager_id' : 'user_id';
-    
-        $query = Task::whereHas($option, function ($query) use ($id, $position_id) {
+
+        $query = Task::whereHas($option, function ($query) use ($id, $position_id, $task_creater) {
             $query->where($position_id, $id);
+            if ($task_creater !== null) {
+                $query->orWhere('task_creater', $task_creater);
+            };
         });
-    
-        // Check if $limit is provided
+
         if ($limit !== null) {
-            // Use paginate with the provided limit
             $tasks = $query->paginate($limit);
         } else {
-            // If $limit is not provided, use get() to retrieve all records
             $tasks = $query->get();
         }
-    
+
+        return $tasks;
+    }
+    public static function getTaskByCreater($task_creater, $limit = null, $search = null)
+    {
+        $query = Task::where('task_creater', $task_creater);
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+        if ($limit !== null) {
+            $tasks = $query->paginate($limit);
+        } else {
+            $tasks = $query->get();
+        }
+
         return $tasks;
     }
 }

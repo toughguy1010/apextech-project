@@ -67,9 +67,7 @@
                     <th style="border-top-left-radius: 10px;">
                         Tên công việc
                     </th>
-                    <th>
-                        Mô tả công việc
-                    </th>
+                   
                     <th>
                         Ngày bắt đầu
                     </th>
@@ -99,9 +97,7 @@
 
                                 </div>
                             </td>
-                            <td>
-                                {{ $task->description }}
-                            </td>
+                           
                             <td>
                                 {{ $task->start_date }}
                             </td>
@@ -126,7 +122,7 @@
                                 <div class="avt_user">
                                     @if (count($task->assignees) > 0)
                                         @foreach ($task->assignees as $assignee)
-                                            <img src=" {{ $assignee->avatar }}" alt="">
+                                        <img src=" {{ $assignee->avatar }}" alt="" data-info=" {{ $assignee->name }}" class="show_avt_name">
                                         @endforeach
                                     @else
                                         <span>

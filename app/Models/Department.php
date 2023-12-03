@@ -50,7 +50,7 @@ class Department extends Model
         $department =  $query->where('leader_id', $leader_id)->first();
         return  $department;
     }
-    public static function getAllUsersByDepartment($department_id, $perPage = 2, $search = null)
+    public static function getAllUsersByDepartment($department_id, $perPage = 2, $search = null, $all = null)
     {
         if ($department_id === null) {
             return "Không có phòng ban";
@@ -66,8 +66,11 @@ class Department extends Model
                     ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
-
-        $users = $query->paginate($perPage);
+        if ($all == 1){
+            $users = $query->get();
+        }else{
+            $users = $query->paginate($perPage);
+        }
 
         if (!$users) {
             return "Không có nhân viên";

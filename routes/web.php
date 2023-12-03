@@ -85,6 +85,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('show-task-detail/{id?}',  [LeaderController::class, 'showTaskDetail']);
         Route::post('report-task-status/{id?}',  [LeaderController::class, 'reportTaskStatus']);
         Route::get('list-task-management/{id?}', [LeaderController::class, 'taskManagement']);
+        Route::prefix('task')->group(function () {
+            Route::get('upsert/{id?}', [TasksController::class, 'viewUpsert']);
+            Route::post('upsert/{id?}', [TasksController::class, 'store']);
+            // Route::get('list-task-management/{id?}', [CeoController::class, 'taskManagement']);
+            Route::get('/', [TasksController::class, 'index']);
+        });
     });
     Route::prefix('ceo')->group(function () {
         Route::get('/',  [CeoController::class, 'index'])->name('ceo.home');
@@ -107,9 +113,9 @@ Route::middleware(['auth'])->group(function () {
             // Route::get('list-task-management/{id?}', [CeoController::class, 'taskManagement']);
             Route::get('/', [TasksController::class, 'index']);
         });
-        Route::post('confirm-task-status/{id?}',[CeoController::class,'confirmTaskStatus']);
-        Route::post('confirm-notification/{id?}',[CeoController::class,'confirmNotification']);
-        Route::get('task-management',[CeoController::class,'taskManagement']);
+        Route::post('confirm-task-status/{id?}', [CeoController::class, 'confirmTaskStatus']);
+        Route::post('confirm-notification/{id?}', [CeoController::class, 'confirmNotification']);
+        Route::get('task-management', [CeoController::class, 'taskManagement']);
     });
 
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');

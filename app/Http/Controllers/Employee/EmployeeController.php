@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\Position;
 use App\Models\ReportNotification;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -27,8 +28,9 @@ class EmployeeController extends Controller
         $user_id =  Auth::user()->id;
         $user = User::findorFail($user_id);
         $limit = 5;
-        $tasks = Task::getTaskByUser($user_id, $option, $limit);
-        $tasks_total = Task::getTaskByUser($user_id, $option);
+
+        $tasks = Task::getTaskByUser($user_id, $option, $limit, null);
+        $tasks_total = Task::getTaskByUser($user_id, $option, null, null);
         $department = Department::getDepartmentByUser($user->id);
         return view('employee.home', [
             'user_name' => $this->user->getUserName(),
@@ -69,7 +71,7 @@ class EmployeeController extends Controller
     public function getUserTask($id = null)
     {
         $option = 'assignees';
-        $tasks = Task::getTaskByUser($id, $option);
+        $tasks = Task::getTaskByUser($id, $option, null, null);
         return view('employee.task', [
             'tasks' => $tasks,
         ]);
@@ -113,12 +115,20 @@ class EmployeeController extends Controller
     {
         $task_id = $id;
         $task = Task::find($task_id);
+       
         if ($task) {
-            $receiver_ids = $task->managers->pluck('id')->toArray();
+         
+                $receiver_ids = $task->managers->pluck('id')->toArray();
             if (empty($receiver_ids)) {
                 return response()->json([
                     'success' => false,
                     'message' => "Không có người theo dõi",
+                ]);
+            }
+            if ($task->status == 0 ) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Công việc chưa được tiến hành",
                 ]);
             }
             $from_user = $request->post('fromUser');

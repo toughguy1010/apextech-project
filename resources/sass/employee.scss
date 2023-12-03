@@ -71,6 +71,7 @@ a{
 }
 .people-imgs{
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
 }
 .people-imgs img{

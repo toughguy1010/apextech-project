@@ -34,8 +34,9 @@ class LeaderController extends Controller
         $user_id =  Auth::user()->id;
         $user = User::findorFail($user_id);
         $limit = 5;
-        $tasks = Task::getTaskByUser($user_id, $option, $limit);
-        $tasks_total = Task::getTaskByUser($user_id, $option);
+        $task_creater = Auth::user()->id;
+        $tasks = Task::getTaskByUser($user_id, $option, $limit, $task_creater);
+        $tasks_total = Task::getTaskByUser($user_id, $option, null, $task_creater);
         $department = Department::getDepartmentByLeader($user->id);
         return view('leader.home', [
             'user_name' => $this->user->getUserName(),
@@ -50,6 +51,7 @@ class LeaderController extends Controller
         $users = null;
         $department = null;
         $search = $request->input('search', '');
+        $all = null;
         if ($id != null) {
             $department = Department::getDepartmentByLeader($id);
             if ($department instanceof Department) {
@@ -85,8 +87,9 @@ class LeaderController extends Controller
     public function taskManagement($id = null)
     {
         $option = 'managers';
-
-        $tasks = Task::getTaskByUser($id, $option);
+        $task_creater = Auth::user()->id;
+        // dd($task_creater);
+        $tasks = Task::getTaskByUser($id, $option, null, $task_creater);
         return view('leader.task', [
             'tasks' => $tasks,
         ]);

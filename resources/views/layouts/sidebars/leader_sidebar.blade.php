@@ -13,29 +13,22 @@
 </li>
 <li class="sidebar__item has-child">
     <div class="arrow">
-
     </div>
     <a href="#" class="sidebar__link">
-        <i class="fa-solid fa-house text-white"></i>
-        <span class="text-white ms-2">Item 3</span>
+        <i class="fa-solid fa-briefcase text-white"></i>
+        <span class="text-white ms-2">Quản lý công việc</span>
     </a>
     <ul class="siderbar__submenu">
         <li class="siderbar__submenu-item">
-            <a href="#" class="submenu__link">
+            <a href="{{ url('leader/task/upsert') }}" class="submenu__link">
                 <i class="fa-regular fa-circle text-white"></i>
-                <span class="text-white">Menu child item 1</span>
+                <span class="text-white">Thêm công việc</span>
             </a>
         </li>
         <li class="siderbar__submenu-item">
-            <a href="#" class="submenu__link">
+            <a href="{{ url('leader/task/') }}" class="submenu__link">
                 <i class="fa-regular fa-circle text-white"></i>
-                <span class="text-white">Menu child item 1</span>
-            </a>
-        </li>
-        <li class="siderbar__submenu-item">
-            <a href="#" class="submenu__link">
-                <i class="fa-regular fa-circle text-white"></i>
-                <span class="text-white">Menu child item 1</span>
+                <span class="text-white">Danh sách công việc</span>
             </a>
         </li>
     </ul>

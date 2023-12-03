@@ -20,6 +20,13 @@ class Position extends Model
         $position = self::find($positionId);
         return $position ? $position->position_code : 'Không có dữ liệu';
     }
+    public static function getPositionCodeByTaskCreater($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        $positionId = $user->position_id;
+        $position = self::find($positionId);
+        return $position ? $position->position_code : 'Không có dữ liệu';
+    }
     public static function getPositionNameByUser($user)
     {
         $positionId = $user->position_id;

@@ -9,7 +9,7 @@ use App\Models\Task;
         background-color: #f5f5f5 !important;
         padding: 0;
         left: -125px;
-        top: 54px;
+        top: 60px;
     }
 
     .dropdown-item.active,

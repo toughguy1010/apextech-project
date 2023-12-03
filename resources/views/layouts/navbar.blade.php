@@ -41,6 +41,7 @@ use App\Models\ReceiverNotification;
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <img src="{{ Auth::user()->avatar }}" alt="" class="avt ms-2 me-2">
                             {{ Auth::user()->name }}
                         </a>
 

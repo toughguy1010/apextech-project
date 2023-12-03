@@ -247,6 +247,15 @@ label.form-label {
 .active-message-confirm,
 .active-message-progess {
     transform: translate(0%);
+    background-color: #c0ffb9;
+    color: #0faf2b;
+}
+.false-message-report{
+    transform: translate(0%);
+    background-color: rgb(255, 0, 0);
+    color: #ffffff;
+
+
 }
 .modal-body {
     padding-top: 0;
@@ -287,7 +296,7 @@ a {
     align-items: baseline;
 }
 .modal-dialog {
-    max-width: 800px;
+    max-width: 900px;
 }
 .task-header {
     display: flex;
@@ -317,6 +326,7 @@ a {
 .people-imgs {
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
 }
 .people-imgs img {
     width: 55px;
@@ -354,6 +364,7 @@ a {
 #notification {
     margin-right: 20px;
     position: relative;
+    margin-top: 8px;
 }
 .dropdown-noti-wrap {
 }
@@ -491,4 +502,13 @@ a {
     padding-bottom: 20px;
     border-bottom: 1px solid #d2d2d2;
     display: block;
+}
+.avt{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.show_avt_name {
+    position: relative;
 }

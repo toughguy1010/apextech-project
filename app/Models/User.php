@@ -94,6 +94,7 @@ class User extends Authenticatable
         $query = User::query();
         $task_managers = $query->where('position_id','!=',2)
                                 ->where('position_id','!=',1)
+                                ->where('position_id','!=',4)
                                 ->get();
         return $task_managers;
     }

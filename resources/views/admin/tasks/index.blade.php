@@ -88,7 +88,7 @@
 
                                     @if ( count($task->assignees) > 0)
                                         @foreach ($task->assignees as $assignee)
-                                            <img src=" {{ $assignee->avatar }}" alt="">
+                                            <img src=" {{ $assignee->avatar }}" alt="" data-info=" {{ $assignee->name }}" class="show_avt_name">
                                         @endforeach
                                     @else
                                     <span>

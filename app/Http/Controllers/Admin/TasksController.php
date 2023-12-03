@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\ReceiverNotification;
 use App\Models\ReportNotification;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 use App\Models\TaskProcess;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,7 +20,13 @@ class TasksController extends Controller
     {
         $limit = 5;
         $search = $request->input('search', '');
-        $tasks = Task::getAllTask($limit, $search);
+        $user = Auth::user(); 
+        $task_creater = $user->id;
+        if ($user->position_id == 3 || $user->position_id == 1) {
+            $tasks = Task::getTaskByCreater( $task_creater, $limit ,$search );
+        } else {
+            $tasks = Task::getAllTask($limit, $search);
+        }
         return view('admin.tasks.index', [
             'tasks' => $tasks,
             'search' => $search,
@@ -27,8 +35,20 @@ class TasksController extends Controller
     public function viewUpsert($id = null)
     {
         $task = $id ? Task::findOrFail($id) : null;
-        $employees = User::getUserEmployee();
-        $task_managers = User::getTaskManager();
+        $user = Auth::user();
+        if ($user->position_id == 3) {
+            $department = Department::getDepartmentByLeader($user->id);
+            if ($department instanceof Department) {
+                $employees = Department::getAllUsersByDepartment($department->id, null, $search = null, $all = 1);
+            }
+           
+            $task_managers = null;
+            
+        } else {
+            
+            $task_managers = User::getTaskManager();
+            $employees = User::getUserEmployee();
+        }
         return view('admin.tasks.upsert', [
             'id' => $id,
             'task' => $task,
@@ -38,6 +58,8 @@ class TasksController extends Controller
     }
     public function store(Request $request, $id = null)
     {
+
+        $task_creater = Auth::user()->id;
         if ($id === null) {
             $task = new Task();
         } else {
@@ -51,6 +73,7 @@ class TasksController extends Controller
             $task->end_date = $request->input('end_date');
             $task->content = $request->input('content');
             $task->priority = $request->input('priority');
+            $task->task_creater = $task_creater;
             $employeesID = $request->input('employees_id');
             $task_mangersID = $request->input('task_manager');
             $process_details = $request->input('proccess_detail');
@@ -119,7 +142,8 @@ class TasksController extends Controller
                     $task->managers()->sync($task_mangersID);
                 }
             } else {
-                $task->managers()->detach();
+                // $task->managers()->detach();
+                $task->managers()->sync($task->task_creater);
             }
             if ($id === null) {
                 Session::flash('success', 'Tạo công việc thành công');

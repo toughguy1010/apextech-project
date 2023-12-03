@@ -45,27 +45,45 @@ $ceo_id = $ceo_ids[0];
                                     Báo cáo
                                 </div>
                             @elseif(Position::getPositionCodeByUser(Auth::user()) == 'leader')
-                                <select name="update-task-status" class="update-task-status "
-                                    data-url="{{ url('leader/update-task-status', $task->id) }}">
-                                    @if ($task->status != Task::NOT_START && $task->status != Task::INPROGRESS && $task->status != Task::TESTING)
-                                        <option value="{{ $task->status }}"> {{ Task::getStatus($task->status) }}
-                                        </option>
-                                    @endif
-                                    <option value="{{ Task::NOT_START }}"
-                                        @if ($task->status == Task::NOT_START) selected @endif> Chưa bắt đầu</option>
-                                    <option value="{{ Task::INPROGRESS }}"
-                                        @if ($task->status == Task::INPROGRESS) selected @endif> Đang tiến hành</option>
-                                    <option value="{{ Task::TESTING }}"
-                                        @if ($task->status == Task::TESTING) selected @endif>
-                                        Đang kiểm tra</option>
-                                </select>
-                                <div class="btn btn-success btn-report ms-3 mt-3 "
-                                    data-url="{{ url('leader/report-task-status', $task->id) }} "
-                                    data-ceoID="{{ $ceo_id }}" data-userID="{{ Auth::user()->id }}">
-                                    <i class="fa-regular fa-paper-plane me-1"></i>
-                                    Báo cáo
-                                </div>
+                                @if ($task->task_creater == Auth::user()->id)
+                                    <div class="btn {{ $task->status != 3 ? 'btn-primary' : 'btn-danger' }} btn-confirm  mt-3 "
+                                        data-url="{{ url('ceo/confirm-task-status', $task->id) }} "
+                                        data-userID="{{ Auth::user()->id }}" data-status="{{ $task->status }}">
+                                        {!! $task->status != 3
+                                            ? '<i class="fa-solid fa-check me-1"></i> Xác nhận hoàn thành'
+                                            : '<i class="fa-solid fa-exclamation me-1"></i> Đánh dấu chưa hoàn thành' !!}
+                                    </div>
+                                @else
+                                    <select name="update-task-status" class="update-task-status "
+                                        data-url="{{ url('leader/update-task-status', $task->id) }}">
+                                        @if ($task->status != Task::NOT_START && $task->status != Task::INPROGRESS && $task->status != Task::TESTING)
+                                            <option value="{{ $task->status }}"> {{ Task::getStatus($task->status) }}
+                                            </option>
+                                        @endif
+                                        <option value="{{ Task::NOT_START }}"
+                                            @if ($task->status == Task::NOT_START) selected @endif> Chưa bắt đầu</option>
+                                        <option value="{{ Task::INPROGRESS }}"
+                                            @if ($task->status == Task::INPROGRESS) selected @endif> Đang tiến hành</option>
+                                        <option value="{{ Task::TESTING }}"
+                                            @if ($task->status == Task::TESTING) selected @endif>
+                                            Đang kiểm tra</option>
+                                    </select>
+                                    <div class="btn btn-success btn-report ms-3 mt-3 "
+                                        data-url="{{ url('leader/report-task-status', $task->id) }} "
+                                        data-ceoID="{{ $ceo_id }}" data-userID="{{ Auth::user()->id }}">
+                                        <i class="fa-regular fa-paper-plane me-1"></i>
+                                        Báo cáo
+                                    </div>
+                                @endif
                             @elseif(Position::getPositionCodeByUser(Auth::user()) == 'ceo')
+                                <div class="btn {{ $task->status != 3 ? 'btn-primary' : 'btn-danger' }} btn-confirm  mt-3 "
+                                    data-url="{{ url('ceo/confirm-task-status', $task->id) }} "
+                                    data-userID="{{ Auth::user()->id }}" data-status="{{ $task->status }}">
+                                    {!! $task->status != 3
+                                        ? '<i class="fa-solid fa-check me-1"></i> Xác nhận hoàn thành'
+                                        : '<i class="fa-solid fa-exclamation me-1"></i> Đánh dấu chưa hoàn thành' !!}
+                                </div>
+                            @elseif(Position::getPositionCodeByUser(Auth::user()) == 'admin')
                                 <div class="btn {{ $task->status != 3 ? 'btn-primary' : 'btn-danger' }} btn-confirm  mt-3 "
                                     data-url="{{ url('ceo/confirm-task-status', $task->id) }} "
                                     data-userID="{{ Auth::user()->id }}" data-status="{{ $task->status }}">
@@ -130,7 +148,7 @@ $ceo_id = $ceo_ids[0];
                                 @endforeach
                             </div>
                             <div class="task-total">
-                               <span class="change-process-status">{{ $complete_tasks }}</span>  /
+                                <span class="change-process-status">{{ $complete_tasks }}</span> /
                                 {{ $total }}
                                 <i class="fa-solid fa-bars-progress ms-1 text-primary"></i>
                             </div>
@@ -264,26 +282,26 @@ $ceo_id = $ceo_ids[0];
     })
 
 
-    $(".btn-status").on("click", function() {
-        var url = $(this).data("url")
-        $.ajax({
-            url: url,
-            type: "POST",
-            dataType: "json",
-            data: {
-                status: statusSending,
-            },
-            success: function(response) {
-                button.data("curstatus", response.status);
-                button.html(response.status == 1 ? 'Bỏ tiến hành' : "Bắt đầu tiến hành")
-                $(".task-status-text").html(response.status == 1 ? 'Đang tiến hành' :
-                    "Chưa tiến hành");
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus, errorThrown);
-            },
-        });
-    })
+    // $(".btn-status").on("click", function() {
+    //     var url = $(this).data("url")
+    //     $.ajax({
+    //         url: url,
+    //         type: "POST",
+    //         dataType: "json",
+    //         data: {
+    //             status: statusSending,
+    //         },
+    //         success: function(response) {
+    //             button.data("curstatus", response.status);
+    //             button.html(response.status == 1 ? 'Bỏ tiến hành' : "Bắt đầu tiến hành")
+    //             $(".task-status-text").html(response.status == 1 ? 'Đang tiến hành' :
+    //                 "Chưa tiến hành");
+    //         },
+    //         error: function(jqXHR, textStatus, errorThrown) {
+    //             console.log(textStatus, errorThrown);
+    //         },
+    //     });
+    // })
     $(".btn-report").on("click", function() {
         var url = $(this).data("url")
         var fromUser = $(this).data("userid");
@@ -300,7 +318,15 @@ $ceo_id = $ceo_ids[0];
             success: function(response) {
                 if (response.success == true) {
                     $(".message-report").html(response.message);
+                    $(".message-report").removeClass("false-message-report")
                     $(".message-report").addClass("active-message-report");
+                    setTimeout(function() {
+                        $(".message-report").fadeOut();
+                    }, 3000);
+                }else{
+                    $(".message-report").html(response.message);
+                    $(".message-report").removeClass("active-message-report")
+                    $(".message-report").addClass("false-message-report");
                     setTimeout(function() {
                         $(".message-report").fadeOut();
                     }, 3000);
@@ -420,7 +446,8 @@ $ceo_id = $ceo_ids[0];
                         $(".message-progess").fadeOut();
                     }, 3000)
                     if (response.status == 1) {
-                        userCompleteHtml.html(" Đã được hoàn thành bởi <strong> "+response.user_name +"</strong> ")
+                        userCompleteHtml.html(" Đã được hoàn thành bởi <strong> " + response
+                            .user_name + "</strong> ")
                         updateTaskCount(1);
                     } else {
                         userCompleteHtml.html(" Chưa được hoàn thành ")

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ceo;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
@@ -20,6 +21,7 @@ class CeoController extends Controller
     }
     public function index()
     {
+
         return view('ceo.home', [
             'user_name' => $this->user->getUserName()
         ]);
@@ -58,14 +60,21 @@ class CeoController extends Controller
     {
         $task_id = $id;
         $task = Task::findOrFail($task_id);
-        if($task){
+        if ($task) {
             $from_user = $request->post('fromUser');
             $managers = $task->managers->pluck('id')->toArray();
             $assignees = $task->assignees->pluck('id')->toArray();
-            $receriver_ids = array_merge($managers, $assignees) ;
+
+            $currentUserId = auth()->id();
+
+            $managers = collect($managers)->reject(function ($manager) use ($currentUserId) {
+                return $manager == $currentUserId;
+            })->toArray();
+
+            $receriver_ids = array_merge($managers, $assignees);
             $type = 2;
-            $addReport = ReportNotification::addNotification($from_user,$receriver_ids,$type,$task_id );
-            if($addReport){
+            $addReport = ReportNotification::addNotification($from_user, $receriver_ids, $type, $task_id);
+            if ($addReport) {
                 return response()->json([
                     'success' => true,
                     'message' => "Đã xác nhận  $task->name ",
@@ -73,16 +82,16 @@ class CeoController extends Controller
             }
         }
     }
-    public function taskManagement(Request $request){
+    public function taskManagement(Request $request)
+    {
         $limit = 5;
         $search = null;
         $search = $request->input('search', '');
         $tasks = Task::getAllTask($limit, $search);
-       return view('ceo.task',[
-        
+        return view('ceo.task', [
+
             'tasks' => $tasks,
             'search' => $search,
         ]);
-        
     }
 }

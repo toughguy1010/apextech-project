@@ -1,6 +1,31 @@
 <div class="sidebar-wrap col-2 pe-0 background-default">
     <div class="sidebar-header  ">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <?php
+use App\Models\Position;
+
+        $role;
+        $user = Auth::user();
+        $position_code = Position::getPositionCodeByUser($user);
+        switch ($position_code) {
+            case 'admin':
+                $role = 'admin';
+                break;
+            case 'employee':
+                $role = 'employee';
+                break;
+            case 'leader':
+                $role = 'leader';
+                break;
+            case 'ceo':
+                $role = 'ceo';
+                break;
+            // Xử lý cho các vị trí khác (nếu cần)
+            // default:
+            //     return redirect(RouteServiceProvider::HOME);
+            //     break;
+        }
+        ?>
+        <a class="navbar-brand" href="{{ url('/',$role) }}">
             <div class="logo logo-text">
                 ApexTech Inc.
             </div>
