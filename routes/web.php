@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BenefitController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\TasksController;
 use App\Http\Controllers\Employee\EmployeeController;
@@ -15,7 +16,6 @@ use App\Http\Controllers\InformationController;
 use App\Http\Controllers\Leader\LeaderController;
 use App\Http\Controllers\Notification;
 use App\Http\Controllers\TaskController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,6 +63,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('upsert/{id?}', [TasksController::class, 'store']);
             Route::get('/', [TasksController::class, 'index']);
             Route::delete('destroy/{id}', [TasksController::class, 'destroy']);
+        });
+        Route::prefix('benefit')->group(function(){
+            Route::get('upsert/{id?}', [BenefitController::class, 'viewUpsert']);
+            Route::post('upsert/{id?}', [BenefitController::class, 'store']);
+            Route::get('/', [BenefitController::class, 'index']);
+            Route::delete('destroy/{id}', [BenefitController::class, 'destroy']);
         });
     });
     // employee
