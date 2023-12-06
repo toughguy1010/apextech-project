@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', [TasksController::class, 'index']);
             Route::delete('destroy/{id}', [TasksController::class, 'destroy']);
         });
-        Route::prefix('benefit')->group(function(){
+        Route::prefix('benefit')->group(function () {
             Route::get('upsert/{id?}', [BenefitController::class, 'viewUpsert']);
             Route::post('upsert/{id?}', [BenefitController::class, 'store']);
             Route::get('/', [BenefitController::class, 'index']);
@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('update-task-status/{id?}',  [EmployeeController::class, 'updateTaskStatus']);
         Route::post('show-task-detail/{id?}',  [EmployeeController::class, 'showTaskDetail']);
         Route::post('report-task-status/{id?}',  [EmployeeController::class, 'reportTaskStatus']);
-        // Route::get('personal-info',  [EmployeeController::class, 'getPersonalInfo']);
+        Route::get('list-benefits',  [EmployeeController::class, 'listBenefits']);
     });
     // leader
     Route::prefix('leader')->group(function () {
@@ -98,6 +98,7 @@ Route::middleware(['auth'])->group(function () {
             // Route::get('list-task-management/{id?}', [CeoController::class, 'taskManagement']);
             Route::get('/', [TasksController::class, 'index']);
         });
+        Route::get('list-benefits',  [LeaderController::class, 'listBenefits']);
     });
     Route::prefix('ceo')->group(function () {
         Route::get('/',  [CeoController::class, 'index'])->name('ceo.home');
@@ -120,9 +121,17 @@ Route::middleware(['auth'])->group(function () {
             // Route::get('list-task-management/{id?}', [CeoController::class, 'taskManagement']);
             Route::get('/', [TasksController::class, 'index']);
         });
+        Route::prefix('benefit')->group(function () {
+            Route::get('upsert/{id?}', [BenefitController::class, 'viewUpsert']);
+            Route::post('upsert/{id?}', [BenefitController::class, 'store']);
+            Route::get('/', [BenefitController::class, 'index']);
+            Route::delete('destroy/{id}', [BenefitController::class, 'destroy']);
+            Route::get('download/{id}', [BenefitController::class, 'download']);
+        });
         Route::post('confirm-task-status/{id?}', [CeoController::class, 'confirmTaskStatus']);
         Route::post('confirm-notification/{id?}', [CeoController::class, 'confirmNotification']);
         Route::get('task-management', [CeoController::class, 'taskManagement']);
+        Route::get('list-benefits', [CeoController::class, 'listBenefits']);
     });
 
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');

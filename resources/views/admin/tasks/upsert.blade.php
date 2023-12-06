@@ -224,7 +224,7 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">{{ $id ? 'Cập nhật' : 'Tạo' }} công việc</button>
-                <a href="{{ url('admin/department') }}" class="btn ms-3 btn-danger">Quay lại</a>
+                <a href="{{ url('admin/task') }}" class="btn ms-3 btn-danger">Quay lại</a>
             </form>
         </div>
         @vite(['resources/js/app.js'])

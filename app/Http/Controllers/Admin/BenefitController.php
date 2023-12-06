@@ -14,7 +14,7 @@ class BenefitController extends Controller
     //
     public function index(Request $request)
     {
-        $limit = 10;
+        $limit = 5;
         $all = null;
         $search = $request->input('search', '');
         $benefits = Benefit::getAllBenefits($limit, $search, $all);

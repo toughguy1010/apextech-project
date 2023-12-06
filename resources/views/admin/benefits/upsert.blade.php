@@ -70,8 +70,13 @@
                             value="{{ $id ? $benefit->price : ' ' }}">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary"> Tạo công việc</button>
+                <button type="submit" class="btn btn-primary"> Tạo phúc lợi</button>
+                @if (Auth::user()->position_id == 4)
+                <a href="{{ url('ceo/benefit') }}" class="btn ms-3 btn-danger">Quay lại</a>
+                @else
                 <a href="{{ url('admin/benefit') }}" class="btn ms-3 btn-danger">Quay lại</a>
+
+                @endif
             </form>
         </div>
         @vite(['resources/js/app.js'])

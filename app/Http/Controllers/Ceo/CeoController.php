@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\Benefit;
 use App\Models\User;
 use App\Models\ReportNotification;
 
@@ -92,6 +93,16 @@ class CeoController extends Controller
 
             'tasks' => $tasks,
             'search' => $search,
+        ]);
+    }
+    public function listBenefits(Request $request){
+        $limit = 5;
+        $all = null;
+        $search = $request->input('search', '');
+        $benefits = Benefit::getAllBenefits($limit, $search, $all);
+        return view('ceo.benefits', [
+            'search' => $search,
+            'benefits' => $benefits,
         ]);
     }
 }

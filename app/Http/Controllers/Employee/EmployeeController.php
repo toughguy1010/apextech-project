@@ -9,6 +9,7 @@ use App\Models\ReportNotification;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Benefit;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
@@ -145,6 +146,16 @@ class EmployeeController extends Controller
         return response()->json([
             'success' => false,
             'message' => "Báo cáo thất bại",
+        ]);
+    }
+    public function listBenefits(Request $request){
+        $limit = 5;
+        $all = null;
+        $search = $request->input('search', '');
+        $benefits = Benefit::getAllBenefits($limit, $search, $all);
+        return view('employee.benefits', [
+            'search' => $search,
+            'benefits' => $benefits,
         ]);
     }
 }

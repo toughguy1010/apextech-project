@@ -11,6 +11,12 @@
         <span class="text-white ms-2">Công việc</span>
     </a>
 </li>
+<li class="sidebar__item ">
+    <a href="{{ url('employee/list-benefits') }}" class="sidebar__link">
+        <i class="fa-solid fa-laptop-medical text-white"></i>
+        <span class="text-white ms-2">Phúc lợi</span>
+    </a>
+</li>
 <li class="sidebar__item has-child">
     <div class="arrow">
 

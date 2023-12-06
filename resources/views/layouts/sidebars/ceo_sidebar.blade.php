@@ -66,9 +66,37 @@
         </li>
     </ul>
 </li>
+<li class="sidebar__item has-child">
+    <div class="arrow">
+    </div>
+    <a href="#" class="sidebar__link">
+        <i class="fa-solid fa-notes-medical text-white"></i>
+        <span class="text-white ms-2">Quản lý phúc lợi</span>
+    </a>
+    <ul class="siderbar__submenu">
+        <li class="siderbar__submenu-item">
+            <a href="{{ url('ceo/benefit/upsert') }}" class="submenu__link">
+                <i class="fa-regular fa-circle text-white"></i>
+                <span class="text-white">Thêm phúc lợi</span>
+            </a>
+        </li>
+        <li class="siderbar__submenu-item">
+            <a href="{{ url('ceo/benefit/') }}" class="submenu__link">
+                <i class="fa-regular fa-circle text-white"></i>
+                <span class="text-white">Danh sách phúc lợi</span>
+            </a>
+        </li>
+    </ul>
+</li>
 <li class="sidebar__item ">
     <a href="{{ url('ceo/task-management') }}" class="sidebar__link">
         <i class="fa-solid fa-list-check text-white"></i>
         <span class="text-white ms-2">Theo dõi công việc</span>
+    </a>
+</li>
+<li class="sidebar__item ">
+    <a href="{{ url('ceo/list-benefits') }}" class="sidebar__link">
+        <i class="fa-solid fa-laptop-medical text-white"></i>
+        <span class="text-white ms-2">Phúc lợi</span>
     </a>
 </li>

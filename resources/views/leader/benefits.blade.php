@@ -8,8 +8,10 @@
         </div>
         <div class="list_user_header">
             <div class="row align-items-center">
-                <h4 class="col-6">
+                <h4 class="col-6 benefits-list-title">
                     Danh sách phúc lợi
+                <br>
+                    <span>Số lượng phúc lợi hiện có: <strong>{{ count($benefits) }}</strong></span>
                 </h4>
                 <div class="col-6 d-flex justify-content-end">
                     <div class="input-group " style="width:fit-content">
@@ -21,15 +23,6 @@
                             </button>
                         </form>
                     </div>
-                    {{-- <div class="export-excel ms-4">
-                        <form action="{{url('admin/user/export') }}" class="me-0" method="get">
-                            <button type="submit" class="btn btn-success " type="button" id="button-addon1"
-                                style="height: 45px">
-                                <i class="fa-regular fa-file-excel"></i>
-                                Xuất file excel
-                            </button>
-                        </form>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -39,27 +32,28 @@
                     <th style="border-top-left-radius: 10px; width: 15%;">
                         Tên phúc lợi
                     </th>
-                    <th style="width: 15%;">
+                    {{-- <th style="width: 15%;">
                         Mô tả phúc lợi
-                    </th>
+                    </th> --}}
                     <th>
                         Quy chế phúc lợi
                     </th>
                     <th>
                         Tệp đính kèm phúc lợi
                     </th>
-                    <th>
-
-                    </th>
                 </thead>
                 <tbody>
                     @foreach ($benefits as $benefit)
                         <tr id="benefit-{{ $benefit->id }}">
-                            <td>
-                                {{ $benefit->name }}
-                            </td>
-                            <td>
-                                {{ $benefit->description }}
+                            <td style="width: 25%;">
+                                <div class="benefit-name">
+                                    <p>
+                                        {{ $benefit->name }}
+                                    </p>
+                                    <span>
+                                        {{ $benefit->description }}
+                                    </span>
+                                </div>
                             </td>
                             <td>
                                 {!! $benefit->policy !!}
@@ -77,24 +71,6 @@
                                 @else
                                     Không có tệp đính kèm
                                 @endif
-                            </td>
-                            <td>
-                                <div class="d-flex">
-                                    @if (Auth::user()->position_id == 4)
-                                        <a href="{{ url('ceo/benefit/upsert', $benefit->id) }}" class="me-4">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </a>
-                                    @else
-                                        <a href="{{ url('admin/benefit/upsert', $benefit->id) }}" class="me-4">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </a>
-                                    @endif
-                                    <a href="" class="me-4 btn-delete"
-                                        data-url="{{ url('admin/benefit/destroy', $benefit->id) }}">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a>
-                                </div>
-
                             </td>
                         </tr>
                     @endforeach

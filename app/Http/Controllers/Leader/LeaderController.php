@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\ReceiverNotification;
 use App\Models\Task;
+use App\Models\Benefit;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -150,6 +151,16 @@ class LeaderController extends Controller
         return response()->json([
             'success' => false,
             'message' => "Báo cáo thất bại",
+        ]);
+    }
+    public function listBenefits(Request $request){
+        $limit = 5;
+        $all = null;
+        $search = $request->input('search', '');
+        $benefits = Benefit::getAllBenefits($limit, $search, $all);
+        return view('leader.benefits', [
+            'search' => $search,
+            'benefits' => $benefits,
         ]);
     }
 }
