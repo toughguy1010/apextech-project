@@ -69,6 +69,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('upsert/{id?}', [BenefitController::class, 'store']);
             Route::get('/', [BenefitController::class, 'index']);
             Route::delete('destroy/{id}', [BenefitController::class, 'destroy']);
+            Route::get('download/{id}', [BenefitController::class, 'download']);
         });
     });
     // employee

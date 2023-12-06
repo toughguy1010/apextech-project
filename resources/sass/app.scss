@@ -516,3 +516,16 @@ a {
 .table-benefit tbody tr td p{
     margin-bottom: 0 !important;
 }
+.benefit-document{
+    // width: 500px;
+    // background-color: #f3f3f3;
+    // min-height: 100px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    // padding: 10px;
+    // margin-top: 20px;
+    // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    // border-radius: 10px;
+}

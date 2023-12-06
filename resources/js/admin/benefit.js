@@ -6,7 +6,7 @@ $(function () {
             if (confirm("Bạn có muốn xóa phúc lợi này?")) {
                 $.ajax({
                     url: url,
-                    type: "DELETE",
+                    type: "delete",
                     dataType: "json",
                     success: function (response) {
                         $(".message").html(
@@ -17,8 +17,8 @@ $(function () {
                         setTimeout(function () {
                             $(".message").fadeOut("slow");
                         }, 5000);
-                        const userID = response.id;
-                        $("#user-" + userID).remove();
+                        const benefitID = response.id;
+                        $("#benefit-" + benefitID).remove();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         // Handle errors
