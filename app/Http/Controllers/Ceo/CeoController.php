@@ -20,11 +20,15 @@ class CeoController extends Controller
         $this->middleware('auth');
         $this->user = $user;
     }
-    public function index()
+    public function index(Request $request)
     {
-
+        $limit = 5;
+        $all = null;
+        $search = $request->input('search', '');
+        $departments = Department::getAllDepartment($limit, $search, $all);
         return view('ceo.home', [
-            'user_name' => $this->user->getUserName()
+            'user_name' => $this->user->getUserName(),
+            'departments' => $departments
         ]);
     }
     // public function taskManagement($id)

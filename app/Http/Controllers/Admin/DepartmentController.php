@@ -47,6 +47,13 @@ class DepartmentController extends Controller
         }
 
         try {
+            $existingLeader = Department::where('leader_id', $request->input('leader_id'))
+                ->where('id', '!=', $department->id)
+                ->first();
+
+            if ($existingLeader) {
+                throw new \Exception('Trưởng phòng này đã được phân công.');
+            }
             $department->name = $request->input('name');
             $department->description = $request->input('description');
             $department->leader_id = $request->input('leader_id');

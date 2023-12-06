@@ -1,23 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-                
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+    <div class="container-fluid">
+        <div class="ceo-header mt-3">
+            <h5>
+                Số lượng tất cả các phòng ban : {{ count($departments) }}
+            </h5>
+        </div>
+        <div class="row mt-4">
+            @foreach ($departments as $department)
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-header text-center">{{ $department->name }}</div>
+                        <div class="card-body department-body">
+                            
                         </div>
-                    @endif
-                    {{ __('You are logged in!') }}
-
+                    </div>
                 </div>
-            </div>
+            @endforeach
+
         </div>
     </div>
-</div>
 @endsection
