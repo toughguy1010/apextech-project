@@ -114,6 +114,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('upsert/{id?}', [DepartmentController::class, 'store']);
             Route::post('update-employee/', [DepartmentController::class, 'updateEmployee']);
             Route::get('/', [DepartmentController::class, 'index']);
+            Route::get('detail/{id?}', [CeoController::class, 'deparmentDetail']);
         });
         Route::prefix('task')->group(function () {
             Route::get('upsert/{id?}', [TasksController::class, 'viewUpsert']);

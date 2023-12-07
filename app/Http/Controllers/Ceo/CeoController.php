@@ -109,4 +109,22 @@ class CeoController extends Controller
             'benefits' => $benefits,
         ]);
     }
+    public function deparmentDetail(Request $request, $id = null){
+        if($id != null ){
+            $department = Department::findOrFail($id);
+            $leader = User::findOrFail($department->leader_id) ;
+            $per_page = 2;
+            $search = $request->input("search", "");
+            $all = null;
+            $employees = Department::getAllUsersByDepartment($department->id, $per_page, $search, $all);
+            
+        }
+       
+        return view('ceo.department',[
+            "department" => $department,
+            "leader" => $leader,
+            "employees" => $employees,
+            "search" => $search,
+        ]);
+    }
 }

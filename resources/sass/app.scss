@@ -547,4 +547,39 @@ a {
  background-position: center center;
  background-size: cover;
  background-repeat: no-repeat;
+ position: relative;
+ overflow: hidden;
+}
+.overlay{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    height: 200px;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s;
+    opacity: 0;
+    transform: translateY(100%);
+}
+.department-body:hover .overlay{
+    transform: translateY(0%);
+    opacity: 1;
+}
+.ceo-home .card-header{
+    text-transform: uppercase;
+}
+.ceo-message{
+    padding: 10px 30px;
+    background-color: rgb(255, 29, 29);
+    color: #fff;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    width: fit-content;
+    border-radius: 10px;
 }

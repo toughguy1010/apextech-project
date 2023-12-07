@@ -50,6 +50,7 @@ class Department extends Model
         $department =  $query->where('leader_id', $leader_id)->first();
         return  $department;
     }
+   
     public static function getAllUsersByDepartment($department_id, $perPage = 2, $search = null, $all = null)
     {
         if ($department_id === null) {
@@ -57,7 +58,7 @@ class Department extends Model
         }
 
         $department = Department::find($department_id);
-
+       
         $query = $department->users();
 
         if ($search) {
@@ -89,7 +90,7 @@ class Department extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'department_id');
     }
     public function countUsers()
     {
