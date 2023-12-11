@@ -55,54 +55,89 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    public function getUserName(){
+    public function getUserName()
+    {
         $userName = Auth::user()->name;
         return $userName;
     }
-    public static function getUserNameByID($id){
+    public static function getUserNameByID($id)
+    {
         $user = User::find($id);
 
         if ($user) {
             return $user->name;
         } else {
-            return null; 
+            return null;
         }
     }
-    public function getAllUsers($limit, $search){
+    public function getAllUsers($limit, $search)
+    {
         $limit = $limit !== null ? $limit : 10;
         $query = User::query();
         if ($search) {
             $query->where('name', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%');
+                ->orWhere('email', 'like', '%' . $search . '%');
         }
-       
+
 
         $users = $query->paginate($limit);
         return $users;
     }
-    public static function getUserLeader(){
+    public static function getTimeLogsUser($option)
+    {
         $query = User::query();
-        $leader = $query->where('position_id',3)->get();
+        $users = [];
+        if (isset($option['department'])) {
+            $query->where('department_id', $option['department']);
+            $query->with(['leaderDepartment' => function ($query) {
+                $query->select('*');
+            }]);
+        }
+        if (isset($option['position'])) {
+            $query->Where('position_id', $option['position']);
+        }
+        if (isset($option['order_by'])) {
+            $query->orderBy('id', $option['order_by']);
+        }
+        $query->where(function ($query) {
+            $query->where('status', 1)
+                ->where(function ($query) {
+                    $query->where('position_id', 2)
+                        ->orWhere('position_id', 3);
+                });
+        });
+        $users = $query->get();
+        // echo $users ;
+        // die;
+        return $users;
+    }
+    public static function getUserLeader()
+    {
+        $query = User::query();
+        $leader = $query->where('position_id', 3)->get();
         return $leader;
     }
-    public static function getUserEmployee(){
+    public static function getUserEmployee()
+    {
         $query = User::query();
-        $employees = $query->where('position_id',2)->get();
+        $employees = $query->where('position_id', 2)->get();
         return $employees;
     }
-    public static function getTaskManager(){
+    public static function getTaskManager()
+    {
         $query = User::query();
-        $task_managers = $query->where('position_id','!=',2)
-                                ->where('position_id','!=',1)
-                                ->where('position_id','!=',4)
-                                ->get();
+        $task_managers = $query->where('position_id', '!=', 2)
+            ->where('position_id', '!=', 1)
+            ->where('position_id', '!=', 4)
+            ->get();
         return $task_managers;
     }
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
     }
-    public static function getAvatarByUserID($id){
+    public static function getAvatarByUserID($id)
+    {
         $user = User::findOrFail($id);
         $avatar_src = $user->avatar;
         return $avatar_src;
@@ -111,8 +146,12 @@ class User extends Authenticatable
     {
         return $this->department ? $this->department->name : 'Chưa có phòng ban';
     }
-
-    public function assignedProcesses() {
+    public function leaderDepartment()
+    {
+        return $this->hasOne(Department::class, 'leader_id');
+    }
+    public function assignedProcesses()
+    {
         return $this->belongsToMany(TaskProcess::class, 'task_process_assignees', 'user_id', 'task_process_id');
     }
     public function receivedNotifications()

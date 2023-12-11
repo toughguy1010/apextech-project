@@ -86,11 +86,19 @@ class Department extends Model
 
         return $department ?? null;
     }
-   
+   public static function getLeaderByDepartment($department_id){
+        $department = Department::findOrFail($department_id);
+        $leader = User::findOrFail($department->leader_id);
+        return $leader;
+   }
 
     public function users()
     {
         return $this->hasMany(User::class, 'department_id');
+    }
+    public function leader()
+    {
+        return $this->belongsTo(User::class, 'leader_id');
     }
     public function countUsers()
     {

@@ -16,6 +16,8 @@ use App\Http\Controllers\InformationController;
 use App\Http\Controllers\Leader\LeaderController;
 use App\Http\Controllers\Notification;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TimeLogsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -134,7 +136,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('task-management', [CeoController::class, 'taskManagement']);
         Route::get('list-benefits', [CeoController::class, 'listBenefits']);
     });
-
+    Route::prefix('time')->group(function () {
+        Route::get('/',[TimeLogsController::class,'index']);
+        Route::post('checkin',[TimeLogsController::class,'checkin']);
+        Route::post('checkout',[TimeLogsController::class,'checkout']);
+    });
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');
     Route::post('personal-info/{id?}',  [InformationController::class, 'store']);
     Route::get('change-password/{id?}',  [InformationController::class, 'showChangePasswordForm']);
