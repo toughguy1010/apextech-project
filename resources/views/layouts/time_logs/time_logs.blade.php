@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-
+    <?php
+    use App\Models\TimeLog;
+    
+    ?>
     <div class="container-fluid">
         <div class="time_log-wrap">
             <div class="time_log-header">
@@ -16,9 +19,10 @@
                         <select name="department" id="" class="form-select">
                             <option value="">---Chọn phòng ban---</option>
                             @foreach ($departments as $department)
-                            <option value="{{ $department->id }}" {{ isset($_GET['department']) && $_GET['department'] == $department->id ? 'selected' : '' }}>
-                                {{ $department->name }}
-                            </option>
+                                <option value="{{ $department->id }}"
+                                    {{ isset($_GET['department']) && $_GET['department'] == $department->id ? 'selected' : '' }}>
+                                    {{ $department->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -27,9 +31,10 @@
                         <select name="position" id="" class="form-select">
                             <option value="">---Chọn vị trí---</option>
                             @foreach ($positions as $position)
-                            <option value="{{ $position->id }}" {{ isset($_GET['position']) && $_GET['position'] == $position->id ? 'selected' : '' }}>
-                                {{ $position->position_name }}
-                            </option>
+                                <option value="{{ $position->id }}"
+                                    {{ isset($_GET['position']) && $_GET['position'] == $position->id ? 'selected' : '' }}>
+                                    {{ $position->position_name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -37,8 +42,12 @@
                         <div class="label">Sắp xếp</div>
                         <select name="orderby" id="" class="form-select">
                             <option value="">---Mặc định---</option>
-                            <option value="asc" {{ isset($_GET['orderby']) && $_GET['orderby'] == 'asc' ? 'selected' : '' }}>Từ trên xuống dưới</option>
-                            <option value="desc" {{ isset($_GET['orderby']) && $_GET['orderby'] == 'desc' ? 'selected' : '' }}>Từ dưới lên trên</option>
+                            <option value="asc"
+                                {{ isset($_GET['orderby']) && $_GET['orderby'] == 'asc' ? 'selected' : '' }}>Từ trên xuống
+                                dưới</option>
+                            <option value="desc"
+                                {{ isset($_GET['orderby']) && $_GET['orderby'] == 'desc' ? 'selected' : '' }}>Từ dưới lên
+                                trên</option>
                         </select>
                     </div>
                     <div class="filter-btn col-3 d-flex align-item-center justify-content-end">
@@ -64,7 +73,7 @@
                         </div>
                         <div class="list_users-body">
                             @foreach ($users as $user)
-                                <div class="list_users-item {{ $user->id == Auth::user()->id ? "current-user" : "" }}">
+                                <div class="list_users-item {{ $user->id == Auth::user()->id ? 'current-user' : '' }}">
                                     {{ $user->name }}
                                 </div>
                             @endforeach
@@ -87,10 +96,13 @@
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
-                                    <tr class="{{ $user->id == Auth::user()->id ? "current-user" : "" }}">
+                                    <tr class="{{ $user->id == Auth::user()->id ? 'current-user' : '' }}">
                                         @foreach ($days as $day)
                                             <td class="avg_timelogs">
-                                                Nghỉ
+                                                @php
+                                                    $time_logs = TimeLog::getHoursWorked($user->id, $day['date']);
+                                                    echo $time_logs ? $time_logs : '0.0';
+                                                @endphp
                                             </td>
                                         @endforeach
                                     </tr>
@@ -100,7 +112,7 @@
 
                     </div>
                 </div>
-                @if ( count($users) == 0)
+                @if (count($users) == 0)
                     Không có dữ liệu người dùng
                 @endif
             </div>

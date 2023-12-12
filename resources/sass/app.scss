@@ -620,6 +620,7 @@ a {
     font-size: 14px;
     border-bottom: 1px solid #c7c7c7;
     border-left: 1px solid #c7c7c7;
+    font-size: 16px;
 }
 .day {
     white-space: nowrap;
@@ -629,10 +630,49 @@ a {
 
 }
 .avg_timelogs{
+    font-size: 16px !important;
     border-right: 1px solid #c7c7c7 !important;
-
+text-align: center;
 }
 .current-user{
     background-color: #0062ff !important;
     color: #fff !important;
+}
+.current-date{
+    background-color: #bbbab7;
+    width: 200px;
+    border-radius: 3px;
+    padding-bottom: 5px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 5px;
+    color: #fff;
+    font-size: 18px;
+    position: relative;
+    text-align: center;
+    margin: 30px 0;
+}
+// .timekeeping-action{
+//     width: 100%;
+//     display: flex;
+//     flex-direction: column;
+// }
+.timekeeping-action .btn{
+    margin: 10px auto;
+}
+#time_logs_modal .modal-dialog{
+    width: 550px;
+}
+.time_log-history-checkin,.time_log-history-checkout{
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+}
+.time_log-history-checkin{
+    background-color: #a4eda9;
+
+}
+.time_log-history-checkout{
+    background-color: #fffeb8;
+    margin-top: 10px;
 }

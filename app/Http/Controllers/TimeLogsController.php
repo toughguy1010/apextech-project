@@ -38,6 +38,7 @@ class TimeLogsController extends Controller
                 'month' => $currentDate->month,
                 'weekday' => $this->translateDay($date->format('D')),
                 'weekday_vi' => $date->format('l'),
+                'date' => $date->toDateString(),
             ];
         }
         return view('layouts.time_logs.time_logs', [
@@ -90,21 +91,24 @@ class TimeLogsController extends Controller
         $user_id = $request->post('userId');
         $dateString = $request->post('date');
         $checkin_time = $request->post('time');
-        $date = new \DateTime($dateString);
-
-        $checkin = TimeLog::where('user_id', $user_id)->where('date', $date)->first();
+        $checkin = TimeLog::where('user_id', $user_id)->where('date', $dateString)->first();
         if ($checkin) {
             return response()->json([
-                'message' => 'Đã có thông tin chấm công cho ngày này'
+                'message' => 'Đã có thông tin chấm công cho ngày này',
+                'success' => false
             ]);
         } else {
+            $test = "08:00:00";
+
             TimeLog::create([
                 'user_id' => $user_id,
-                'date' => $date,
-                'check_in' => $checkin_time,
+                'date' => $dateString,
+                'check_in' => $test,
+                // 'check_in' => $checkin_time,
             ]);
             return response()->json([
-                'message' => 'Check in thành công'
+                'message' => 'Check in thành công',
+                'success' => true
             ]);
         }
     }
@@ -114,33 +118,63 @@ class TimeLogsController extends Controller
         $user_id = $request->post('userId');
         $dateString = $request->post('date');
         $checkout_time = $request->post('time');
-        $date = new \DateTime($dateString);
 
-        $checkout =  TimeLog::where('user_id', $user_id)->where('date', $date)->first();
+        $checkout = TimeLog::where('user_id', $user_id)->where('date', $dateString)->first();
+
         if ($checkout) {
-            $checkout->check_out = $checkout_time;
-            $test = "08:00:00";
-            $checkout->hours_worked = $this->countWordHour($checkout->check_in, $test);
+            // Lấy giờ làm việc từ check_in đến check_out (loại bỏ thời gian nghỉ trưa)
+            $test = "17:00:00";
+            $workedHours = $this->countWorkedHours($checkout->check_in, $test);
+
+            // Cập nhật thông tin chấm công
+            $checkout->check_out = $test;
+            $checkout->hours_worked = $workedHours;
             $checkout->save();
 
-            return response()->json(
-                ['message' => 'Checkout thành công']
-            );
+            return response()->json([
+                'message' => 'Checkout thành công',
+                'success' => true
+            ]);
         } else {
-            return response()->json(
-                ['message' => 'Checkout thất bại']
-            );
+            return response()->json([
+                'message' => 'Checkout thất bại',
+                'success' => false
+            ]);
         }
     }
 
-    // Hàm tính thời gian làm
-    private function countWordHour($check_in, $check_out)
+    private function countWorkedHours($check_in, $check_out)
     {
-        $thoiGianDen = strtotime($check_in);
-        $thoiGianVe = strtotime($check_out);
+        $startWorkingTime = strtotime('08:00:00'); // Thời gian bắt đầu làm việc
+        $endWorkingTime = strtotime('17:00:00');   // Thời gian kết thúc làm việc
+        $lunchStart = strtotime('12:00:00');       // Thời gian bắt đầu nghỉ trưa
+        $lunchEnd = strtotime('13:00:00');         // Thời gian kết thúc nghỉ trưa
 
-        $hours_worked = ($thoiGianVe - $thoiGianDen) / 3600;
+        $timeIn = strtotime($check_in);
+        $timeOut = strtotime($check_out);
 
-        return round($hours_worked, 2);
+        $workedHours = 0;
+
+        // Nếu check-in hoặc check-out sau giờ kết thúc làm việc, chỉ tính giờ làm đến giờ làm việc cuối cùng
+        if ($timeIn >= $endWorkingTime || $timeOut <= $startWorkingTime) {
+            return $workedHours;
+        }
+
+        // Loại bỏ thời gian nghỉ trưa nếu có
+        if ($timeIn < $lunchStart && $timeOut > $lunchEnd) {
+            $workedHours += ($lunchStart - $startWorkingTime) + ($endWorkingTime - $lunchEnd);
+        } else {
+            // Tính giờ làm việc không bao gồm thời gian nghỉ trưa
+            if ($timeIn < $lunchStart && $timeOut <= $lunchStart) {
+                $workedHours += $endWorkingTime - $lunchStart;
+            } elseif ($timeIn >= $lunchEnd && $timeOut > $lunchEnd) {
+                $workedHours += $endWorkingTime - $startWorkingTime;
+            } else {
+                $workedHours += min($lunchStart - $startWorkingTime, $timeIn - $startWorkingTime);
+                $workedHours += min($endWorkingTime - $lunchEnd, $endWorkingTime - $timeOut);
+            }
+        }
+
+        return round($workedHours / 3600, 2); // Chuyển đổi kết quả về giờ
     }
 }
