@@ -24,7 +24,7 @@ class TimeLogsController extends Controller
         $option = [
             'department' => $department,
             'position' => $position,
-            'orderby' => $orderby,
+            'order_by' => $orderby,
         ];
         $users = User::getTimeLogsUser($option);
         $positions = Position::whereNotIn('id', [1, 4])->get();
@@ -98,7 +98,7 @@ class TimeLogsController extends Controller
                 'success' => false
             ]);
         } else {
-            $test = "08:00:00";
+            $test = "07:00:00";
 
             TimeLog::create([
                 'user_id' => $user_id,
@@ -176,5 +176,17 @@ class TimeLogsController extends Controller
         }
 
         return round($workedHours / 3600, 2); // Chuyển đổi kết quả về giờ
+    }
+
+    public function dateTimeLogs(Request $request){
+        $user_id = $request->post('userId');
+        $dateString = $request->post('date');
+        $date_time_logs = TimeLog::where('user_id', $user_id)->where('date', $dateString)->first();
+        if($date_time_logs){
+            return view('layouts.time_logs.time_logs_date_modal',[
+                'date_time_logs' => $date_time_logs
+            ]);
+        }
+        
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
     <?php
     use App\Models\TimeLog;
-    
+    use Carbon\Carbon;
     ?>
     <div class="container-fluid">
         <div class="time_log-wrap">
@@ -96,15 +96,40 @@
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
-                                    <tr class="{{ $user->id == Auth::user()->id ? 'current-user' : '' }}">
+                                    <tr class="">
+                                        <?php
+                                        $currentDateTime = Carbon::now();
+                                        $currentDateTime->setTimezone('Asia/Ho_Chi_Minh');
+                                        $formattedDateTime = $currentDateTime->format('Y-m-d');
+                                        
+                                        $date = Carbon::parse($day['date']);
+                                        $isWeekend = $date->isWeekend();
+                                        ?>
                                         @foreach ($days as $day)
-                                            <td class="avg_timelogs">
-                                                @php
+                                        <td class="avg_timelogs {{ $user->id == Auth::user()->id ? 'current-user' : '' }} {{ $day['date'] == $formattedDateTime && $user->id == Auth::user()->id ? 'current-date_time' : '' }}">
+                                            <?php
+                                                $date = Carbon::parse($day['date']);
+                                                $isWeekend = $date->isWeekend();
+                                    
+                                                if (!$isWeekend) {
                                                     $time_logs = TimeLog::getHoursWorked($user->id, $day['date']);
-                                                    echo $time_logs ? $time_logs : '0.0';
-                                                @endphp
-                                            </td>
-                                        @endforeach
+                                                    if ($time_logs) {
+                                            ?>
+                                                        <div class="show_time-logs" data-userID="{{ $user->id }}"
+                                                            data-date="{{ $day['date'] }}"
+                                                            data-url="{{ url('time/date-time-log') }}">
+                                                            {{ $time_logs }}
+                                                        </div>
+                                            <?php
+                                                    } else {
+                                                        echo "0";
+                                                    }
+                                                } else {
+                                                    echo "Ngày nghỉ";
+                                                }
+                                            ?>
+                                        </td>
+                                    @endforeach
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -118,7 +143,9 @@
             </div>
         </div>
     </div>
-    @vite(['resources/js/time_logs.js'])
+    <div class="time_log-detail">
 
+    </div>
+    @vite(['resources/js/time_logs.js'])
     @include('layouts.time_logs.time_logs_modal')
 @endsection

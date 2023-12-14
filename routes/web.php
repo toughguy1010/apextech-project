@@ -140,6 +140,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/',[TimeLogsController::class,'index']);
         Route::post('checkin',[TimeLogsController::class,'checkin']);
         Route::post('checkout',[TimeLogsController::class,'checkout']);
+        Route::post('date-time-log',[TimeLogsController::class,'dateTimeLogs']);
     });
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');
     Route::post('personal-info/{id?}',  [InformationController::class, 'store']);

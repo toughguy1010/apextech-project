@@ -63,4 +63,30 @@ $(function () {
         
         senAjax(url, userID, date, time);
     });
+
+    // $("#date_time-logs").modal('show')
+
+    $(".show_time-logs").on("click",function(){
+        var userId =  $(this).data("userid");
+        var url =  $(this).data("url");
+        var date =  $(this).data("date");
+        // $("#date_time-logs").modal('show')
+        $.ajax({
+            url: url,
+            type: "post",
+            dataType: "html",
+            data: {
+                userId: userId,
+                date: date, 
+            },
+            success: function(response){
+                console.log(response)
+                $(".time_log-detail").html(response)
+                $("#date_time-logs").modal('show')
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error:", textStatus, errorThrown);
+            },
+        })
+    })
 });

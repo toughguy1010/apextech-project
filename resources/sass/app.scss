@@ -652,11 +652,6 @@ text-align: center;
     text-align: center;
     margin: 30px 0;
 }
-// .timekeeping-action{
-//     width: 100%;
-//     display: flex;
-//     flex-direction: column;
-// }
 .timekeeping-action .btn{
     margin: 10px auto;
 }
@@ -675,4 +670,55 @@ text-align: center;
 .time_log-history-checkout{
     background-color: #fffeb8;
     margin-top: 10px;
+}
+.show_time-logs{
+    cursor: pointer;
+}
+.show_time-logs:hover{
+    text-decoration: underline;
+}
+#date_time-logs .modal-dialog{
+    max-width: 600px !important;
+}
+#date_time-logs .modal-body{
+    padding: 20px !important;
+}
+.date_time_logs_detail{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.border-item{
+    border-bottom: 1px solid #ddd;
+    padding: 12px;
+}
+.border-item:last-child{
+    border-bottom: 1px solid #ddd;
+  
+}
+.time-diary-header{
+    color: #fff;
+    background-color: #337ab7;
+    padding: 8px;
+    font-size: 14px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.diary-checkin{
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-top: 0px solid #ddd;
+}
+.diary-checkout{
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-top: 0px solid #ddd;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.work-hour span{
+    border-bottom: 1px solid #ddd;
+    padding: 12px;
+}
+.current-date_time{
+    background-color: #247600 !important;
 }

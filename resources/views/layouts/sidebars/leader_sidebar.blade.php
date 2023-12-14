@@ -17,6 +17,12 @@
         <span class="text-white ms-2">Phúc lợi</span>
     </a>
 </li>
+<li class="sidebar__item ">
+    <a href="{{ url('time') }}" class="sidebar__link">
+        <i class="fa-solid fa-calendar-days text-white"></i>
+        <span class="text-white ms-2">Chấm công</span>
+    </a>
+</li>
 <li class="sidebar__item has-child">
     <div class="arrow">
     </div>
