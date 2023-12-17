@@ -17,4 +17,8 @@ class TimeLog extends Model
             ->where('date', $date)
             ->value('hours_worked');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

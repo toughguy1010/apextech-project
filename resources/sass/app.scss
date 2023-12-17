@@ -73,7 +73,7 @@ form {
     margin: 0 auto;
 }
 input.form-control,
-select.form-select {
+select.form-select ,.form-custom{
     height: 45px;
     padding: 10px 20px;
 }
@@ -105,7 +105,8 @@ select:focus,
 select:active,
 select:visited,
 select:focus-within,
-textarea:focus-visible {
+textarea:focus-visible,
+.form-custom {
     border-color: #4634ff !important;
     box-shadow: 0 3px 9px rgba(50, 50, 9, 0.05),
         3px 4px 8px rgba(115, 103, 240, 0.1) !important;
@@ -614,7 +615,7 @@ a {
     color: #ffffff;
     background-color: #4634ff;
 }
-.list_users-item{
+.list_users-item {
     padding: 15px 25px;
     font-weight: 500;
     font-size: 14px;
@@ -627,18 +628,17 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     border-right: 1px solid #c7c7c7 !important;
-
 }
-.avg_timelogs{
+.avg_timelogs {
     font-size: 16px !important;
     border-right: 1px solid #c7c7c7 !important;
-text-align: center;
+    text-align: center;
 }
-.current-user{
+.current-user {
     background-color: #0062ff !important;
     color: #fff !important;
 }
-.current-date{
+.current-date {
     background-color: #bbbab7;
     width: 200px;
     border-radius: 3px;
@@ -652,50 +652,49 @@ text-align: center;
     text-align: center;
     margin: 30px 0;
 }
-.timekeeping-action .btn{
+.timekeeping-action .btn {
     margin: 10px auto;
 }
-#time_logs_modal .modal-dialog{
+#time_logs_modal .modal-dialog {
     width: 550px;
 }
-.time_log-history-checkin,.time_log-history-checkout{
+.time_log-history-checkin,
+.time_log-history-checkout {
     width: 100%;
     text-align: center;
     padding: 15px 0;
 }
-.time_log-history-checkin{
+.time_log-history-checkin {
     background-color: #a4eda9;
-
 }
-.time_log-history-checkout{
+.time_log-history-checkout {
     background-color: #fffeb8;
     margin-top: 10px;
 }
-.show_time-logs{
+.show_time-logs {
     cursor: pointer;
 }
-.show_time-logs:hover{
+.show_time-logs:hover {
     text-decoration: underline;
 }
-#date_time-logs .modal-dialog{
+#date_time-logs .modal-dialog {
     max-width: 600px !important;
 }
-#date_time-logs .modal-body{
+#date_time-logs .modal-body {
     padding: 20px !important;
 }
-.date_time_logs_detail{
+.date_time_logs_detail {
     border: 1px solid #ddd;
     border-radius: 5px;
 }
-.border-item{
+.border-item {
     border-bottom: 1px solid #ddd;
     padding: 12px;
 }
-.border-item:last-child{
+.border-item:last-child {
     border-bottom: 1px solid #ddd;
-  
 }
-.time-diary-header{
+.time-diary-header {
     color: #fff;
     background-color: #337ab7;
     padding: 8px;
@@ -703,22 +702,22 @@ text-align: center;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
 }
-.diary-checkin{
+.diary-checkin {
     border: 1px solid #ddd;
     padding: 8px;
     border-top: 0px solid #ddd;
 }
-.diary-checkout{
+.diary-checkout {
     border: 1px solid #ddd;
     padding: 8px;
     border-top: 0px solid #ddd;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-.work-hour span{
+.work-hour span {
     border-bottom: 1px solid #ddd;
     padding: 12px;
 }
-.current-date_time{
+.current-date_time {
     background-color: #247600 !important;
 }

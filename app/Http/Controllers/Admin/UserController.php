@@ -70,6 +70,7 @@ class UserController extends Controller
             $user->position_id = $request->input('position_id');
             $user->on_board = $request->input('on_board');
             $user->off_board = $request->input('off_board');
+            $user->base_salary = $request->input('base_salary');
             $user->save();
             if ($id === null) {
                 Session::flash('success', 'Thêm mới người dùng thành công');
@@ -103,5 +104,12 @@ class UserController extends Controller
                 'error' => 'Người dùng không tồn tại.'
             ]);
         }
+    }
+    public function viewRole(){
+        $users =  User::whereIn('position_id', [2, 3])->get();
+
+        return view("admin.role-manager",[
+            'users' => $users
+        ]);
     }
 }

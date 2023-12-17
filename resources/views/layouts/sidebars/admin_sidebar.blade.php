@@ -93,6 +93,21 @@
 <li class="sidebar__item ">
     <a href="{{ url('time') }}" class="sidebar__link">
         <i class="fa-solid fa-calendar-days text-white"></i>
-        <span class="text-white ms-2">Chấm công</span>
+        <span class="text-white ms-2">Danh sách chấm công</span>
+    </a>
+</li>
+
+
+<li class="sidebar__item ">
+    <a href="{{ url('admin/user/role') }}" class="sidebar__link">
+        <i class="fa-solid fa-circle-plus text-white"></i>
+        <span class="text-white ms-2">Phân quyền</span>
+    </a>
+</li>
+
+<li class="sidebar__item ">
+    <a href="{{ url('salary/create-month-salary') }}" class="sidebar__link">
+        <i class="fa-solid fa-wallet text-white"></i>
+        <span class="text-white ms-2">Lương</span>
     </a>
 </li>

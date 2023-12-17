@@ -5,7 +5,8 @@ use App\Models\User;
 ?>
 <div class="modal fade" id="date_time-logs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="" method="post" class="modal-content">
+        <form action="{{ url('time/update-time-log', $date_time_logs->id) }}" method="post" class="modal-content">
+            @csrf
             <?php
             $date = $date_time_logs->date;
             $formatted_date = date('d-m Y', strtotime($date));
@@ -31,14 +32,22 @@ use App\Models\User;
                         <div class="time-diary-header">
                             Nhật ký đăng ký vào / đăng ký ra
                         </div>
-                        <div  class="time-diary-body">
+                        <div class="time-diary-body">
                             <div class="diary-checkin">
                                 @if (Auth::user()->position_id == 2 || Auth::user()->position_id == 3)
                                     <i class="fa-solid fa-arrow-right-from-bracket text-success"></i>
                                     {{ $formatted_date }}
                                     {{ $date_time_logs->check_in }}
                                 @else
-                                    <input type="time" class="form-control" value="{{ $date_time_logs->check_in }}">
+                                    @php
+                                        $initialCheckInValue = $date_time_logs->check_in;
+
+                                        $carbonCheckIn = \Carbon\Carbon::parse($initialCheckInValue);
+
+                                        $formattedCheckIn = $carbonCheckIn->format('H:i');
+                                    @endphp
+                                    <input type="time" name="check_in" class="form-custom"
+                                        value="{{ $formattedCheckIn }}">
                                 @endif
 
                             </div>
@@ -48,7 +57,15 @@ use App\Models\User;
                                         style="transform: rotate(180deg);"></i> {{ $formatted_date }}
                                     {{ $date_time_logs->check_out }}
                                 @else
-                                <input type="time" class="form-control" value="{{ $date_time_logs->check_out }}">
+                                    @php
+                                        $initialCheckOutValue = $date_time_logs->check_out;
+
+                                        $carbonCheckout = \Carbon\Carbon::parse($initialCheckOutValue);
+
+                                        $formattedCheckOut = $carbonCheckout->format('H:i');
+                                    @endphp
+                                    <input type="time" class="form-custom" name="check_out"
+                                        value="{{ $formattedCheckOut }}">
                                 @endif
                             </div>
                         </div>
@@ -56,12 +73,14 @@ use App\Models\User;
                 </div>
             </div>
             <div class="modal-footer">
+                @if (Auth::user()->position_id !== 2 || Auth::user()->position_id !== 3)
                 <button type="submit" class="btn btn-primary">Lưu</button>
+                @endif
 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
             </div>
-        </div>
     </div>
+</div>
 </div>
 
 <script>

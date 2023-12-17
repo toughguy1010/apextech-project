@@ -62,9 +62,21 @@
                     <p>
                         <strong style="font-size: 18px"> <?= $currentMonth . ' ' . $currentYear ?> </strong>
                     </p>
-                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#time_logs_modal">
-                        Đăng ký vào / Đăng ký ra
-                    </button>
+                    @if (Auth::user()->position_id == 2 || Auth::user()->position_id == 3)
+                        @php
+                            $today = \Carbon\Carbon::now();
+                            $isWeekend = $today->isWeekend(); // Check if today is Saturday or Sunday
+                        @endphp
+                        @if (!$isWeekend)
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                data-bs-target="#time_logs_modal">
+                                Đăng ký vào / Đăng ký ra
+                            </button>
+                        @endif
+                        {{-- <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#time_logs_modal">
+                            Đăng ký vào / Đăng ký ra
+                        </button> --}}
+                    @endif
                 </div>
                 <div class="time_log-table d-flex align-items-start">
                     <div class="list_users-table">
@@ -106,8 +118,9 @@
                                         $isWeekend = $date->isWeekend();
                                         ?>
                                         @foreach ($days as $day)
-                                        <td class="avg_timelogs {{ $user->id == Auth::user()->id ? 'current-user' : '' }} {{ $day['date'] == $formattedDateTime && $user->id == Auth::user()->id ? 'current-date_time' : '' }}">
-                                            <?php
+                                            <td
+                                                class="avg_timelogs {{ $user->id == Auth::user()->id ? 'current-user' : '' }} {{ $day['date'] == $formattedDateTime && $user->id == Auth::user()->id ? 'current-date_time' : '' }}">
+                                                <?php
                                                 $date = Carbon::parse($day['date']);
                                                 $isWeekend = $date->isWeekend();
                                     
@@ -115,12 +128,12 @@
                                                     $time_logs = TimeLog::getHoursWorked($user->id, $day['date']);
                                                     if ($time_logs) {
                                             ?>
-                                                        <div class="show_time-logs" data-userID="{{ $user->id }}"
-                                                            data-date="{{ $day['date'] }}"
-                                                            data-url="{{ url('time/date-time-log') }}">
-                                                            {{ $time_logs }}
-                                                        </div>
-                                            <?php
+                                                <div class="show_time-logs" data-userID="{{ $user->id }}"
+                                                    data-date="{{ $day['date'] }}"
+                                                    data-url="{{ url('time/date-time-log') }}">
+                                                    {{ $time_logs }}
+                                                </div>
+                                                <?php
                                                     } else {
                                                         echo "0";
                                                     }
@@ -128,8 +141,8 @@
                                                     echo "Ngày nghỉ";
                                                 }
                                             ?>
-                                        </td>
-                                    @endforeach
+                                            </td>
+                                        @endforeach
                                     </tr>
                                 @endforeach
                             </tbody>

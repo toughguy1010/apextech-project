@@ -15,9 +15,9 @@ use App\Http\Controllers\Ceo\CeoController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\Leader\LeaderController;
 use App\Http\Controllers\Notification;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TimeLogsController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', [UserController::class, 'index']);
             Route::delete('destroy/{id}', [UserController::class, 'destroy']);
             Route::get('/export', [UserController::class, 'export']);
+            Route::get('role', [UserController::class, 'viewRole']);
         });
         Route::prefix('department')->group(function () {
             Route::get('upsert/{id?}', [DepartmentController::class, 'viewUpsert']);
@@ -137,11 +138,18 @@ Route::middleware(['auth'])->group(function () {
         Route::get('list-benefits', [CeoController::class, 'listBenefits']);
     });
     Route::prefix('time')->group(function () {
-        Route::get('/',[TimeLogsController::class,'index']);
-        Route::post('checkin',[TimeLogsController::class,'checkin']);
-        Route::post('checkout',[TimeLogsController::class,'checkout']);
-        Route::post('date-time-log',[TimeLogsController::class,'dateTimeLogs']);
+        Route::get('/', [TimeLogsController::class, 'index']);
+        Route::post('checkin', [TimeLogsController::class, 'checkin']);
+        Route::post('checkout', [TimeLogsController::class, 'checkout']);
+        Route::post('date-time-log', [TimeLogsController::class, 'dateTimeLogs']);
+        Route::post('update-time-log/{id}', [TimeLogsController::class, 'updateTimeLogs']);
     });
+    Route::prefix('salary')->group(function () {
+        Route::get('create-month-salary', [SalaryController::class, 'createMonthSalary']);
+        Route::post('create-month-salary', [SalaryController::class, 'createMonthSalary']);
+
+    });
+
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');
     Route::post('personal-info/{id?}',  [InformationController::class, 'store']);
     Route::get('change-password/{id?}',  [InformationController::class, 'showChangePasswordForm']);

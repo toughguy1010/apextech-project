@@ -33,7 +33,9 @@ class User extends Authenticatable
         'off_board',
         'status',
         'position_id ',
-        'department_id'
+        'department_id',
+        'role',
+        'base_salaray',
     ];
 
     /**
@@ -45,6 +47,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    // role
+
+    const USER_MANAGER  =  1;
 
     /**
      * The attributes that should be cast.
@@ -132,6 +137,7 @@ class User extends Authenticatable
             ->get();
         return $task_managers;
     }
+    
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
@@ -161,5 +167,14 @@ class User extends Authenticatable
     public function position()
     {
         return $this->belongsTo(Position::class, 'position_id');
+    }
+    public function timeLogs()
+    {
+        return $this->hasMany(TimeLog::class);
+    }
+
+    public function salaries()
+    {
+        return $this->hasMany(Salary::class);
     }
 }
