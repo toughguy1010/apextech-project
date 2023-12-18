@@ -1,17 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
+@include('admin.noti')
+
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
                 Tạo thống kê tháng lương người dùng
             </div>
             <div class="card-body">
-                <form action="">
+                <form action="" enctype="multipart/form-data" method="POST">
+                    @csrf
                     <div class="row">
                         <div class="col-6">
                             <label for="month">Chọn thời gian : </label>
-                            <input type="month" name="" class="form-control" id="">
+                            <input type="month" name="selected_month" class="form-control" id="">
                         </div>
                         <div class="col-2">
                             <button type="submit" class="btn btn-primary" name=""  id="">

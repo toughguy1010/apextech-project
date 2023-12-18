@@ -146,7 +146,7 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::prefix('salary')->group(function () {
         Route::get('create-month-salary', [SalaryController::class, 'createMonthSalary']);
-        Route::post('create-month-salary', [SalaryController::class, 'createMonthSalary']);
+        Route::post('create-month-salary', [SalaryController::class, 'storeMonthSalary']);
 
     });
 
