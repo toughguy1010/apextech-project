@@ -23,6 +23,12 @@
         <span class="text-white ms-2">Chấm công</span>
     </a>
 </li>
+<li class="sidebar__item ">
+    <a href="{{ url('salary/user-salary-statistics',Auth::user()->id) }}" class="sidebar__link">
+        <i class="fa-solid fa-square-poll-horizontal text-white"></i>
+        <span class="text-white ms-2">Thống kê lương</span>
+    </a>
+</li>
 <li class="sidebar__item has-child">
     <div class="arrow">
 

@@ -16,6 +16,10 @@
                             <label for="month">Chọn thời gian : </label>
                             <input type="month" name="selected_month" class="form-control" id="">
                         </div>
+                        <div class="col-6">
+                            <label for="">Tiêu đề : </label>
+                            <input type="text" name="title" class="form-control" id="">
+                        </div>
                         <div class="col-2">
                             <button type="submit" class="btn btn-primary" name=""  id="">
                                 Tạo

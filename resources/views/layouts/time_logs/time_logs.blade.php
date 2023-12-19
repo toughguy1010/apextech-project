@@ -130,7 +130,7 @@
                                             ?>
                                                 <div class="show_time-logs" data-userID="{{ $user->id }}"
                                                     data-date="{{ $day['date'] }}"
-                                                    data-url="{{ url('time/date-time-log') }}">
+                                                    data-url="{{ url('time/date-time-log') }}" style="font-weight:900">
                                                     {{ $time_logs }}
                                                 </div>
                                                 <?php

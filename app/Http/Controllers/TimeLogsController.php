@@ -15,7 +15,7 @@ class TimeLogsController extends Controller
     public function index(Request $request)
     {
         $currentDate = now();
-        // $currentDate = now()->month(11);
+        $currentDate = now()->month(10);
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentDate->month, $currentDate->year);
 
 

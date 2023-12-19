@@ -70,4 +70,19 @@ class Salary extends Model
         }
         return $weekdays;
     }
+    public static function getSalaryByUserId($userId, $month = null, $year = null, $perPage = 10){
+
+        
+        $query = self::where('user_id', $userId);
+
+        if ($month !== null) {
+            $query->where('month', $month);
+        }
+
+        if ($year !== null) {
+            $query->where('year', $year);
+        }
+
+        return $query->paginate($perPage);
+    }
 }

@@ -83,4 +83,18 @@ class SalaryController extends Controller
     
         return $success;
     }
+
+    public function userSalaryStatistics(Request $request, $id){
+        $month = null;
+        $year = null;
+        $page = 10;
+
+        $salaries = Salary::getSalaryByUserId($id,$month, $year, $page);
+        return view('layouts.salary.user-salary-statistics',[
+            'salaries' => $salaries
+        ]);
+    }
+    public function detailSalary(Request $request, $id){
+        
+    }
 }
