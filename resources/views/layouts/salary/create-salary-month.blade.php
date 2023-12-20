@@ -20,11 +20,15 @@
                             <label for="">Tiêu đề : </label>
                             <input type="text" name="title" class="form-control" id="">
                         </div>
-                        <div class="col-2">
+                        
+                    </div>
+                    <div class="row justify-content-end mt-4">
+                        <div style="width: fit-content">
                             <button type="submit" class="btn btn-primary" name=""  id="">
                                 Tạo
                             </button>
                         </div>
+                         
                     </div>
                 </form>
             </div>

@@ -9,6 +9,7 @@ class Salary extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'title',
         'user_id',
         'month',
         'year',
@@ -70,7 +71,7 @@ class Salary extends Model
         }
         return $weekdays;
     }
-    public static function getSalaryByUserId($userId, $month = null, $year = null, $perPage = 10){
+    public static function getSalaryByUserId($userId, $month = null, $year = null, $perPage = null){
 
         
         $query = self::where('user_id', $userId);
@@ -82,7 +83,12 @@ class Salary extends Model
         if ($year !== null) {
             $query->where('year', $year);
         }
+        if($perPage){
 
-        return $query->paginate($perPage);
+            return $query->paginate($perPage);
+        }else{
+            return $query->get();
+
+        }
     }
 }
