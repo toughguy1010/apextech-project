@@ -112,10 +112,32 @@ class User extends Authenticatable
                 });
         });
         $users = $query->get();
-        // echo $users ;
-        // die;
         return $users;
     }
+
+
+    public static function getSalaryUser($option)
+    {
+        $query = User::query();
+        $users = [];
+        if (isset($option['department'])) {
+            $query->where('department_id', $option['department']);
+            $query->with(['leaderDepartment' => function ($query) {
+                $query->select('*');
+            }]);
+        }
+        if (isset($option['month']) && isset($option['year'])) {
+            $query->with(['salaries' => function ($query) use ($option) {
+                $query->where('month', $option['month']);
+                $query->where('year', $option['year']);
+            }]);
+        }
+        $users = $query->get();
+        return $users;
+    }
+
+
+
     public static function getUserLeader()
     {
         $query = User::query();
@@ -137,7 +159,7 @@ class User extends Authenticatable
             ->get();
         return $task_managers;
     }
-    
+
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
@@ -175,6 +197,10 @@ class User extends Authenticatable
 
     public function salaries()
     {
-        return $this->hasMany(Salary::class);
+        return $this->hasMany(Salary::class, 'user_id');
+    }
+    public function role()
+    {
+        return $this->hasOne(Role::class);
     }
 }

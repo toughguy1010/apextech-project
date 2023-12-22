@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Http\Requests\Admin\UserRequest;
+use App\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
-
 class UserController extends Controller
 {
     //
@@ -107,9 +107,10 @@ class UserController extends Controller
     }
     public function viewRole(){
         $users =  User::whereIn('position_id', [2, 3])->get();
-
+        $roles = Role::getAllRoles();
         return view("admin.role-manager",[
-            'users' => $users
+            'users' => $users,
+            'roles' => $roles,
         ]);
     }
 }

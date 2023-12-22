@@ -41,6 +41,21 @@ class Salary extends Model
 
         return 0; // Hoặc giá trị mặc định khác tùy thuộc vào yêu cầu của bạn
     }
+    
+    public static function hasSalaryRecords($userId, $month = null, $year = null)
+    {
+        $query = self::where('user_id', $userId);
+
+        if ($month !== null) {
+            $query->where('month', $month);
+        }
+
+        if ($year !== null) {
+            $query->where('year', $year);
+        }
+
+        return $query->exists();
+    }
 
     public function gerStandardHour($month, $year)
     {
@@ -71,9 +86,10 @@ class Salary extends Model
         }
         return $weekdays;
     }
-    public static function getSalaryByUserId($userId, $month = null, $year = null, $perPage = null){
+    public static function getSalaryByUserId($userId, $month = null, $year = null, $perPage = null)
+    {
 
-        
+
         $query = self::where('user_id', $userId);
 
         if ($month !== null) {
@@ -83,12 +99,11 @@ class Salary extends Model
         if ($year !== null) {
             $query->where('year', $year);
         }
-        if($perPage){
+        if ($perPage) {
 
             return $query->paginate($perPage);
-        }else{
+        } else {
             return $query->get();
-
         }
     }
 }

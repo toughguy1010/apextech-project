@@ -6,9 +6,9 @@ use App\Models\Department;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Admin\DepartmentRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-
 
 class DepartmentController extends Controller
 {
@@ -31,11 +31,13 @@ class DepartmentController extends Controller
         $leaders = User::getUserLeader();
         $employees = User::getUserEmployee();
         $department = $id ? Department::findorFail($id) : null;
+        $roles = Role::getAllRoles();
         return view('admin.department.upsert', [
             'id' => $id,
             'department' => $department,
             'employees' => $employees,
             'leaders' => $leaders,
+            'roles' => $roles,
         ]);
     }
     public function store(Request $request, $id = null)
@@ -54,9 +56,19 @@ class DepartmentController extends Controller
             if ($existingLeader) {
                 throw new \Exception('Trưởng phòng này đã được phân công.');
             }
+
+
+            $existingRole = Department::where('role', $request->input('role'))
+                ->where('id', '!=', $department->id)
+                ->first();
+
+            if ($existingRole) {
+                throw new \Exception('Quyền này đã được phân cho phòng khác.');
+            }
             $department->name = $request->input('name');
             $department->description = $request->input('description');
             $department->leader_id = $request->input('leader_id');
+            $department->role = $request->input('role');
             $department->save();
             if ($request->input('employees_id') > 0) {
                 $employeeIds = $request->input('employees_id');

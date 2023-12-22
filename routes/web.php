@@ -149,6 +149,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('create-month-salary', [SalaryController::class, 'storeMonthSalary']);
         Route::get('user-salary-statistics/{id}', [SalaryController::class, 'userSalaryStatistics']);
         Route::post('detail-salary/{id}', [SalaryController::class, 'detailSalary']);
+        Route::get('statistic', [SalaryController::class, 'statistic']);
         Route::get('export/{id}', [SalaryController::class, 'export']);
 
     });

@@ -45,6 +45,25 @@
                         @enderror
                     </div>
                     <div class="mb-3 col-6">
+                        <?php
+                        ?>
+                        <label for="email" class="form-label ">Phân quyền</label>
+                        <select class="form-select" name="role" aria-label="Default select example">
+                            <option value="">--- Chọn quyền ---</option>
+                            @foreach ($roles as $role)
+                                <option value="<?= $role->id ?>"
+                                    {{ $id && $department->role == $role->id ? 'selected' : '' }}>
+                                    <?= $role->name ?>
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('role')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row row-input">
+                    <div class="mb-3 col-6">
                         <div type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Phân công nhân viên
                         </div>
@@ -114,6 +133,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+
                 </div>
                 <button type="submit" class="btn btn-primary save-update">{{ $id ? 'Cập nhật' : 'Thêm' }} phòng
                     ban</button>

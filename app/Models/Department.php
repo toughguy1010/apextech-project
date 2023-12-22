@@ -14,6 +14,7 @@ class Department extends Model
         'name',
         'leader_id',
         'description',
+        'role',
     ];
 
     public static function getAllDepartment($limit, $search, $all)
@@ -103,5 +104,9 @@ class Department extends Model
     public function countUsers()
     {
         return $this->users()->count();
+    }
+    public function role()
+    {
+        return $this->hasOne(Role::class);
     }
 }

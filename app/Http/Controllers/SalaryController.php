@@ -6,11 +6,13 @@ use App\Exports\SalaryUserSatistics;
 use Illuminate\Http\Request;
 use App\Models\Salary;
 use App\Models\TimeLog;
+use App\Models\Department;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Carbon;
+
 class SalaryController extends Controller
 {
     //
@@ -20,9 +22,8 @@ class SalaryController extends Controller
     }
     public function storeMonthSalary(Request $request)
     {
-        $time = $request->input('selected_month');
-        $year = now()->parse($time)->year;
-        $month = now()->parse($time)->month;
+        $year = $request->input('selected_year');
+        $month = $request->input('selected_month');
         $title = $request->input('title');
         $result = $this->calculateAndStoreSalaries($month, $year, $title);
         if ($result == true) {
@@ -89,15 +90,15 @@ class SalaryController extends Controller
     public function userSalaryStatistics(Request $request, $id)
     {
         $time = $request->input('selected_month');
-        if($time != null){
+        if ($time != null) {
             $selectedDate = Carbon::createFromFormat('Y-m', $time);
             $month = $selectedDate->month;
             $year = $selectedDate->year;
-        }else{
+        } else {
             $month = null;
-            $year =null;
+            $year = null;
         }
-       
+
         $page = 10;
 
         $salaries = Salary::getSalaryByUserId($id, $month, $year, $page);
@@ -116,7 +117,61 @@ class SalaryController extends Controller
             'user' => $user
         ]);
     }
-    public function export($id){
-        return Excel::download(new SalaryUserSatistics($id),'salary_user_statistics.xlsx');
+
+    public function statistic(Request $request)
+    {
+
+        $currentYear = date('Y');
+        $months = [];
+        $departments = Department::all();
+
+        $department = $request->input('department');
+        // $selected_month = $request->input('selected_month');
+        // list($selected_year, $selected_month) = explode('-', $selected_month);
+        $option = [
+            'department' => $department,
+        //     'month' => $selected_month,
+        // 'year' => $selected_year,
+        ];
+        $users = User::getSalaryUser($option);
+
+        for ($i = 1; $i <= 12; $i++) {
+            $months[] = [
+                'number' => $i,
+                'name' => $this->translateMonth($i),
+                'year' => $currentYear,
+            ];
+        }
+        return view('layouts.salary.statistic', [
+            'months' => $months,
+            'users' => $users,
+            'year' => $currentYear,
+            'departments' => $departments
+        ]);
+    }
+
+    public function export($id)
+    {
+        return Excel::download(new SalaryUserSatistics($id), 'salary_user_statistics.xlsx');
+    }
+
+    public static function translateMonth($englishMonth)
+    {
+        $translations = [
+            '1' => 'Tháng một',
+            '2' => 'Tháng hai',
+            '3' => 'Tháng ba',
+            '4' => 'Tháng tư',
+            '5' => 'Tháng năm',
+            '6' => 'Tháng sáu',
+            '7' => 'Tháng bảy',
+            '8' => 'Tháng tám',
+            '9' => 'Tháng chín',
+            '10' => 'Tháng mười',
+            '11' => 'Tháng mười một',
+            '12' => 'Tháng mười hai',
+        ];
+
+        return $translations[$englishMonth] ?? $englishMonth;
     }
 }

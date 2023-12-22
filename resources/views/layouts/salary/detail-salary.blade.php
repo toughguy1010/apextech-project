@@ -18,6 +18,9 @@ use App\Models\User;
             <div class="modal-body" style="padding: 20px !important">
                 <div class="date_time_logs_detail">
                     <div class="border-item work-hour">
+                        Tên nhân viên: {{ $user->name }} 
+                    </div>
+                    <div class="border-item work-hour">
                         Số giờ làm việc thực tế của tháng: {{ $salary->hours_worked }} giờ
                     </div>
                     <div class="border-item work-hour">
