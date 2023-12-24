@@ -323,7 +323,7 @@ $ceo_id = $ceo_ids[0];
                     setTimeout(function() {
                         $(".message-report").fadeOut();
                     }, 3000);
-                }else{
+                } else {
                     $(".message-report").html(response.message);
                     $(".message-report").removeClass("active-message-report")
                     $(".message-report").addClass("false-message-report");

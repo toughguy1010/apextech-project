@@ -52,6 +52,8 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('destroy/{id}', [UserController::class, 'destroy']);
             Route::get('/export', [UserController::class, 'export']);
             Route::get('role', [UserController::class, 'viewRole']);
+            Route::post('filter-role-user/{id}', [UserController::class, 'filterRoleUser']);
+            Route::post('update-role/{id}', [UserController::class, 'updateRole']);
         });
         Route::prefix('department')->group(function () {
             Route::get('upsert/{id?}', [DepartmentController::class, 'viewUpsert']);

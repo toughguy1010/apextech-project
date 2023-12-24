@@ -8,9 +8,11 @@ use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use App\Models\Department;
 use App\Http\Requests\Admin\UserRequest;
 use App\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
+
 class UserController extends Controller
 {
     //
@@ -105,12 +107,42 @@ class UserController extends Controller
             ]);
         }
     }
-    public function viewRole(){
+    public function viewRole()
+    {
         $users =  User::whereIn('position_id', [2, 3])->get();
         $roles = Role::getAllRoles();
-        return view("admin.role-manager",[
+        return view("admin.role-manager", [
             'users' => $users,
             'roles' => $roles,
         ]);
+    }
+    public function filterRoleUser($id)
+    {
+        if ($id) {
+            $users = Department::getAllUsersByDepartment($id, null, null, 1);
+            return view("admin.role-user",[
+                "users" => $users,
+            ]);
+        }
+    }
+    public function updateRole(Request $request, $id){
+        if($id){
+            $role = $request->post("role");
+            $user = User::findOrFail($id);
+            if ($role === null) {
+                $user->role = null;
+                $user->save();
+                return response()->json([
+                    'status' => 0,
+                    'message' => 'Bỏ quyền người dùng thành công',
+                ]);
+            }
+            $user->role = $role;
+            $user->save();
+            return response()->json([
+                'status' => 1,
+                'message' => 'Thêm quyền người dùng thành công',
+            ]); 
+        }
     }
 }

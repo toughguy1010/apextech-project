@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Role;
 
 class Department extends Model
 {
@@ -25,11 +26,10 @@ class Department extends Model
             $query->where('name', 'like', '%' . $search . '%');
         }
 
-        if($all == null){
+        if ($all == null) {
             $departments = $query->paginate($limit);
-        }else{
+        } else {
             $departments = $query->get();
-            
         }
         return $departments;
     }
@@ -51,7 +51,7 @@ class Department extends Model
         $department =  $query->where('leader_id', $leader_id)->first();
         return  $department;
     }
-   
+
     public static function getAllUsersByDepartment($department_id, $perPage = 2, $search = null, $all = null)
     {
         if ($department_id === null) {
@@ -59,7 +59,7 @@ class Department extends Model
         }
 
         $department = Department::find($department_id);
-       
+
         $query = $department->users();
 
         if ($search) {
@@ -68,9 +68,9 @@ class Department extends Model
                     ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
-        if ($all == 1){
+        if ($all == 1) {
             $users = $query->get();
-        }else{
+        } else {
             $users = $query->paginate($perPage);
         }
 
@@ -87,12 +87,18 @@ class Department extends Model
 
         return $department ?? null;
     }
-   public static function getLeaderByDepartment($department_id){
+    public static function getLeaderByDepartment($department_id)
+    {
         $department = Department::findOrFail($department_id);
         $leader = User::findOrFail($department->leader_id);
         return $leader;
-   }
-
+    }
+    public static function getDepartmentbyRoleId($role_id)
+    {
+        $query = Department::query();
+        $department =  $query->where('role', $role_id)->first();
+        return  $department;
+    }
     public function users()
     {
         return $this->hasMany(User::class, 'department_id');

@@ -12,6 +12,8 @@ class Role extends Model
         'id',
         'name',
     ];
+    
+
     public static function getAllRoles()
     {
         return self::all();
