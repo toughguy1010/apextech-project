@@ -99,7 +99,7 @@ class TimeLogsController extends Controller
                 'success' => false
             ]);
         } else {
-            $test = "11:00:00";
+            $test = "06:00:00";
 
             TimeLog::create([
                 'user_id' => $user_id,
@@ -119,19 +119,19 @@ class TimeLogsController extends Controller
         $user_id = $request->post('userId');
         $dateString = $request->post('date');
         $checkout_time = $request->post('time');
-
+        $dateString = '2022-10-26';
         $checkout = TimeLog::where('user_id', $user_id)->where('date', $dateString)->first();
 
         if ($checkout) {
             // Lấy giờ làm việc từ check_in đến check_out (loại bỏ thời gian nghỉ trưa)
-            $test = "15:30:00";
+            $test = "18:00:00";
             $workedHours = $this->countWorkedHours($checkout->check_in, $test);
 
             // Cập nhật thông tin chấm công
             $checkout->check_out = $test;
             $checkout->hours_worked = $workedHours;
             $checkout->save();
-
+            
             return response()->json([
                 'message' => 'Checkout thành công',
                 'success' => true
@@ -190,8 +190,8 @@ class TimeLogsController extends Controller
 
     private function countWorkedHours($check_in, $check_out)
     {
-        $startWorkingTime = strtotime('08:00:00'); // Thời gian bắt đầu làm việc
-        $endWorkingTime = strtotime('17:00:00');   // Thời gian kết thúc làm việc
+        $startWorkingTime = strtotime('07:00:00'); // Thời gian bắt đầu làm việc
+        $endWorkingTime = strtotime('18:00:00');   // Thời gian kết thúc làm việc
         $lunchStart = strtotime('12:00:00');       // Thời gian bắt đầu nghỉ trưa
         $lunchEnd = strtotime('13:00:00');         // Thời gian kết thúc nghỉ trưa
 

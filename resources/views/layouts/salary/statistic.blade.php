@@ -32,7 +32,7 @@
 
                         <select class="form-control search-input" name="selected_month">
                             <?php
-                            $vietnameseMonths = array(
+                            $vietnameseMonths = [
                                 1 => 'Tháng 1',
                                 2 => 'Tháng 2',
                                 3 => 'Tháng 3',
@@ -44,11 +44,12 @@
                                 9 => 'Tháng 9',
                                 10 => 'Tháng 10',
                                 11 => 'Tháng 11',
-                                12 => 'Tháng 12'
-                            );
-                    
+                                12 => 'Tháng 12',
+                            ];
+                            
                             foreach ($vietnameseMonths as $monthNumber => $monthName) {
-                                echo "<option value=\"$monthNumber\">$monthName</option>";
+                                $selected = isset($_GET['selected_month']) && $_GET['selected_month'] == $monthNumber ? 'selected' : '';
+                                echo "<option value=\"$monthNumber\" $selected>$monthName</option>";
                             }
                             ?>
                         </select>
@@ -63,7 +64,8 @@
                             $endYear = $currentYear;
                             
                             for ($year = $endYear; $year >= $startYear; $year--) {
-                                echo "<option value=\"$year\">$year</option>";
+                                $selected = isset($_GET['selected_year']) && $_GET['selected_year'] == $year ? 'selected' : '';
+                                echo "<option value=\"$year\" $selected>$year</option>";
                             }
                             ?>
                         </select>
@@ -73,7 +75,7 @@
                             Lọc
                         </button>
                         <div class="btn btn-success" type="button" id="button-addon1"
-                            style="height:40px; width:130px;  margin-top: 34px;">
+                            style="height:40px; width: 130px; margin-top: 34px;">
                             <i class="fa-regular fa-file-excel"></i>
                             Xuất excel
                         </div>
