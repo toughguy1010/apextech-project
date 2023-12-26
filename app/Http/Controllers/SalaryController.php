@@ -121,27 +121,29 @@ class SalaryController extends Controller
     public function statistic(Request $request)
     {
 
-        $currentYear = date('Y');
+        $currentYear = $request->get('selected_year') ? $request->get('selected_year') : date('Y');
         $months = [];
         $departments = Department::all();
 
         $department = $request->input('department');
-        // $selected_month = $request->input('selected_month');
-        // list($selected_year, $selected_month) = explode('-', $selected_month);
         $option = [
             'department' => $department,
-        //     'month' => $selected_month,
-        // 'year' => $selected_year,
         ];
         $users = User::getSalaryUser($option);
 
-        for ($i = 1; $i <= 12; $i++) {
+        $selectedMonth = $request->input('selected_month', null);
+        $startMonth = $selectedMonth ?: 1;
+        $endMonth = $selectedMonth ?: 12;
+
+        $months = [];
+        for ($i = $startMonth; $i <= $endMonth; $i++) {
             $months[] = [
                 'number' => $i,
                 'name' => $this->translateMonth($i),
                 'year' => $currentYear,
             ];
         }
+
         return view('layouts.salary.statistic', [
             'months' => $months,
             'users' => $users,
