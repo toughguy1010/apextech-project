@@ -104,9 +104,19 @@
                                 </div>
                             </td>
                             <td class="">
+                                @if (Auth::user()->position_id == 2)
+                                <a href="{{ url('employee/user/upsert', $user->id) }}" class="me-4">
+                                    <i class="fa-solid fa-user-pen"></i>
+                                </a>
+                                @elseif(Auth::user()->position_id == 1)
                                 <a href="{{ url('admin/user/upsert', $user->id) }}" class="me-4">
                                     <i class="fa-solid fa-user-pen"></i>
                                 </a>
+                                @elseif(Auth::user()->position_id == 4)
+                                <a href="{{ url('admin/user/upsert', $user->id) }}" class="me-4">
+                                    <i class="fa-solid fa-user-pen"></i>
+                                </a>
+                                @endif
                                 <a href="#" class="btn-delete" data-url="{{ url('admin/user/destroy', $user->id) }}">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>

@@ -132,4 +132,24 @@ class DepartmentController extends Controller
             'users' => $usersWithDepartments,
         ]);
     }
+    public function updateEmployee(Request $request, $id){
+        if($id){
+            $user = User::findOrFail($id);
+            $department = $request->post('department');
+            if($department == null){
+                $user->department_id = null;
+                $user->save();
+                return response()->json([
+                    'status' => 0,
+                    'message' => 'Xóa nhân viên ra khỏi phòng ban thành công',
+                ]);
+            }
+            $user->department_id = $department;
+            $user->save();
+            return response()->json([
+                'status' => 1,
+                'message' => 'Thêm nhân viên vào phòng ban thành công',
+            ]);
+        }
+    }
 }

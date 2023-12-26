@@ -36,7 +36,7 @@
         <span class="text-gray" style="color: $purple;">
             Trưởng phòng : {{ $leader->name }}
         </span>
-        @if (count($employees) > 1)
+        @if (count($employees) > 0)
             <div class="list_user_body mt-5">
                 <table class="table ">
                     <thead>

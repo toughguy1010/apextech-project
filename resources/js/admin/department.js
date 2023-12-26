@@ -1,6 +1,4 @@
 $(function () {
-  
-
     $(".btn-delete").each(function () {
         $(this).on("click", function (e) {
             e.preventDefault();
@@ -55,8 +53,9 @@ $(function () {
                 users.forEach(function (user) {
                     var newRow = $("<tr>");
 
-                    var checked = user.department_id == departmentID ? "checked" : "";
-                    
+                    var checked =
+                        user.department_id == departmentID ? "checked" : "";
+
                     newRow.append(
                         '<td><input class="form-check-input" type="checkbox" value="' +
                             user.id +
@@ -67,8 +66,9 @@ $(function () {
                             user.department_id == departmentID
                                 ? 1
                                 : 0) +
-                            '"' + checked +
-                            '></td>'
+                            '"' +
+                            checked +
+                            "></td>"
                     );
                     newRow.append("<td>" + user.name + "</td>");
                     newRow.append("<td>" + user.username + "</td>");
@@ -89,8 +89,7 @@ $(function () {
         });
     });
 
-
-    $(document).on('change', '.form-check-input', function() {
+    $(document).on("change", ".form-check-input", function () {
         let isChecked = this.checked;
         let canRemove = $(this).data("department");
         if (!isChecked && canRemove == "1") {
@@ -105,4 +104,49 @@ $(function () {
             ).remove();
         }
     });
+
+    $(".set-department-employee").on("change", function(){
+        var isChecked = $(this).is(":checked");
+        var url = $(this).data("url");
+        var department = $(this).data("department")
+        if (isChecked) {
+            updateUserDepartment(url, department)
+        } else {
+            department = null;
+            updateUserDepartment(url, department)
+
+        }
+
+    })
+
+    function updateUserDepartment(url,department){
+        $.ajax({
+            url : url ,
+            type:"post",
+            dataType: "json",
+            data: {
+                department : department
+            },
+            success: function (response){
+                $(".message-report").html(response.message);
+
+                if (response.status == 1) {
+                    $(".message-report").removeClass("false-message-report")
+                    $(".message-report").addClass("active-message-report");
+                    setTimeout(function() {
+                    $(".message-report").fadeOut();
+                }, 3000);
+                } else {
+                    $(".message-report").removeClass("active-message-report")
+                    $(".message-report").addClass("false-message-report");
+                    setTimeout(function() {
+                    $(".message-report").fadeOut();
+                }, 3000);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("Error:", textStatus, errorThrown);
+            }
+        })
+    }
 });

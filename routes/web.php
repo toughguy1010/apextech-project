@@ -86,6 +86,21 @@ Route::middleware(['auth'])->group(function () {
         Route::post('show-task-detail/{id?}',  [EmployeeController::class, 'showTaskDetail']);
         Route::post('report-task-status/{id?}',  [EmployeeController::class, 'reportTaskStatus']);
         Route::get('list-benefits',  [EmployeeController::class, 'listBenefits']);
+
+
+
+        Route::prefix('user')->group(function () {
+            Route::get('upsert/{id?}', [UserController::class, 'viewUpsert'])->name('admin.user.upsert');
+            Route::post('upsert/{id?}', [UserController::class, 'store']);
+            Route::get('/', [UserController::class, 'index']);
+        });
+
+        Route::prefix('department-manager')->group(function () {
+            Route::post('update-employee/{id?}', [DepartmentController::class, 'updateEmployee']);
+            Route::get('list', [DepartmentController::class, 'index']);
+            Route::get('search/{search?}', [DepartmentController::class, 'search']);
+        });
+
     });
     // leader
     Route::prefix('leader')->group(function () {

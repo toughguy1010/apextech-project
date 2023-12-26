@@ -32,7 +32,6 @@
         <li class="siderbar__submenu-item">
             <a href="{{ url('ceo/department/upsert') }}" class="submenu__link">
                 <i class="fa-regular fa-circle text-white"></i>
-
                 <span class="text-white">Thêm phòng ban</span>
             </a>
         </li>
@@ -105,5 +104,18 @@
     <a href="{{ url('time') }}" class="sidebar__link">
         <i class="fa-solid fa-calendar-days text-white"></i>
         <span class="text-white ms-2">Danh sách chấm công</span>
+    </a>
+</li>
+
+<li class="sidebar__item ">
+    <a href="{{ url('salary/create-month-salary') }}" class="sidebar__link">
+        <i class="fa-solid fa-wallet text-white"></i>
+        <span class="text-white ms-2">Lương</span>
+    </a>
+</li>
+<li class="sidebar__item ">
+    <a href="{{ url('salary/statistic') }}" class="sidebar__link">
+        <i class="fa-solid fa-chart-line text-white"></i>
+        <span class="text-white ms-2">Thống kê lương</span>
     </a>
 </li>
