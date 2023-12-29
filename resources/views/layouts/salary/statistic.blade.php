@@ -17,7 +17,7 @@
                 <div class="time_log-filter row justify-content-between">
                     <div class="filter-item col-3 ps-0">
                         <div class="label">Phòng ban: </div>
-                        <select name="department" id="" class="form-select">
+                        <select name="department" id="department" class="form-select" id="department">
                             <option value="">---Chọn phòng ban---</option>
                             @foreach ($departments as $department)
                                 <option value="{{ $department->id }}"
@@ -29,8 +29,8 @@
                     </div>
                     <div class="filter-item col-3">
                         <div class="label">Chọn tháng: </div>
-
-                        <select class="form-control search-input" name="selected_month">
+                        <select class="form-control search-input" name="selected_month" id ="selected_month">
+                            <option value="">---Chọn tháng---</option>
                             <?php
                             $vietnameseMonths = [
                                 1 => 'Tháng 1',
@@ -46,7 +46,6 @@
                                 11 => 'Tháng 11',
                                 12 => 'Tháng 12',
                             ];
-                            
                             foreach ($vietnameseMonths as $monthNumber => $monthName) {
                                 $selected = isset($_GET['selected_month']) && $_GET['selected_month'] == $monthNumber ? 'selected' : '';
                                 echo "<option value=\"$monthNumber\" $selected>$monthName</option>";
@@ -56,8 +55,8 @@
                     </div>
                     <div class="col-3 filter-item">
                         <div class="label">Chọn năm: </div>
-
-                        <select class="form-control search-input" name="selected_year">
+                        <select class="form-control search-input" name="selected_year" id ="selected_year">
+                            <option value="">---Chọn năm---</option>
                             <?php
                             $currentYear = date('Y');
                             $startYear = $currentYear - 20;
@@ -74,8 +73,8 @@
                         <button class="btn btn-primary me-3" style="height:40px; width:130px;  margin-top: 34px;">
                             Lọc
                         </button>
-                        <div class="btn btn-success" type="button" id="button-addon1"
-                            style="height:40px; width: 130px; margin-top: 34px;">
+                        <div class="btn btn-success export-statistic" type="button" id="button-addon1"
+                            style="height:40px; width: 130px; margin-top: 34px;" data-url="{{ url('salary/export-statistic-ajax') }}">
                             <i class="fa-regular fa-file-excel"></i>
                             Xuất excel
                         </div>

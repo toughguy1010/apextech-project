@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\SalaryUserSatistics;
+use App\Exports\StatisticExport;
 use Illuminate\Http\Request;
 use App\Models\Salary;
 use App\Models\TimeLog;
@@ -124,18 +125,16 @@ class SalaryController extends Controller
         $currentYear = $request->get('selected_year') ? $request->get('selected_year') : date('Y');
         $months = [];
         $departments = Department::all();
-
         $department = $request->input('department');
         $option = [
             'department' => $department,
         ];
         $users = User::getSalaryUser($option);
-
         $selectedMonth = $request->input('selected_month', null);
         $startMonth = $selectedMonth ?: 1;
         $endMonth = $selectedMonth ?: 12;
-
         $months = [];
+
         for ($i = $startMonth; $i <= $endMonth; $i++) {
             $months[] = [
                 'number' => $i,
@@ -143,13 +142,43 @@ class SalaryController extends Controller
                 'year' => $currentYear,
             ];
         }
-
         return view('layouts.salary.statistic', [
             'months' => $months,
             'users' => $users,
             'year' => $currentYear,
             'departments' => $departments
         ]);
+    }
+
+    public function exportStatisticToExcelAjax(Request $request)
+    {
+        $currentYear = $request->post('selected_year') ? $request->post('selected_year') : date('Y');
+        $selectedMonth = $request->post('selected_month', null);
+        $startMonth = $selectedMonth ?: 1;
+        $endMonth = $selectedMonth ?: 12;
+        $department = $request->post('department');
+        $months = [];
+
+        $option = [
+            'department' => $department,
+        ];
+        $users = User::getSalaryUser($option);
+        for ($i = $startMonth; $i <= $endMonth; $i++) {
+            $months[] = [
+                'number' => $i,
+                'name' => $this->translateMonth($i),
+                'year' => $currentYear,
+            ];
+        }
+        $export = new StatisticExport($users, $months);
+        $filePath = 'exports/Thong_ke_luong_' . $currentYear . '.xlsx';
+
+        // Save the Excel file to the storage path
+        Excel::store($export, $filePath, 'public');
+
+        $url = asset('storage/' . $filePath);
+
+        return response()->json(['url' => $url]);
     }
 
     public function export($id)
@@ -176,4 +205,5 @@ class SalaryController extends Controller
 
         return $translations[$englishMonth] ?? $englishMonth;
     }
+    
 }

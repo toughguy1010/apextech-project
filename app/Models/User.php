@@ -132,6 +132,13 @@ class User extends Authenticatable
                 $query->where('year', $option['year']);
             }]);
         }
+        $query->where(function ($query) {
+            $query->where('status', 1)
+                ->where(function ($query) {
+                    $query->where('position_id', 2)
+                        ->orWhere('position_id', 3);
+                });
+        });
         $users = $query->get();
         return $users;
     }

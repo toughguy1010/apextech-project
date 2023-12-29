@@ -100,7 +100,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('list', [DepartmentController::class, 'index']);
             Route::get('search/{search?}', [DepartmentController::class, 'search']);
         });
-
     });
     // leader
     Route::prefix('leader')->group(function () {
@@ -168,7 +167,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('detail-salary/{id}', [SalaryController::class, 'detailSalary']);
         Route::get('statistic', [SalaryController::class, 'statistic']);
         Route::get('export/{id}', [SalaryController::class, 'export']);
-
+        Route::post('export-statistic-ajax', [SalaryController::class, 'exportStatisticToExcelAjax']);
+        Route::get('download-excel/{fileName}', [SalaryController::class, 'downloadExcel'])->name('download-excel');
     });
 
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');
