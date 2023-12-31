@@ -100,7 +100,7 @@ class SalaryController extends Controller
             $year = null;
         }
 
-        $page = 10;
+        $page = 3;
 
         $salaries = Salary::getSalaryByUserId($id, $month, $year, $page);
         return view('layouts.salary.user-salary-statistics', [

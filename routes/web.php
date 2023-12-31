@@ -87,8 +87,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('report-task-status/{id?}',  [EmployeeController::class, 'reportTaskStatus']);
         Route::get('list-benefits',  [EmployeeController::class, 'listBenefits']);
 
-
-
         Route::prefix('user')->group(function () {
             Route::get('upsert/{id?}', [UserController::class, 'viewUpsert'])->name('admin.user.upsert');
             Route::post('upsert/{id?}', [UserController::class, 'store']);
@@ -169,6 +167,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('export/{id}', [SalaryController::class, 'export']);
         Route::post('export-statistic-ajax', [SalaryController::class, 'exportStatisticToExcelAjax']);
         Route::get('download-excel/{fileName}', [SalaryController::class, 'downloadExcel'])->name('download-excel');
+    });
+    Route::prefix('task-comment')->group(function () {
+        Route::post('add-comment', [TaskController::class, 'addComment']);
+
     });
 
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');

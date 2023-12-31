@@ -27,18 +27,9 @@
                 <div class="row row-input">
                     <div class="mb-3 col-6">
                         <label for="name" class="form-label required">Quy chế phúc lợi: </label>
-                        <textarea name="policy" id="policy" class="form-control" cols="30" rows="10">
+                        <textarea name="policy" id="policy" class="form-control tinymce" cols="30" rows="10">
                             {{ $id ? $benefit->policy : ' ' }}
                         </textarea>
-                        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
-                        <script>
-                            tinymce.init({
-                                selector: 'textarea',
-                                height: 500,
-                                plugins: 'code',
-                                toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | code',
-                            });
-                        </script>
                     </div>
                     <div class="mb-3 col-6">
                         <label for="file" class="form-label">Tệp tin đính kèm:</label>

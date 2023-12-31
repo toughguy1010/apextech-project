@@ -154,6 +154,22 @@ $ceo_id = $ceo_ids[0];
                             </div>
                         </div>
 
+                        <div class="task-content-wrap">
+                            <div class="task-content-title">
+                                <span>Bình luận</span>
+                                <i class="fa-solid fa-highlighter text-primary ms-1"></i>
+                            </div>
+                            <textarea name="comment" id="comment" class="form-control tinymce" cols="30" rows="5">
+                            </textarea>
+
+                            <div class="btn btn-primary mt-3 add-comment" style="margin-left: 378px"
+                            data-url="{{ url('/task-comment/add-comment') }}"
+                            data-task="{{ $task->id }}"
+                            data-user="{{ Auth::user()->id }}">
+                                Thêm bình luận
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-4  sub-task-col">
                         <div class="sub-task-header">
@@ -467,4 +483,35 @@ $ceo_id = $ceo_ids[0];
         var newCount = currentCount + change;
         changeProcessStatusHtml.text(newCount);
     }
+    $(".add-comment").on("click",function(){
+        var url = $(this).data("url")
+        var comment = tinymce.get("comment").getContent();
+        var userId = $(this).data("user")
+        var taskId = $(this).data("task")
+        $.ajax({
+            url : url,
+            dataType: "json",
+            type:"post",
+            data: {
+                userId: userId,
+                comment: comment,
+                taskId: taskId,
+            },
+            success: function(response){
+                console.log(response)
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown)
+            },
+        })
+    })
+
+    tinymce.init({
+        selector: ".tinymce",
+        heigh : 100,
+        toolbar:
+            "undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | code",
+        skin: false,
+        content_css: false,
+    });
 </script>

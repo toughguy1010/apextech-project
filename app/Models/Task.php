@@ -182,4 +182,8 @@ class Task extends Model
 
         return $tasks;
     }
+    public function comments()
+    {
+        return $this->hasMany(TaskComments::class);
+    }
 }
