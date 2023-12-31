@@ -13,9 +13,13 @@ class TaskComments extends Model
         'task_id',
         'comment',
     ];
-
+    public static function getCommentsByTaskId($taskId)
+    {
+        return self::where('task_id', $taskId)->get();
+    }
     public function task()
     {
         return $this->belongsTo(Task::class);
     }
+
 }

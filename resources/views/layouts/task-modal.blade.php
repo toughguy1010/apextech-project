@@ -1,5 +1,6 @@
 <?php
 use App\Models\Task;
+use App\Models\TaskComments;
 use App\Models\Position;
 use App\Models\User;
 
@@ -155,18 +156,38 @@ $ceo_id = $ceo_ids[0];
                         </div>
 
                         <div class="task-content-wrap">
-                            <div class="task-content-title">
+                            <div class="task-content-title mb-2">
                                 <span>Bình luận</span>
                                 <i class="fa-solid fa-highlighter text-primary ms-1"></i>
                             </div>
                             <textarea name="comment" id="comment" class="form-control tinymce" cols="30" rows="5">
                             </textarea>
-
                             <div class="btn btn-primary mt-3 add-comment" style="margin-left: 378px"
-                            data-url="{{ url('/task-comment/add-comment') }}"
-                            data-task="{{ $task->id }}"
-                            data-user="{{ Auth::user()->id }}">
+                                data-url="{{ url('/task-comment/add-comment') }}" data-task="{{ $task->id }}"
+                                data-user="{{ Auth::user()->id }}">
                                 Thêm bình luận
+                            </div>
+                            <div class="list-task-comment">
+                                <?php
+                                $task_comments = TaskComments::getCommentsByTaskId($task->id);
+                                foreach ($task_comments as $comment) {
+                                    $user_comment = User::findOrFail($comment->user_id);
+                                    ?>
+                                <div class="task-comment-item">
+                                    <img src="{{ $user_comment->avatar }}" alt="" class="avt">
+                                    <div class="task-comment-info">
+                                        <div class="task-comment-username">
+                                            {{ $user_comment->name }}
+                                        </div>
+                                        <div class="task-comment-content">
+                                            {{ $comment->comment }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                                }
+                                ?>
+
                             </div>
                         </div>
 
@@ -296,28 +317,6 @@ $ceo_id = $ceo_ids[0];
             },
         });
     })
-
-
-    // $(".btn-status").on("click", function() {
-    //     var url = $(this).data("url")
-    //     $.ajax({
-    //         url: url,
-    //         type: "POST",
-    //         dataType: "json",
-    //         data: {
-    //             status: statusSending,
-    //         },
-    //         success: function(response) {
-    //             button.data("curstatus", response.status);
-    //             button.html(response.status == 1 ? 'Bỏ tiến hành' : "Bắt đầu tiến hành")
-    //             $(".task-status-text").html(response.status == 1 ? 'Đang tiến hành' :
-    //                 "Chưa tiến hành");
-    //         },
-    //         error: function(jqXHR, textStatus, errorThrown) {
-    //             console.log(textStatus, errorThrown);
-    //         },
-    //     });
-    // })
     $(".btn-report").on("click", function() {
         var url = $(this).data("url")
         var fromUser = $(this).data("userid");
@@ -483,22 +482,42 @@ $ceo_id = $ceo_ids[0];
         var newCount = currentCount + change;
         changeProcessStatusHtml.text(newCount);
     }
-    $(".add-comment").on("click",function(){
+    $(".add-comment").on("click", function() {
         var url = $(this).data("url")
-        var comment = tinymce.get("comment").getContent();
+        var comment = $("#comment").val();
         var userId = $(this).data("user")
         var taskId = $(this).data("task")
         $.ajax({
-            url : url,
+            url: url,
             dataType: "json",
-            type:"post",
+            type: "post",
             data: {
                 userId: userId,
                 comment: comment,
                 taskId: taskId,
             },
-            success: function(response){
-                console.log(response)
+            success: function(response) {
+                if (response.success) {
+                    var commentContainer = $(".list-task-comment");
+
+                    // Create a new comment item HTML
+                    var newCommentItem = `
+                        <div class="task-comment-item">
+                            <img src="${response.user_avatar}" alt="" class="avt">
+                            <div class="task-comment-info">
+                                <div class="task-comment-username">
+                                    ${response.user_name}
+                                </div>
+                                <div class="task-comment-content">
+                                    ${response.comment}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    commentContainer.append(newCommentItem);
+                    $("#comment").val("");
+                }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(textStatus, errorThrown)
@@ -506,12 +525,12 @@ $ceo_id = $ceo_ids[0];
         })
     })
 
-    tinymce.init({
-        selector: ".tinymce",
-        heigh : 100,
-        toolbar:
-            "undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | code",
-        skin: false,
-        content_css: false,
+    $(".task-comment-content").each(function() {
+        var commentContent = $(this).html();
+
+        if (commentContent.includes('\n')) {
+            var formattedContent = commentContent.replace(/(\r\n|\r|\n)/g, '<br>');
+            $(this).html(formattedContent);
+        }
     });
 </script>

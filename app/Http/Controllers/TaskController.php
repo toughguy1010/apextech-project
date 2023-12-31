@@ -45,10 +45,14 @@ class TaskController extends Controller
         $comment->task_id = $request->post("taskId");
         $comment->comment = $request->post("comment");
         if ($comment->save()) {
+
+            $user = User::findorFail($comment->user_id);
+            
             return response()->json([
                 'success' => true,
                 'message' => "Bình luận thành công",
-                'user_id' => $comment->user_id,
+                'user_name' => $user->name,
+                'user_avatar' => $user->avatar,
                 'task_id' => $comment->task_id,
                 'comment' => $comment->comment,
             ]);
