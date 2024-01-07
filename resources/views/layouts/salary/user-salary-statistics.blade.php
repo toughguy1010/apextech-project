@@ -9,8 +9,8 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <i class="fa-solid fa-chart-line me-2"></i>
-                Thống kê tháng lương
+                <i class="fa-solid fa-table me-2" ></i>
+                Danh sách bảng lương
             </div>
             <div class="card-body">
                 <div class="col-12 d-flex justify-content-end  mt-2">
@@ -58,7 +58,7 @@
                                 <tr>
                                     <td style="font-size: 16px">
                                         <strong>
-                                            Tiêu đề tháng lương
+                                            {{ $salary->title }}
                                         </strong>
                                     </td>
                                     <td style="font-size: 16px">

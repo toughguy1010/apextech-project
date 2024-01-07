@@ -25,7 +25,7 @@
 <li class="sidebar__item ">
     <a href="{{ url('salary/user-salary-statistics', Auth::user()->id) }}" class="sidebar__link">
         <i class="fa-solid fa-square-poll-horizontal text-white"></i>
-        <span class="text-white ms-2">Thống kê lương</span>
+        <span class="text-white ms-2">Bảng lương</span>
     </a>
 </li>
 @if (Auth::user()->role == 1)

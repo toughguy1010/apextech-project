@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="progress mt-3">
-                    <div class="progress-bar" role="progressbar" style="width: {{ ($task_complete / $show_task_total) * 100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar" role="progressbar" style="width: {{ $show_task_total != 0 ? ($task_complete / $show_task_total) * 100 : 0 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
             </div>
         </div>

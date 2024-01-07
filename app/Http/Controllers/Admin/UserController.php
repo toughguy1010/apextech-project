@@ -73,6 +73,7 @@ class UserController extends Controller
             $user->on_board = $request->input('on_board');
             $user->off_board = $request->input('off_board');
             $user->base_salary = $request->input('base_salary');
+            $user->address = $request->input('address');
             $user->save();
             if ($id === null) {
                 Session::flash('success', 'Thêm mới người dùng thành công');

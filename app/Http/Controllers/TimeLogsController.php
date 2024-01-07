@@ -15,7 +15,7 @@ class TimeLogsController extends Controller
     public function index(Request $request)
     {
         $currentDate = now();
-        $currentDate = now()->month(10)->year(2022);
+        // $currentDate = now()->month(10)->year(2022);
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentDate->month, $currentDate->year);
 
 
@@ -104,8 +104,8 @@ class TimeLogsController extends Controller
             TimeLog::create([
                 'user_id' => $user_id,
                 'date' => $dateString,
-                'check_in' => $test,
-                // 'check_in' => $checkin_time,
+                // 'check_in' => $test,
+                'check_in' => $checkin_time,
             ]);
             return response()->json([
                 'message' => 'Check in thành công',
@@ -119,16 +119,16 @@ class TimeLogsController extends Controller
         $user_id = $request->post('userId');
         $dateString = $request->post('date');
         $checkout_time = $request->post('time');
-        $dateString = '2022-10-26';
+        // $dateString = '2022-10-26';
         $checkout = TimeLog::where('user_id', $user_id)->where('date', $dateString)->first();
 
         if ($checkout) {
             // Lấy giờ làm việc từ check_in đến check_out (loại bỏ thời gian nghỉ trưa)
             $test = "18:00:00";
-            $workedHours = $this->countWorkedHours($checkout->check_in, $test);
+            $workedHours = $this->countWorkedHours($checkout->check_in, $checkout_time);
 
             // Cập nhật thông tin chấm công
-            $checkout->check_out = $test;
+            $checkout->check_out = $checkout_time;
             $checkout->hours_worked = $workedHours;
             $checkout->save();
             

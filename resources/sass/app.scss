@@ -74,7 +74,8 @@ form {
     margin: 0 auto;
 }
 input.form-control,
-select.form-select ,.form-custom{
+select.form-select,
+.form-custom {
     height: 45px;
     padding: 10px 20px;
 }
@@ -132,8 +133,10 @@ label.form-label {
 }
 .table thead th {
     font-weight: 400;
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
     border: none;
     color: #ffffff;
     background-color: #4634ff;
@@ -155,6 +158,10 @@ label.form-label {
     flex-wrap: wrap;
     gap: 5px;
     padding-left: 15px;
+}
+.list-task-comment{
+    height: 375px;
+    overflow-y: auto;
 }
 .avt_user img {
     width: 40px;
@@ -722,17 +729,17 @@ a {
 .current-date_time {
     background-color: #247600 !important;
 }
-.create-user{
+.create-user {
     display: flex;
     gap: 10px;
     align-items: center;
 }
-.create-user img{
+.create-user img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
 }
-.task-comment-item{
+.task-comment-item {
     background: #e8f9ff;
     border: 1px solid #e9e9e9;
     border-radius: 5px;
@@ -740,17 +747,17 @@ a {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     padding: 15px;
     display: flex;
-    align-items:flex-start;
+    align-items: flex-start;
     min-height: 135px;
-    gap: 12px   ;
+    gap: 12px;
 }
-.task-comment-username{
+.task-comment-username {
     font-size: 16px;
     font-weight: 500;
     line-height: 40px;
     position: relative;
 }
-.task-comment-username::after{
+.task-comment-username::after {
     position: absolute;
     content: "";
     bottom: 0;
@@ -758,11 +765,10 @@ a {
     width: 200px;
     height: 1px;
     border: 1px #c4c4c4 dashed;
-    
 }
-.task-comment-content br:first-child{
+.task-comment-content br:first-child {
     display: none;
 }
-.task-comment-content{
-    margin-top: 10px ;
+.task-comment-content {
+    margin-top: 10px;
 }

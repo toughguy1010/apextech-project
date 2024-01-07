@@ -108,7 +108,7 @@
 <li class="sidebar__item ">
     <a href="{{ url('salary/create-month-salary') }}" class="sidebar__link">
         <i class="fa-solid fa-wallet text-white"></i>
-        <span class="text-white ms-2">Lương</span>
+        <span class="text-white ms-2">Tạo bảng lương</span>
     </a>
 </li>
 <li class="sidebar__item ">

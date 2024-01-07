@@ -98,7 +98,8 @@
                         $checkin = \App\Models\TimeLog::where('user_id', Auth::user()->id)
                             ->where(
                                 'date',
-                                now()->month(10)->year(2022)
+                                // now()->month(10)->year(2022)
+                                now()
                                     ->setTimezone('Asia/Ho_Chi_Minh')
                                     ->toDateString(),
                             )
@@ -120,7 +121,7 @@
                         {{-- Nếu chưa đăng ký vào, hiển thị nút đăng ký vào --}}
                         <div id="checkin" class="btn btn-primary" data-url="{{ url('time/checkin') }}"
                             data-userID="{{ Auth::user()->id }}"
-                            data-date="{{ now()->month(10)->year(2022)->setTimezone('Asia/Ho_Chi_Minh')->toDateString() }}"
+                            data-date="{{ now()->setTimezone('Asia/Ho_Chi_Minh')->toDateString() }}"
                             data-time="{{ now()->setTimezone('Asia/Ho_Chi_Minh')->toTimeString() }}">
                             Đăng ký vào
                         </div>

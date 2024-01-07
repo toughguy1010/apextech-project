@@ -34,51 +34,26 @@ use App\Models\User;
                         </div>
                         <div class="time-diary-body">
                             <div class="diary-checkin">
-                                @if (Auth::user()->position_id == 2 || Auth::user()->position_id == 3)
                                     <i class="fa-solid fa-arrow-right-from-bracket text-success"></i>
                                     {{ $formatted_date }}
                                     {{ $date_time_logs->check_in }}
-                                @else
-                                    @php
-                                        $initialCheckInValue = $date_time_logs->check_in;
-
-                                        $carbonCheckIn = \Carbon\Carbon::parse($initialCheckInValue);
-
-                                        $formattedCheckIn = $carbonCheckIn->format('H:i');
-                                    @endphp
-                                    <input type="time" name="check_in" class="form-custom"
-                                        value="{{ $formattedCheckIn }}">
-                                @endif
 
                             </div>
                             <div class="diary-checkout">
-                                @if (Auth::user()->position_id == 2 || Auth::user()->position_id == 3)
                                     <i class="fa-solid fa-arrow-right-from-bracket text-warning"
                                         style="transform: rotate(180deg);"></i> {{ $formatted_date }}
-                                    {{ $date_time_logs->check_out }}
-                                @else
-                                    @php
-                                        $initialCheckOutValue = $date_time_logs->check_out;
-
-                                        $carbonCheckout = \Carbon\Carbon::parse($initialCheckOutValue);
-
-                                        $formattedCheckOut = $carbonCheckout->format('H:i');
-                                    @endphp
-                                    <input type="time" class="form-custom" name="check_out"
-                                        value="{{ $formattedCheckOut }}">
-                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            {{-- <div class="modal-footer">
                 @if (Auth::user()->position_id !== 2 || Auth::user()->position_id !== 3)
                 <button type="submit" class="btn btn-primary">Lưu</button>
                 @endif
 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-            </div>
+            </div> --}}
     </div>
 </div>
 </div>

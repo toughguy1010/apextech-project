@@ -499,8 +499,6 @@ $ceo_id = $ceo_ids[0];
             success: function(response) {
                 if (response.success) {
                     var commentContainer = $(".list-task-comment");
-
-                    // Create a new comment item HTML
                     var newCommentItem = `
                         <div class="task-comment-item">
                             <img src="${response.user_avatar}" alt="" class="avt">
@@ -514,7 +512,6 @@ $ceo_id = $ceo_ids[0];
                             </div>
                         </div>
                     `;
-                    
                     commentContainer.append(newCommentItem);
                     $("#comment").val("");
                 }

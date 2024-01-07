@@ -170,7 +170,11 @@
                         <input type="text" name="base_salary" class="form-control" id="on_board"
                             value="{{ $id ? $user->base_salary : '' }}">
                     </div>
-                   
+                    <div class="mb-3 col-6">
+                        <label for="on_board" class="form-label ">Địa chỉ</label>
+                        <input type="text" name="address" class="form-control" id="address"
+                            value="{{ $id ? $user->address : '' }}">
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">{{ $id ? 'Cập nhật' : 'Thêm' }} tài khoản</button>
                 <button type="submit" class="btn ms-3 btn-danger">Quay lại</button>
