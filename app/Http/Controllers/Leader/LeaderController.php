@@ -11,9 +11,9 @@ use App\Models\Task;
 use App\Models\Benefit;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-
 
 class LeaderController extends Controller
 {
@@ -136,6 +136,14 @@ class LeaderController extends Controller
         $task_id = $id;
         $task = Task::findOrFail($task_id);
         if ($task) {
+            $current_date = Carbon::now();
+            $end_date = Carbon::parse($task->end_date);
+            if ($end_date <= $current_date) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Công việc đã hết hạn",
+                ]);
+            }
             $ceo_id = $request->post('ceoId');
             $from_user = $request->post('fromUser');
             $type = 1;

@@ -258,11 +258,14 @@ label.form-label {
     transform: translate(0%);
     background-color: #c0ffb9;
     color: #0faf2b;
+    display: block !important;
 }
 .false-message-report {
     transform: translate(0%);
     background-color: rgb(255, 0, 0);
     color: #ffffff;
+    display: block !important;
+
 }
 .modal-body {
     padding-top: 0;

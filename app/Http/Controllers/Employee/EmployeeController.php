@@ -10,6 +10,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Benefit;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
@@ -116,17 +117,25 @@ class EmployeeController extends Controller
     {
         $task_id = $id;
         $task = Task::find($task_id);
-       
+
         if ($task) {
-         
-                $receiver_ids = $task->managers->pluck('id')->toArray();
+
+            $receiver_ids = $task->managers->pluck('id')->toArray();
             if (empty($receiver_ids)) {
                 return response()->json([
                     'success' => false,
                     'message' => "Không có người theo dõi",
                 ]);
             }
-            if ($task->status == 0 ) {
+            $current_date = Carbon::now();
+            $end_date = Carbon::parse($task->end_date);
+            if ($end_date <= $current_date) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Công việc đã hết hạn",
+                ]);
+            }
+            if ($task->status == 0) {
                 return response()->json([
                     'success' => false,
                     'message' => "Công việc chưa được tiến hành",
@@ -148,7 +157,8 @@ class EmployeeController extends Controller
             'message' => "Báo cáo thất bại",
         ]);
     }
-    public function listBenefits(Request $request){
+    public function listBenefits(Request $request)
+    {
         $limit = 5;
         $all = null;
         $search = $request->input('search', '');
