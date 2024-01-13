@@ -167,9 +167,13 @@ $ceo_id = $ceo_ids[0];
                                 data-user="{{ Auth::user()->id }}">
                                 Thêm bình luận
                             </div>
+                            <?php
+                                $task_comments = TaskComments::getCommentsByTaskId($task->id);
+                            
+                            ?>
+                            @if ($task_comments != null)
                             <div class="list-task-comment">
                                 <?php
-                                $task_comments = TaskComments::getCommentsByTaskId($task->id);
                                 foreach ($task_comments as $comment) {
                                     $user_comment = User::findOrFail($comment->user_id);
                                     ?>
@@ -189,6 +193,8 @@ $ceo_id = $ceo_ids[0];
                                 ?>
 
                             </div>
+                            @endif
+                            
                         </div>
 
                     </div>
