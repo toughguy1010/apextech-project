@@ -32,6 +32,7 @@ class UserRequest extends FormRequest
             'name' => 'required|string',
             'phone_number' => 'required|string|numeric',
             'avatar' => 'required',
+            'email' => 'required|string|unique:users,email',
             'position_id' => 'required|exists:positions,id',
         ];
     }

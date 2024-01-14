@@ -82,7 +82,8 @@ class UserController extends Controller
             }
             return redirect()->back();
         } catch (\Exception $e) {
-            Session::flash('error', $e->getMessage());
+            Session::flash('error', 'Cập nhật người dùng thất bại');
+            // Session::flash('error', $e->getMessage());
             return redirect()->back();
         }
     }

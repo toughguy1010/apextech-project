@@ -95,4 +95,11 @@ $(function () {
             $(this).closest(".task-process-item").remove();
         }
     });
+
+    setTimeout(function (){
+        $('.overlay-arlert').hide()
+    }, 4000)
+    $(".alert").on("click", function(){
+        $('.overlay-arlert').hide()
+    })
 });
