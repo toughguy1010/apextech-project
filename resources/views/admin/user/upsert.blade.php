@@ -176,8 +176,11 @@
                             value="{{ $id ? $user->address : '' }}">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">{{ $id ? 'Cập nhật' : 'Thêm' }} tài khoản</button>
-                <button type="submit" class="btn ms-3 btn-danger">Quay lại</button>
+                <div class="right-btn">
+                    <button type="submit" class="btn btn-primary">{{ $id ? 'Cập nhật' : 'Thêm' }} tài khoản</button>
+                    <a href="{{ url('admin/user') }}" class="btn ms-3 btn-danger">Quay lại</a>
+                </div>
+                
             </form>
         </div>
         @vite(['resources/js/admin/user.js'])

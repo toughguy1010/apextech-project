@@ -135,9 +135,12 @@
                     </div>
 
                 </div>
-                <button type="submit" class="btn btn-primary save-update">{{ $id ? 'Cập nhật' : 'Thêm' }} phòng
-                    ban</button>
-                <a href="{{ url('admin/department') }}" class="btn ms-3 btn-danger">Quay lại</a>
+                <div class="right-btn">
+                    <button type="submit" class="btn btn-primary save-update">{{ $id ? 'Cập nhật' : 'Thêm' }} phòng
+                        ban</button>
+                    <a href="{{ url('admin/department') }}" class="btn ms-3 btn-danger">Quay lại</a>
+                </div>
+               
             </form>
         </div>
         @vite(['resources/js/admin/department.js'])

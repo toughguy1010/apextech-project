@@ -54,20 +54,23 @@
 
                 </div>
 
-                <div class="row row-input">
+                {{-- <div class="row row-input">
                     <div class="mb-3 col-6">
                         <label for="" class="form-label "> Giá trị phúc lợi (nếu có): </label>
                         <input type="text" name="price" class="form-control" id=""
                             value="{{ $id ? $benefit->price : ' ' }}">
                     </div>
-                </div>
-                <button type="submit" class="btn btn-primary"> Tạo phúc lợi</button>
+                </div> --}}
+                <div class="right-btn">
+                    <button type="submit" class="btn btn-primary"> Tạo phúc lợi</button>
                 @if (Auth::user()->position_id == 4)
                 <a href="{{ url('ceo/benefit') }}" class="btn ms-3 btn-danger">Quay lại</a>
                 @else
                 <a href="{{ url('admin/benefit') }}" class="btn ms-3 btn-danger">Quay lại</a>
 
                 @endif
+                </div>
+                
             </form>
         </div>
         @vite(['resources/js/app.js'])

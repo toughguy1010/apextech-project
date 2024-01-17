@@ -104,70 +104,70 @@
                         <?php
                         ?>
                     </div>
-                    @if ( $task_managers !== null)
-                    <div class="mb-3 col-6">
-                        <div type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#taskManagementModal">
-                            Người theo dõi
-                        </div>
+                    @if ($task_managers !== null)
+                        <div class="mb-3 col-6">
+                            <div type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#taskManagementModal">
+                                Người theo dõi
+                            </div>
 
-                        <div class="modal fade" id="taskManagementModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog" style="    max-width: 800px !important;">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel" style="flex: 0 0 50%;">Danh sách
-                                            người dùng</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <table class="table" style="box-shadow: none">
-                                            <thead>
-                                                <th>Chọn</th>
-                                                <th>Tên người dùng</th>
-                                                <th>Tên tài khoản</th>
-                                                <th>Vị trí</th>
-                                                <th>Phòng ban</th>
-                                            </thead>
-                                            <tbody id="task-managers-list">
-                                                @foreach ($task_managers as $task_manager)
-                                                    <tr class="">
-                                                        <td>
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="{{ $task_manager->id }}" name="task_manager[]"
-                                                                @if ($id && $task->managers->contains('id', $task_manager->id)) checked @endif
-                                                                id="flexCheckChecked">
-                                                        </td>
-                                                        <td>
-                                                            {{ $task_manager->name }}
-                                                        </td>
-                                                        <td>
-                                                            {{ $task_manager->username }}
-                                                        </td>
-                                                        <td>
-                                                            {{ Position::getPositionNameByUser($task_manager) }}
-                                                        </td>
-                                                        <td>
-                                                            {{ $task_manager->getDepartmentName() }}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                            <div class="modal fade" id="taskManagementModal" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" style="    max-width: 800px !important;">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel" style="flex: 0 0 50%;">Danh sách
+                                                người dùng</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table" style="box-shadow: none">
+                                                <thead>
+                                                    <th>Chọn</th>
+                                                    <th>Tên người dùng</th>
+                                                    <th>Tên tài khoản</th>
+                                                    <th>Vị trí</th>
+                                                    <th>Phòng ban</th>
+                                                </thead>
+                                                <tbody id="task-managers-list">
+                                                    @foreach ($task_managers as $task_manager)
+                                                        <tr class="">
+                                                            <td>
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    value="{{ $task_manager->id }}" name="task_manager[]"
+                                                                    @if ($id && $task->managers->contains('id', $task_manager->id)) checked @endif
+                                                                    id="flexCheckChecked">
+                                                            </td>
+                                                            <td>
+                                                                {{ $task_manager->name }}
+                                                            </td>
+                                                            <td>
+                                                                {{ $task_manager->username }}
+                                                            </td>
+                                                            <td>
+                                                                {{ Position::getPositionNameByUser($task_manager) }}
+                                                            </td>
+                                                            <td>
+                                                                {{ $task_manager->getDepartmentName() }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
 
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Đóng</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Đóng</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <?php
-                        ?>
-                    </div>
+                            <?php
+                            ?>
+                        </div>
                     @endif
-                    
+
                 </div>
                 <div class="row row-input">
                     <div class="mb-3 col-6">
@@ -223,8 +223,11 @@
                         @endif
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">{{ $id ? 'Cập nhật' : 'Tạo' }} công việc</button>
-                <a href="{{ url('admin/task') }}" class="btn ms-3 btn-danger">Quay lại</a>
+                <div class="right-btn">
+                    <button type="submit" class="btn btn-primary">{{ $id ? 'Cập nhật' : 'Tạo' }} công việc</button>
+                    <a href="{{ url('admin/task') }}" class="btn ms-3 btn-danger">Quay lại</a>
+                </div>
+
             </form>
         </div>
         @vite(['resources/js/app.js'])

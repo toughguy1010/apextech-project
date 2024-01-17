@@ -9,7 +9,7 @@ use App\Http\Requests\Admin\DepartmentRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class DepartmentController extends Controller
 {
     //
@@ -49,6 +49,16 @@ class DepartmentController extends Controller
         }
 
         try {
+            $validationRules = [
+                'name' => 'required|string|max:255', 
+            ];
+            $customMessages = [
+                'name.required' => 'Tên phòng ban không được để trống.',
+            ];
+            $validator = Validator::make($request->all(), $validationRules, $customMessages);
+            if ($validator->fails()) {
+                throw new \Exception($validator->errors()->first());
+            }
             $existingLeader = Department::where('leader_id', $request->input('leader_id'))
                 ->where('id', '!=', $department->id)
                 ->first();

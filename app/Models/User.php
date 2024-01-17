@@ -94,9 +94,6 @@ class User extends Authenticatable
         $users = [];
         if (isset($option['department'])) {
             $query->where('department_id', $option['department']);
-            $query->with(['leaderDepartment' => function ($query) {
-                $query->select('*');
-            }]);
         }
         if (isset($option['position'])) {
             $query->Where('position_id', $option['position']);
@@ -154,6 +151,7 @@ class User extends Authenticatable
     public static function getUserEmployee()
     {
         $query = User::query();
+        $employees = $query->where('status', 1)->get();
         $employees = $query->where('position_id', 2)->get();
         return $employees;
     }

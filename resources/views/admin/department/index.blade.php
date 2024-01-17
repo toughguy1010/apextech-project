@@ -72,7 +72,7 @@
                                                         nhân viên</h5>
                                                     <div action="" class="d-flex ms-0 form-search-emp">
                                                         <input class="form-control search-emp-input " type="text"
-                                                            placeholder="Nhập tên phòng ban" name="search"
+                                                            placeholder="Nhập tên nhân viên" name="search"
                                                             style="border-top-right-radius:0;border-bottom-right-radius:0">
                                                         <div type="submit" class="btn btn-primary search-emp-btn"
                                                             type="button" id="button-addon1"

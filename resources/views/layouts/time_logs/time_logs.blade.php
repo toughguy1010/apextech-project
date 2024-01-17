@@ -26,18 +26,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="filter-item col-3">
-                        <div class="label">Vị trí</div>
-                        <select name="position" id="" class="form-select">
-                            <option value="">---Chọn vị trí---</option>
-                            @foreach ($positions as $position)
-                                <option value="{{ $position->id }}"
-                                    {{ isset($_GET['position']) && $_GET['position'] == $position->id ? 'selected' : '' }}>
-                                    {{ $position->position_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                  
                     <div class="filter-item col-3 pe-0">
                         <div class="label">Sắp xếp</div>
                         <select name="orderby" id="" class="form-select">
@@ -49,6 +38,18 @@
                                 {{ isset($_GET['orderby']) && $_GET['orderby'] == 'desc' ? 'selected' : '' }}>Từ dưới lên
                                 trên</option>
                         </select>
+                    </div>
+                    <div class="filter-item col-3">
+                        {{-- <div class="label">Vị trí</div>
+                        <select name="position" id="" class="form-select">
+                            <option value="">---Chọn vị trí---</option>
+                            @foreach ($positions as $position)
+                                <option value="{{ $position->id }}"
+                                    {{ isset($_GET['position']) && $_GET['position'] == $position->id ? 'selected' : '' }}>
+                                    {{ $position->position_name }}
+                                </option>
+                            @endforeach
+                        </select> --}}
                     </div>
                     <div class="filter-btn col-3 d-flex align-item-center justify-content-end">
                         <button class="btn btn-primary" style="height:40px; width:120px;  margin-top: 34px;">

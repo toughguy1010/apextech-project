@@ -55,6 +55,8 @@ class UserController extends Controller
         } else {
             $user = User::findOrFail($id);
         }
+ 
+
         try {
             if ($id === null) {
                 $user->username = $request->input('username');
@@ -82,8 +84,8 @@ class UserController extends Controller
             }
             return redirect()->back();
         } catch (\Exception $e) {
-            Session::flash('error', 'Cập nhật người dùng thất bại');
-            // Session::flash('error', $e->getMessage());
+            // Session::flash('error', 'Cập nhật người dùng thất bại');
+            Session::flash('error', $e->getMessage());
             return redirect()->back();
         }
     }
@@ -122,13 +124,14 @@ class UserController extends Controller
     {
         if ($id) {
             $users = Department::getAllUsersByDepartment($id, null, null, 1);
-            return view("admin.role-user",[
+            return view("admin.role-user", [
                 "users" => $users,
             ]);
         }
     }
-    public function updateRole(Request $request, $id){
-        if($id){
+    public function updateRole(Request $request, $id)
+    {
+        if ($id) {
             $role = $request->post("role");
             $user = User::findOrFail($id);
             if ($role === null) {
@@ -144,7 +147,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 1,
                 'message' => 'Thêm quyền người dùng thành công',
-            ]); 
+            ]);
         }
     }
 }

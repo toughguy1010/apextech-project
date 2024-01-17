@@ -7,6 +7,7 @@ use App\Models\Department;
 use App\Models\ReceiverNotification;
 use App\Models\ReportNotification;
 use App\Models\Task;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TaskProcess;
 use App\Models\User;
@@ -41,7 +42,6 @@ class TasksController extends Controller
             if ($department instanceof Department) {
                 $employees = Department::getAllUsersByDepartment($department->id, null, $search = null, $all = 1);
             }
-           
             $task_managers = null;
             
         } else {
@@ -67,6 +67,19 @@ class TasksController extends Controller
         }
 
         try {
+            $validationRules = [
+                'name' => 'required|string|max:255', 
+                'priority' => 'required', 
+            ];
+            $customMessages = [
+                'name.required' => 'Tên công việc không được để trống.',
+                'priority.required' => 'Độ ưu tiên công việc không được để trống.',
+            ];
+            $validator = Validator::make($request->all(), $validationRules, $customMessages);
+            if ($validator->fails()) {
+                throw new \Exception($validator->errors()->first());
+            }
+
             $task->name = $request->input('name');
             $task->description = $request->input('description');
             $task->start_date = $request->input('start_date');

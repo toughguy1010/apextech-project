@@ -21,20 +21,24 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (!$this->id) {
-            $rules['email'] = 'required|string|unique:users,email';
-        } else {
-            $rules['email'] = 'required|string';
-        }
-        return [
+        $id = $this->route('id');
+        $rules = [
             'username' => 'string|max:255|unique:users,username',
             'password' => 'string|min:8',
             'name' => 'required|string',
             'phone_number' => 'required|string|numeric',
             'avatar' => 'required',
-            'email' => 'required|string|unique:users,email',
             'position_id' => 'required|exists:positions,id',
         ];
+        if ($id != null) {
+            $rules['email'] = 'required|';
+
+        } else {
+            $rules['email'] = 'required|string|unique:users,email';
+        }
+
+        return $rules;
+
     }
     public function messages()
     {
@@ -50,4 +54,5 @@ class UserRequest extends FormRequest
             'position_id.required' => 'Chức vụ tài khoản không được để trống',
         ];
     }
+   
 }

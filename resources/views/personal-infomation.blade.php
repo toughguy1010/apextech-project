@@ -160,8 +160,10 @@
                             value="{{ $id ? $user->address : '' }}">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary confirm">{{ $id ? 'Cập nhật' : 'Thêm' }} thông tin</button>
-                <button type="submit" class="btn ms-3 btn-danger">Quay lại</button>
+                <div class="right-btn">
+                    <button type="submit" class="btn btn-primary confirm">{{ $id ? 'Cập nhật' : 'Thêm' }} thông tin</button>
+
+                </div>
             </form>
         </div>
         @vite(['resources/js/app.js'])
