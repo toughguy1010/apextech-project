@@ -67,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('upsert/{id?}', [TasksController::class, 'viewUpsert']);
             Route::post('upsert/{id?}', [TasksController::class, 'store']);
             Route::get('/', [TasksController::class, 'index']);
+            Route::get('list-task-management/{id?}', [TasksController::class, 'taskManagement']);
             Route::delete('destroy/{id}', [TasksController::class, 'destroy']);
         });
         Route::prefix('benefit')->group(function () {
@@ -170,7 +171,6 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::prefix('task-comment')->group(function () {
         Route::post('add-comment', [TaskController::class, 'addComment']);
-
     });
 
     Route::get('personal-info/{id?}',  [InformationController::class, 'getPersonalInfo'])->name('personalInfo');

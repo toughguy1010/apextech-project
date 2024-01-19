@@ -159,8 +159,10 @@ label.form-label {
     gap: 5px;
     padding-left: 15px;
 }
-.list-task-comment{
-    height: 375px;
+.list-task-comment {
+}
+.list-task-comment-active {
+    height: 260px;
     overflow-y: auto;
 }
 .avt_user img {
@@ -265,7 +267,6 @@ label.form-label {
     background-color: rgb(255, 0, 0);
     color: #ffffff;
     display: block !important;
-
 }
 .modal-body {
     padding-top: 0;
@@ -520,9 +521,25 @@ a {
     object-fit: cover;
     border-radius: 50%;
 }
-.show_avt_name {
+.tooltip-wrap {
     position: relative;
+    cursor: pointer;
 }
+.avt_name {
+    position: absolute;
+    background-color: rgba(0,0,0, .5);
+    z-index: 1;
+    top: 8px;
+    color: #ffff;
+    left: 45px;
+    min-width: 100px;
+    text-align: center;
+    font-weight: 400;
+    border-radius: 5px;
+}
+// .show_avt_name:hover::after {
+//     display: block;
+// }
 
 .table-benefit tbody tr td p {
     margin-bottom: 0 !important;
@@ -775,24 +792,24 @@ a {
 .task-comment-content {
     margin-top: 10px;
 }
-.overlay-arlert{
+.overlay-arlert {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 99999;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.alert{
+.alert {
     cursor: pointer;
 }
 .btn {
     min-width: 150px;
 }
-.right-btn{
+.right-btn {
     text-align: end;
 }

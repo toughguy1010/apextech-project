@@ -27,18 +27,14 @@
                             value="{{ $id ? $task->description : '' }}">
                     </div>
                 </div>
-
-
-
                 <div class="row row-input">
                     <div class="mb-3 col-6">
-                        <label for="" class="form-label ">Thời gian bắt đầu</label>
+                        <label for="" class="form-label required">Thời gian bắt đầu</label>
                         <input type="date" name="start_date" class="form-control" id=""
                             value="{{ $id ? $task->start_date : '' }}">
                     </div>
-
                     <div class="mb-3 col-6">
-                        <label for="" class="form-label ">Thời gian kết thúc</label>
+                        <label for="" class="form-label required">Thời gian kết thúc</label>
                         <input type="date" name="end_date" class="form-control" id=""
                             value="{{ $id ? $task->end_date : '' }}">
                     </div>

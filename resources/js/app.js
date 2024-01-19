@@ -102,4 +102,16 @@ $(function () {
     $(".alert").on("click", function(){
         $('.overlay-arlert').hide()
     })
+
+    $(".show_avt_name").hover(
+        function() {
+            // Hover-in event
+            var info = $(this).data("info");
+            $(this).next(".avt_name").stop(true, true).text(info).fadeIn(200);
+        },
+        function() {
+            // Hover-out event
+            $(this).next(".avt_name").stop(true, true).fadeOut(200);
+        }
+    );
 });

@@ -70,10 +70,14 @@ class TasksController extends Controller
             $validationRules = [
                 'name' => 'required|string|max:255', 
                 'priority' => 'required', 
+                'start_date' => 'required', 
+                'end_date' => 'required', 
             ];
             $customMessages = [
                 'name.required' => 'Tên công việc không được để trống.',
                 'priority.required' => 'Độ ưu tiên công việc không được để trống.',
+                'start_date.required' => 'Thời gian bắt đầu không được để trống.',
+                'end_date.required' => 'Thời gian kết thúc không được để trống.',
             ];
             $validator = Validator::make($request->all(), $validationRules, $customMessages);
             if ($validator->fails()) {
@@ -190,5 +194,14 @@ class TasksController extends Controller
                 'error' => 'công việc không tồn tại.'
             ]);
         }
+    }
+    public function taskManagement($id = null)
+    {
+        $option = 'managers';
+        $task_creater = Auth::user()->id;
+        $tasks = Task::getTaskByUser($id, $option, null, $task_creater);
+        return view('admin.tasks.task', [
+            'tasks' => $tasks,
+        ]);
     }
 }

@@ -5,6 +5,7 @@
     ?>
     <section id="list_user_section">
         <div class="message">
+
         </div>
         <div class="list_user_header">
             <div class="row align-items-center">
@@ -21,15 +22,7 @@
                             </button>
                         </form>
                     </div>
-                    {{-- <div class="export-excel ms-4">
-                        <form action="{{url('admin/user/export') }}" class="me-0" method="get">
-                            <button type="submit" class="btn btn-success " type="button" id="button-addon1"
-                                style="height: 45px">
-                                <i class="fa-regular fa-file-excel"></i>
-                                Xuất file excel
-                            </button>
-                        </form>
-                    </div> --}}
+
                 </div>
             </div>
         </div>
@@ -39,9 +32,7 @@
                     <th style="border-top-left-radius: 10px;">
                         Tên công việc
                     </th>
-                    <th>
-                        Mô tả công việc
-                    </th>
+
                     <th>
                         Ngày bắt đầu
                     </th>
@@ -58,6 +49,9 @@
                         Nhân viên được giao
                     </th>
                     <th>
+                        Nguời theo dõi
+                    </th>
+                    <th>
 
                     </th>
 
@@ -68,9 +62,7 @@
                             <td>
                                 {{ $task->name }}
                             </td>
-                            <td>
-                                {{ $task->description }}
-                            </td>
+
                             <td>
                                 {{ $task->start_date }}
                             </td>
@@ -86,18 +78,41 @@
                             <th>
                                 <div class="avt_user">
 
-                                    @if ( count($task->assignees) > 0)
+                                    @if (count($task->assignees) > 0)
                                         @foreach ($task->assignees as $assignee)
-                                            <img src=" {{ $assignee->avatar }}" alt="" data-info=" {{ $assignee->name }}" class="show_avt_name">
+                                            <div class="tooltip-wrap">
+                                                <img src=" {{ $assignee->avatar }}" alt=""
+                                                    data-info=" {{ $assignee->name }}" class="show_avt_name">
+                                                <div class="avt_name"></div>
+                                            </div>
                                         @endforeach
                                     @else
-                                    <span>
-                                        Chưa giao cho nhân viên nào
-                                    </span>
+                                        <span>
+                                            Chưa giao cho nhân viên nào
+                                        </span>
                                     @endif
 
                                 </div>
 
+                            </th>
+                            <th>
+                                <div class="avt_user">
+                                    @if (count($task->managers) > 0)
+                                        @foreach ($task->managers as $manager)
+                                            {{-- <img src=" {{ $manager->avatar }}" alt=""> --}}
+                                            <div class="tooltip-wrap">
+                                                <img src=" {{ $manager->avatar }}" alt=""
+                                                    data-info=" {{ $manager->name }}" class="show_avt_name">
+                                                <div class="avt_name"></div>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <span>
+                                            Chưa giao cho người theo dõi nào
+                                        </span>
+                                    @endif
+
+                                </div>
                             </th>
                             <td class="">
                                 <a href="{{ url('admin/task/upsert', $task->id) }}" class="me-4">

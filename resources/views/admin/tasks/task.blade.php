@@ -11,26 +11,7 @@
                 <h4 class="col-6">
                     Danh sách công việc
                 </h4>
-                <div class="col-6 d-flex justify-content-end">
-                    <div class="input-group " style="width:fit-content">
-                        <form action="" class="d-flex ms-0">
-                            <input class="form-control search-input " type="text" placeholder="Nhập tên công việc"
-                                name="search">
-                            <button type="submit" class="btn btn-primary search-btn" type="button" id="button-addon1">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </form>
-                    </div>
-                    {{-- <div class="export-excel ms-4">
-                        <form action="{{url('admin/user/export') }}" class="me-0" method="get">
-                            <button type="submit" class="btn btn-success " type="button" id="button-addon1"
-                                style="height: 45px">
-                                <i class="fa-regular fa-file-excel"></i>
-                                Xuất file excel
-                            </button>
-                        </form>
-                    </div> --}}
-                </div>
+                
             </div>
         </div>
         <div class="list-task-status">
@@ -122,10 +103,11 @@
                                 <div class="avt_user">
                                     @if (count($task->assignees) > 0)
                                         @foreach ($task->assignees as $assignee)
-                                         <div class="tooltip-wrap">
+                                        <div class="tooltip-wrap">
                                             <img src=" {{ $assignee->avatar }}" alt="" data-info=" {{ $assignee->name }}" class="show_avt_name">
                                             <div class="avt_name"></div>
                                         </div>
+                                    
                                         @endforeach
                                     @else
                                         <span>
@@ -139,10 +121,11 @@
                                 <div class="avt_user">
                                     @if (count($task->managers) > 0)
                                         @foreach ($task->managers as $manager)
-                                        <div class="tooltip-wrap">
-                                            <img src=" {{ $manager->avatar }}" alt="" data-info=" {{ $manager->name }}" class="show_avt_name">
-                                            <div class="avt_name"></div>
-                                        </div>
+                                            {{-- <img src=" {{ $manager->avatar }}" alt=""> --}}
+                                            <div class="tooltip-wrap">
+                                                <img src=" {{ $manager->avatar }}" alt="" data-info=" {{ $manager->name }}" class="show_avt_name">
+                                                <div class="avt_name"></div>
+                                            </div>
                                         @endforeach
                                     @else
                                         <span>
@@ -166,4 +149,5 @@
         </div>
     </section>
     @vite(['resources/js/leader/task.js'])
+    @vite(['resources/js/app.js'])  
 @endsection

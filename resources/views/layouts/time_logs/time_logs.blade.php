@@ -26,7 +26,7 @@
                             @endforeach
                         </select>
                     </div>
-                  
+
                     <div class="filter-item col-3 pe-0">
                         <div class="label">Sắp xếp</div>
                         <select name="orderby" id="" class="form-select">
@@ -65,7 +65,7 @@
                     </p>
                     @if (Auth::user()->position_id == 2 || Auth::user()->position_id == 3)
                         @php
-                            $today = \Carbon\Carbon::now();
+                            $today = Carbon::now('Asia/Ho_Chi_Minh');
                             $isWeekend = $today->isWeekend(); // Check if today is Saturday or Sunday
                         @endphp
                         @if (!$isWeekend)

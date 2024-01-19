@@ -168,33 +168,33 @@ $ceo_id = $ceo_ids[0];
                                 Thêm bình luận
                             </div>
                             <?php
-                                $task_comments = TaskComments::getCommentsByTaskId($task->id);
+                            $task_comments = TaskComments::getCommentsByTaskId($task->id);
                             
                             ?>
-                            @if ($task_comments != null)
-                            <div class="list-task-comment">
-                                <?php
+                            <div
+                                class="list-task-comment <?= $task_comments != null ? 'list-task-comment-active' : '' ?>">
+                                @if ($task_comments != null)
+                                    <?php
                                 foreach ($task_comments as $comment) {
                                     $user_comment = User::findOrFail($comment->user_id);
                                     ?>
-                                <div class="task-comment-item">
-                                    <img src="{{ $user_comment->avatar }}" alt="" class="avt">
-                                    <div class="task-comment-info">
-                                        <div class="task-comment-username">
-                                            {{ $user_comment->name }}
-                                        </div>
-                                        <div class="task-comment-content">
-                                            {{ $comment->comment }}
+                                    <div class="task-comment-item">
+                                        <img src="{{ $user_comment->avatar }}" alt="" class="avt">
+                                        <div class="task-comment-info">
+                                            <div class="task-comment-username">
+                                                {{ $user_comment->name }}
+                                            </div>
+                                            <div class="task-comment-content">
+                                                {{ $comment->comment }}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <?php
+                                    <?php
                                 }
                                 ?>
-
+                                @endif
                             </div>
-                            @endif
-                            
+
                         </div>
 
                     </div>
@@ -249,7 +249,11 @@ $ceo_id = $ceo_ids[0];
                                 <div class="people-imgs task-assigess-list">
                                     @if (count($task->assignees) > 0)
                                         @foreach ($task->assignees as $assignee)
-                                            <img src=" {{ $assignee->avatar }}" alt="">
+                                            {{-- <img src=" {{ $assignee->avatar }}" alt=""> --}}
+                                            <div class="tooltip-wrap">
+                                                <img src=" {{ $assignee->avatar }}" alt="" data-info=" {{ $assignee->name }}" class="show_avt_name">
+                                                <div class="avt_name"></div>
+                                            </div>
                                         @endforeach
                                     @else
                                         <span>
@@ -266,7 +270,11 @@ $ceo_id = $ceo_ids[0];
                                 <div class="people-imgs task-assigess-list">
                                     @if (count($task->managers) > 0)
                                         @foreach ($task->managers as $manager)
-                                            <img src=" {{ $manager->avatar }}" alt="">
+                                            {{-- <img src=" {{ $manager->avatar }}" alt=""> --}}
+                                            <div class="tooltip-wrap">
+                                                <img src=" {{ $manager->avatar }}" alt="" data-info=" {{ $manager->name }}" class="show_avt_name">
+                                                <div class="avt_name"></div>
+                                            </div>
                                         @endforeach
                                     @else
                                         <span>
@@ -299,6 +307,18 @@ $ceo_id = $ceo_ids[0];
         $("#task-detail-modal").modal('show')
 
     });
+
+    $(".show_avt_name").hover(
+        function() {
+            // Hover-in event
+            var info = $(this).data("info");
+            $(this).next(".avt_name").stop(true, true).text(info).fadeIn(200);
+        },
+        function() {
+            // Hover-out event
+            $(this).next(".avt_name").stop(true, true).fadeOut(200);
+        }
+    );
 
     $(".btn-status").on("click", function() {
         var currentStatus = $(this).data("curstatus")
@@ -493,6 +513,12 @@ $ceo_id = $ceo_ids[0];
         var comment = $("#comment").val();
         var userId = $(this).data("user")
         var taskId = $(this).data("task")
+        var commentContainer = $(".list-task-comment");
+        if (commentContainer.length === 0) {
+            commentContainer = $("<div class='list-task-comment'></div>");
+            // Append the container to wherever it should be in your HTML
+            // For example: $("body").append(commentContainer);
+        }
         $.ajax({
             url: url,
             dataType: "json",
@@ -504,7 +530,6 @@ $ceo_id = $ceo_ids[0];
             },
             success: function(response) {
                 if (response.success) {
-                    var commentContainer = $(".list-task-comment");
                     var newCommentItem = `
                         <div class="task-comment-item">
                             <img src="${response.user_avatar}" alt="" class="avt">
@@ -520,6 +545,7 @@ $ceo_id = $ceo_ids[0];
                     `;
                     commentContainer.append(newCommentItem);
                     $("#comment").val("");
+                    commentContainer.addClass('list-task-comment-active')
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
