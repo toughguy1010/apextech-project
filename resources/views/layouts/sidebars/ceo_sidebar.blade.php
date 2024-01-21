@@ -94,6 +94,12 @@
     </a>
 </li>
 <li class="sidebar__item ">
+    <a href="{{ url('ceo/user/role') }}" class="sidebar__link">
+        <i class="fa-solid fa-circle-plus text-white"></i>
+        <span class="text-white ms-2">Phân quyền</span>
+    </a>
+</li>
+<li class="sidebar__item ">
     <a href="{{ url('ceo/list-benefits') }}" class="sidebar__link">
         <i class="fa-solid fa-laptop-medical text-white"></i>
         <span class="text-white ms-2">Phúc lợi</span>

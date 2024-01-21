@@ -40,16 +40,7 @@
                         </select>
                     </div>
                     <div class="filter-item col-3">
-                        {{-- <div class="label">Vị trí</div>
-                        <select name="position" id="" class="form-select">
-                            <option value="">---Chọn vị trí---</option>
-                            @foreach ($positions as $position)
-                                <option value="{{ $position->id }}"
-                                    {{ isset($_GET['position']) && $_GET['position'] == $position->id ? 'selected' : '' }}>
-                                    {{ $position->position_name }}
-                                </option>
-                            @endforeach
-                        </select> --}}
+                  
                     </div>
                     <div class="filter-btn col-3 d-flex align-item-center justify-content-end">
                         <button class="btn btn-primary" style="height:40px; width:120px;  margin-top: 34px;">
@@ -64,16 +55,16 @@
                         <strong style="font-size: 18px"> <?= $currentMonth . ' ' . $currentYear ?> </strong>
                     </p>
                     @if (Auth::user()->position_id == 2 || Auth::user()->position_id == 3)
-                        @php
+                        {{-- @php
                             $today = Carbon::now('Asia/Ho_Chi_Minh');
                             $isWeekend = $today->isWeekend(); // Check if today is Saturday or Sunday
                         @endphp
-                        @if (!$isWeekend)
+                        @if (!$isWeekend) --}}
                             <button class="btn btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#time_logs_modal">
                                 Đăng ký vào / Đăng ký ra
                             </button>
-                        @endif
+                        {{-- @endif --}}
                         {{-- <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#time_logs_modal">
                             Đăng ký vào / Đăng ký ra
                         </button> --}}

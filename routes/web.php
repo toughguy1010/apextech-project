@@ -77,6 +77,8 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('destroy/{id}', [BenefitController::class, 'destroy']);
             Route::get('download/{id}', [BenefitController::class, 'download']);
         });
+        Route::get('list-benefits', [CeoController::class, 'listBenefits']);
+
     });
     // employee
     Route::prefix('employee')->group(function () {
@@ -118,6 +120,7 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::get('list-benefits',  [LeaderController::class, 'listBenefits']);
     });
+    // ceo
     Route::prefix('ceo')->group(function () {
         Route::get('/',  [CeoController::class, 'index'])->name('ceo.home');
         Route::prefix('user')->group(function () {
@@ -125,6 +128,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('upsert/{id?}', [UserController::class, 'store']);
             Route::get('/', [UserController::class, 'index']);
             Route::delete('destroy/{id}', [UserController::class, 'destroy']);
+            Route::get('role', [UserController::class, 'viewRole']);
             Route::get('/export', [UserController::class, 'export']);
         });
         Route::prefix('department')->group(function () {
@@ -137,7 +141,6 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('task')->group(function () {
             Route::get('upsert/{id?}', [TasksController::class, 'viewUpsert']);
             Route::post('upsert/{id?}', [TasksController::class, 'store']);
-            // Route::get('list-task-management/{id?}', [CeoController::class, 'taskManagement']);
             Route::get('/', [TasksController::class, 'index']);
         });
         Route::prefix('benefit')->group(function () {

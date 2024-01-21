@@ -89,6 +89,25 @@
         </li>
     </ul>
 </li>
+<li class="sidebar__item ">
+    <a href="{{ url('admin/task/list-task-management', Auth::user()->id) }}" class="sidebar__link">
+        <i class="fa-solid fa-list-check text-white"></i>
+        <span class="text-white ms-2">Theo dõi công việc</span>
+    </a>
+</li>
+<li class="sidebar__item ">
+    <a href="{{ url('admin/user/role') }}" class="sidebar__link">
+        <i class="fa-solid fa-circle-plus text-white"></i>
+        <span class="text-white ms-2">Phân quyền</span>
+    </a>
+</li>
+<li class="sidebar__item ">
+    <a href="{{ url('admin/list-benefits') }}" class="sidebar__link">
+        <i class="fa-solid fa-laptop-medical text-white"></i>
+        <span class="text-white ms-2">Phúc lợi</span>
+    </a>
+</li>
+
 
 <li class="sidebar__item ">
     <a href="{{ url('time') }}" class="sidebar__link">
@@ -98,18 +117,6 @@
 </li>
 
 
-<li class="sidebar__item ">
-    <a href="{{ url('admin/user/role') }}" class="sidebar__link">
-        <i class="fa-solid fa-circle-plus text-white"></i>
-        <span class="text-white ms-2">Phân quyền</span>
-    </a>
-</li>
-<li class="sidebar__item ">
-    <a href="{{ url('admin/task/list-task-management', Auth::user()->id) }}" class="sidebar__link">
-        <i class="fa-solid fa-list-check text-white"></i>
-        <span class="text-white ms-2">Tiến trình công việc</span>
-    </a>
-</li>
 <li class="sidebar__item ">
     <a href="{{ url('salary/create-month-salary') }}" class="sidebar__link">
         <i class="fa-solid fa-wallet text-white"></i>

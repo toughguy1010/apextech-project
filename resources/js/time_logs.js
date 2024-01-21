@@ -22,7 +22,7 @@ $(function () {
                 setTimeout(function () {
                     $(".message-report").fadeOut();
                     setTimeout(function () {
-                        // location.reload();
+                        location.reload();
                     }, 1000);
                 }, 2000);
             },
