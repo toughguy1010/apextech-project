@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\UserRequest;
 use App\Models\Position;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Hash;
 
 class InformationController extends Controller
@@ -31,7 +31,7 @@ class InformationController extends Controller
             'user' => $user,
         ]);
     }
-    public function store(Request $request, $id = null)
+    public function store(UserRequest $request, $id = null)
     {
         $user = User::findOrFail($id);
         try {

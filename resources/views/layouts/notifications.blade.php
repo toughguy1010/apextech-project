@@ -102,7 +102,7 @@ use App\Models\Task;
     }
 </style>
 <span class="triangle"></span>
-<span class="heading">Notifications</span>
+<span class="heading">Thông báo</span>
 <div class="dropdown-noti-wrap">
     @foreach ($notifications as $notification)
         <?php

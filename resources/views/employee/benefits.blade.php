@@ -11,7 +11,7 @@
                 <h4 class="col-6 benefits-list-title">
                     Danh sách phúc lợi
                 <br>
-                    <span>Số lượng phúc lợi hiện có: <strong>{{ count($benefits) }}</strong></span>
+                    <span>Phúc lợi hiện có: <strong>{{ count($benefits) }}</strong></span>
                 </h4>
                 <div class="col-6 d-flex justify-content-end">
                     <div class="input-group " style="width:fit-content">
@@ -40,7 +40,7 @@
                     </th>
                 </thead>
                 <tbody>
-                    @foreach ($benefits as $benefit)
+                    @foreach ($benefits as $benefit) 
                         <tr id="benefit-{{ $benefit->id }}">
                             <td style="width: 25%;">
                                 <div class="benefit-name">

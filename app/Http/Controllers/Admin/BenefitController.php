@@ -50,6 +50,7 @@ class BenefitController extends Controller
             $benefit->price = $request->input('price');
             // Kiểm tra xem có tệp tin được tải lên không
             if ($request->hasFile('file')) {
+              
                 $file = $request->file('file');
                 
                 $fileName = $file->getClientOriginalName() ;

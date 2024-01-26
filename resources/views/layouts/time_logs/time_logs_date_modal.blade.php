@@ -34,14 +34,15 @@ use App\Models\User;
                         </div>
                         <div class="time-diary-body">
                             <div class="diary-checkin">
-                                    <i class="fa-solid fa-arrow-right-from-bracket text-success"></i>
-                                    {{ $formatted_date }}
-                                    {{ $date_time_logs->check_in }}
+                                <i class="fa-solid fa-arrow-right-from-bracket text-success"></i>
+                                {{ $formatted_date }}
+                                {{ $date_time_logs->check_in }}
 
                             </div>
                             <div class="diary-checkout">
-                                    <i class="fa-solid fa-arrow-right-from-bracket text-warning"
-                                        style="transform: rotate(180deg);"></i> {{ $formatted_date }}
+                                <i class="fa-solid fa-arrow-right-from-bracket text-warning"
+                                    style="transform: rotate(180deg);"></i> {{ $formatted_date }} 
+                                    {{ $date_time_logs->check_out }}
                             </div>
                         </div>
                     </div>

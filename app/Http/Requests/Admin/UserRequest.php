@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -26,15 +27,21 @@ class UserRequest extends FormRequest
             'username' => 'string|max:255|unique:users,username',
             'password' => 'string|min:8',
             'name' => 'required|string',
-            'phone_number' => 'required|string|numeric',
+            'phone_number' => 'required|string|numeric|unique:users,phone_number,' . $id,
             'avatar' => 'required',
             'position_id' => 'required|exists:positions,id',
         ];
         if ($id != null) {
-            $rules['email'] = 'required|';
-
+            $rules['email'] = 'required|string|email';
+            $rules['phone_number'] = [
+                'required',
+                'string',
+                'numeric',
+                Rule::unique('users', 'phone_number')->ignore($id),
+            ];
         } else {
             $rules['email'] = 'required|string|unique:users,email';
+            $rules['phone_number'] = 'required|string|unique:users,phone_number';
         }
 
         return $rules;
@@ -49,6 +56,7 @@ class UserRequest extends FormRequest
             'email.required' => 'Email không được để trống',
             'email.unique' => 'Email đã tồn tại',
             'phone_number.numeric' => 'Số điện thoại phải đúng kí tự',
+            'phone_number.unique' => 'Số điện thoại đã tồn tại',
             'phone_number.required' => 'Số điện thoại không được để trống',
             'avatar.required' => 'Ảnh đại diện không được để trống',
             'position_id.required' => 'Chức vụ tài khoản không được để trống',

@@ -33,7 +33,7 @@
                     </div>
                     <div class="mb-3 col-6">
                         <label for="file" class="form-label">Tệp tin đính kèm:</label>
-                        <input type="file" name="file" class="form-control" id="file">
+                        <input type="file" name="file" class="form-control" id="file"  >
                         @if (isset($benefit) && $benefit->file_path)
                         <label for="name" class="form-label mt-3 mb-1">Tên file hiện tại: </label>
                             <div class="benefit-document">
@@ -62,7 +62,7 @@
                     </div>
                 </div> --}}
                 <div class="right-btn">
-                    <button type="submit" class="btn btn-primary"> Tạo phúc lợi</button>
+                    <button type="submit" class="btn btn-primary"> {{ $id ? 'Cập nhật' : 'Tạo' }} phúc lợi</button>
                 @if (Auth::user()->position_id == 4)
                 <a href="{{ url('ceo/benefit') }}" class="btn ms-3 btn-danger">Quay lại</a>
                 @else

@@ -109,7 +109,7 @@ class Department extends Model
     }
     public function countUsers()
     {
-        return $this->users()->count();
+        return $this->users()->where('status', 1)->count();
     }
     public function role()
     {

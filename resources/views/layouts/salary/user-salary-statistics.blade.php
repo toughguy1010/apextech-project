@@ -9,7 +9,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <i class="fa-solid fa-table me-2" ></i>
+                <i class="fa-solid fa-table me-2"></i>
                 Danh sách bảng lương
             </div>
             <div class="card-body">
@@ -33,69 +33,77 @@
                         </form>
                     </div>
                 </div>
-                <div class="list_user_body mt-4">
-                    <table class="table ">
-                        <thead>
-                            <th>
-                                Tiêu đề
-                            </th>
-                            <th>
-                                Lương tháng
-                            </th>
-                            <th>
-                                Người tạo
-                            </th>
+                @if (count($salaries) > 0)
+                   
+                    <div class="list_user_body mt-4">
+                        <table class="table ">
+                            <thead>
+                                <th>
+                                    Tiêu đề
+                                </th>
+                                <th>
+                                    Lương tháng
+                                </th>
+                                <th>
+                                    Người tạo
+                                </th>
 
-                            <th>
-                                Ngày tạo
-                            </th>
-                            <th>
+                                <th>
+                                    Ngày tạo
+                                </th>
+                                <th>
 
-                            </th>
-                        </thead>
-                        <tbody>
-                            @foreach ($salaries as $salary)
-                                <tr>
-                                    <td style="font-size: 16px">
-                                        <strong>
-                                            {{ $salary->title }}
-                                        </strong>
-                                    </td>
-                                    <td style="font-size: 16px">
-                                        {{ $salary->month }} - {{ $salary->year }}
-                                    </td>
-                                    <td style="font-size: 16px">
-                                        <?php
+                                </th>
+                            </thead>
+                            <tbody>
+                                @foreach ($salaries as $salary)
+                                    <tr>
+                                        <td style="font-size: 16px">
+                                            <strong>
+                                                {{ $salary->title }}
+                                            </strong>
+                                        </td>
+                                        <td style="font-size: 16px">
+                                            {{ $salary->month }} - {{ $salary->year }}
+                                        </td>
+                                        <td style="font-size: 16px">
+                                            <?php
                                             $user = User::findOrFail($salary->create_by);
                                             if ($user) {
                                                ?>
-                                        <div class="create-user">
-                                            <img src="{{ $user->avatar }}" alt="">
-                                            <span>{{ $user->name }}</span>
-                                        </div>
-                                        <?php
+                                            <div class="create-user">
+                                                <img src="{{ $user->avatar }}" alt="">
+                                                <span>{{ $user->name }}</span>
+                                            </div>
+                                            <?php
                                             }
                                         ?>
-                                    </td>
-                                    <td style="font-size: 16px">
-                                        {{ $salary->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s') }}
-                                    </td>
-                                    <td>
-                                        <a href="" class="show-salary-detail"
-                                            data-url="{{ url('salary/detail-salary', $salary->id) }}">
-                                            <i class="fa-solid fa-eye" style="font-size:16px"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="pagination-wrap">
-                        {{-- {{ $users->links('layouts.pagination') }} --}}
-                        {{ $salaries->links('layouts.pagination') }}
+                                        </td>
+                                        <td style="font-size: 16px">
+                                            {{ $salary->created_at->setTimezone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s') }}
+                                        </td>
+                                        <td>
+                                            <a href="" class="show-salary-detail"
+                                                data-url="{{ url('salary/detail-salary', $salary->id) }}">
+                                                <i class="fa-solid fa-eye" style="font-size:16px"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <div class="pagination-wrap">
+                            {{-- {{ $users->links('layouts.pagination') }} --}}
+                            {{ $salaries->links('layouts.pagination') }}
 
+                        </div>
                     </div>
+                @else
+                <div class="salary-message text-center  fs-large fs-3 fw-bold bg-danger text-white p-2 rounded" style="width: fit-content; margin : 10px auto">
+                    Chưa có bảng lương
                 </div>
+                @endif
+
             </div>
         </div>
     </div>
@@ -104,6 +112,6 @@
 
     </div>
 
-    @include('layouts.salary.detail-salary')
+    {{-- @include('layouts.salary.detail-salary') --}}
     @vite(['resources/js/salary.js'])
 @endsection

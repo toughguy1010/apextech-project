@@ -21,12 +21,15 @@
                         Các công việc đã hoàn thành
                     </div>
                     <div class="task-inprocess-total ">
-                        <span class="done_task">{{ $task_complete }}</span>/ <span class="show_task_total"> {{ $show_task_total }} </span>
+                        <span class="done_task">{{ $task_complete }}</span>/ <span class="show_task_total">
+                            {{ $show_task_total }} </span>
                     </div>
                 </div>
                 <div class="progress mt-3">
-                    <div class="progress-bar" role="progressbar" style="width: {{ ($task_complete / $show_task_total) * 100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
+                    <div class="progress-bar" role="progressbar"
+                        style="width: {{ ($task_complete / $show_task_total) * 100 }}%" aria-valuenow="25" aria-valuemin="0"
+                        aria-valuemax="100"></div>
+                </div>
             </div>
         </div>
         <div class="overview-task-body row">
@@ -79,17 +82,7 @@
                                     </td>
 
                                     <td>
-                                        <select name="update-task-status" class="update-task-status"
-                                            data-url="{{ url('employee/update-task-status', $task->id) }}">
-                                            @if ($task->status != Task::NOT_START && $task->status != Task::INPROGRESS)
-                                                <option value="{{ $task->status }}"> {{ Task::getStatus($task->status) }}
-                                                </option>
-                                            @endif
-                                            <option value="{{ Task::NOT_START }}"
-                                                @if ($task->status == Task::NOT_START) selected @endif> Chưa bắt đầu</option>
-                                            <option value="{{ Task::INPROGRESS }}"
-                                                @if ($task->status == Task::INPROGRESS) selected @endif> Đang tiến hành</option>
-                                        </select>
+                                        {{ Task::getStatus($task->status) }}
                                     </td>
                                     <td>
                                         {{ Task::getPriority($task->priority) }}

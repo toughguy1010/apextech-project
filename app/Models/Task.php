@@ -61,6 +61,30 @@ class Task extends Model
         })
             ->count();
     }
+    public static function getTaskByUser($id = null, $option = null, $limit = null, $task_creater)
+    {
+        if ($id === null && $option === null) {
+            return [];
+        }
+
+        $position_id = $option == 'managers' ? 'manager_id' : 'user_id';
+       
+        $query = Task::whereHas($option, function ($query) use ($id, $position_id, $task_creater) {
+            $query->where($position_id, $id);
+            if ($task_creater !== null) {
+                // var_dump($task_creater);
+                $query->orWhere('task_creater', $task_creater);
+            };
+        });
+
+        if ($limit !== null) {
+            $tasks = $query->paginate($limit);
+        } else {
+            $tasks = $query->get();
+        }
+
+        return $tasks;
+    }
     public static function getTaskNameByID($id)
     {
         $task = Task::find($id);
@@ -145,29 +169,7 @@ class Task extends Model
         return $this->belongsToMany(User::class, 'task_managers', 'task_id', 'manager_id');
     }
 
-    public static function getTaskByUser($id = null, $option = null, $limit = null, $task_creater)
-    {
-        if ($id === null && $option === null) {
-            return [];
-        }
-
-        $position_id = $option == 'managers' ? 'manager_id' : 'user_id';
-
-        $query = Task::whereHas($option, function ($query) use ($id, $position_id, $task_creater) {
-            $query->where($position_id, $id);
-            if ($task_creater !== null) {
-                $query->orWhere('task_creater', $task_creater);
-            };
-        });
-
-        if ($limit !== null) {
-            $tasks = $query->paginate($limit);
-        } else {
-            $tasks = $query->get();
-        }
-
-        return $tasks;
-    }
+   
     public static function getTaskByCreater($task_creater, $limit = null, $search = null)
     {
         $query = Task::where('task_creater', $task_creater);

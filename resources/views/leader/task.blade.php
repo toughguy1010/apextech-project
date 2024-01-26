@@ -86,6 +86,9 @@
                     <th>
                         Nguời theo dõi
                     </th>
+                    {{-- <th>
+                        Người tạo
+                    </th> --}}
                 </thead>
                 <tbody>
                     @foreach ($tasks as $task)
@@ -107,6 +110,9 @@
                             <td>
                                 <select name="update-task-status" class="update-task-status"
                                     data-url="{{ url('leader/update-task-status', $task->id) }}">
+                                    @if ($task->status != Task::NOT_START && $task->status != Task::INPROGRESS && $task->status !== Task::TESTING)
+                                    <option value="{{ $task->status }}"> {{ Task::getStatus($task->status) }}</option>
+                                @endif
                                     <option value="{{ Task::NOT_START }}"
                                         @if ($task->status == Task::NOT_START) selected @endif> Chưa bắt đầu</option>
                                     <option value="{{ Task::INPROGRESS }}"
@@ -152,6 +158,9 @@
 
                                 </div>
                             </th>
+                            {{-- <th>
+                                {{ $task->task_creater }}
+                            </th> --}}
                         </tr>
                     @endforeach
                 </tbody>

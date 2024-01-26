@@ -49,7 +49,7 @@
                         ?>
                         <label for="email" class="form-label ">Phân quyền</label>
                         <select class="form-select" name="role" aria-label="Default select example">
-                            <option value="">--- Chọn quyền ---</option>
+                            <option value="0">--- Chọn quyền ---</option>
                             @foreach ($roles as $role)
                                 <option value="<?= $role->id ?>"
                                     {{ $id && $department->role == $role->id ? 'selected' : '' }}>
