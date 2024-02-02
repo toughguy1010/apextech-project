@@ -14,8 +14,8 @@
                 </p>
             </div>
             <form action="">
-                <div class="time_log-filter row justify-content-between">
-                    <div class="filter-item col-3 ps-0">
+                <div class="time_log-filter row justify-content-start">
+                    <div class="filter-item col-4 ps-0">
                         <div class="label">Phòng ban: </div>
                         <select name="department" id="department" class="form-select" id="department">
                             <option value="">---Chọn phòng ban---</option>
@@ -27,7 +27,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="filter-item col-3">
+                    <div class="filter-item col-4">
                         <div class="label">Chọn tháng: </div>
                         <select class="form-control search-input" name="selected_month" id ="selected_month">
                             <option value="">---Chọn tháng---</option>
@@ -53,7 +53,7 @@
                             ?>
                         </select>
                     </div>
-                    <div class="col-3 filter-item">
+                    <div class="col-4 filter-item">
                         <div class="label">Chọn năm: </div>
                         <select class="form-control search-input" name="selected_year" id ="selected_year">
                             <option value="">---Chọn năm---</option>
@@ -69,12 +69,12 @@
                             ?>
                         </select>
                     </div>
-                    <div class="filter-btn col-3 d-flex align-item-center justify-content-end">
-                        <button class="btn btn-primary me-3" style="height:40px; width:130px;  margin-top: 34px;">
+                    <div class="filter-btn d-flex align-item-center justify-content-end">
+                        <button class="btn btn-primary me-3" style="height:40px; width:130px;  margin-top: 28px;">
                             Lọc
                         </button>
                         <div class="btn btn-success export-statistic" type="button" id="button-addon1"
-                            style="height:40px; width: 130px; margin-top: 34px;" data-url="{{ url('salary/export-statistic-ajax') }}">
+                            style="height:40px; width: 130px; margin-top: 28px;" data-url="{{ url('salary/export-statistic-ajax') }}">
                             <i class="fa-regular fa-file-excel"></i>
                             Xuất excel
                         </div>

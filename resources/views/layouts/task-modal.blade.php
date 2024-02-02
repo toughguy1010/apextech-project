@@ -32,7 +32,7 @@ $ceo_id = $ceo_ids[0];
                 <div class="row">
                     <div class="col-8 main-task-col pb-3">
 
-                        <div class="task-btn-group">
+                        <div class="task-btn-group mt-3">
                             @if (Position::getPositionCodeByUser(Auth::user()) == 'employee')
                                 <div class="btn btn-outline-primary btn-status"
                                     data-url="{{ url('employee/update-task-status', $task->id) }}"
@@ -168,6 +168,7 @@ $ceo_id = $ceo_ids[0];
                                 Thêm bình luận
                             </div>
                             <?php
+                            
                             $task_comments = TaskComments::getCommentsByTaskId($task->id);
                             
                             ?>
@@ -176,8 +177,11 @@ $ceo_id = $ceo_ids[0];
                                 @if ($task_comments != null)
                                     <?php
                                 foreach ($task_comments as $comment) {
-                                    $user_comment = User::findOrFail($comment->user_id);
-                                    ?>
+                                
+                                    if($comment->user_id != null)
+                                    {
+                                        $user_comment = User::findOrFail($comment->user_id);
+                                        ?>
                                     <div class="task-comment-item">
                                         <img src="{{ $user_comment->avatar }}" alt="" class="avt">
                                         <div class="task-comment-info">
@@ -190,6 +194,7 @@ $ceo_id = $ceo_ids[0];
                                         </div>
                                     </div>
                                     <?php
+                                    }
                                 }
                                 ?>
                                 @endif
@@ -251,7 +256,8 @@ $ceo_id = $ceo_ids[0];
                                         @foreach ($task->assignees as $assignee)
                                             {{-- <img src=" {{ $assignee->avatar }}" alt=""> --}}
                                             <div class="tooltip-wrap">
-                                                <img src=" {{ $assignee->avatar }}" alt="" data-info=" {{ $assignee->name }}" class="show_avt_name">
+                                                <img src=" {{ $assignee->avatar }}" alt=""
+                                                    data-info=" {{ $assignee->name }}" class="show_avt_name">
                                                 <div class="avt_name"></div>
                                             </div>
                                         @endforeach
@@ -272,7 +278,8 @@ $ceo_id = $ceo_ids[0];
                                         @foreach ($task->managers as $manager)
                                             {{-- <img src=" {{ $manager->avatar }}" alt=""> --}}
                                             <div class="tooltip-wrap">
-                                                <img src=" {{ $manager->avatar }}" alt="" data-info=" {{ $manager->name }}" class="show_avt_name">
+                                                <img src=" {{ $manager->avatar }}" alt=""
+                                                    data-info=" {{ $manager->name }}" class="show_avt_name">
                                                 <div class="avt_name"></div>
                                             </div>
                                         @endforeach
@@ -282,6 +289,28 @@ $ceo_id = $ceo_ids[0];
                                         </span>
                                     @endif
                                 </div>
+                            </div>
+                        </div>
+                        <div class="manager-wrap mt-4">
+                            <div class="people-label d-flex">
+                                <i class="fa-solid fa-users"></i>
+                                <p class="mb-1">Người tạo công việc: </p>
+                            </div>
+                            <div class="people-imgs task-assigess-list">
+                                @if ($task->task_creater)
+                                    @php
+                                        $task_creater = User::findOrFail($task->task_creater);
+                                    @endphp
+                                    <div class="tooltip-wrap">
+                                        <img src="{{ $task_creater->avatar }} " alt=""
+                                            data-info=" {{ $task_creater->name }}" class="show_avt_name">
+                                        <div class="avt_name"></div>
+                                    </div>
+                                @else
+                                    <span>
+                                        Chưa giao cho người theo dõi nào
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -362,8 +391,8 @@ $ceo_id = $ceo_ids[0];
                     $(".message-report").removeClass("false-message-report")
                     $(".message-report").addClass("active-message-report");
                     setTimeout(function() {
-                        $(".message-report").fadeOut();
-                    }, 3000);
+                        $(".message-report").removeClass("active-message-report")
+                    }, 2000);
                 } else {
                     $(".message-report").html(response.message);
                     $(".message-report").removeClass("active-message-report")
@@ -394,7 +423,7 @@ $ceo_id = $ceo_ids[0];
                 $(".message-status").addClass("active-message-status")
                 setTimeout(function() {
                     $(".message-status").fadeOut();
-                }, 3000)
+                }, 2000)
                 $(".task-status-text").html(response.status_name)
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -484,8 +513,8 @@ $ceo_id = $ceo_ids[0];
                     $(".message-progess").html(response.message)
                     $(".message-progess").addClass("active-message-progess")
                     setTimeout(function() {
-                        $(".message-progess").fadeOut();
-                    }, 3000)
+                        $(".message-progess").removeClass("active-message-progess")
+                    }, 2000)
                     if (response.status == 1) {
                         userCompleteHtml.html(" Đã được hoàn thành bởi <strong> " + response
                             .user_name + "</strong> ")

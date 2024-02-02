@@ -42,7 +42,7 @@
                 <div class="row row-input">
                     <div class="mb-3 col-6">
                         <div type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#employeeModal">
-                            Nhân viên được bàn giao
+                            Nhân viên thực hiện công việc
                         </div>
 
                         <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -113,7 +113,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel" style="flex: 0 0 50%;">Danh sách
-                                                người dùng</h5>
+                                                người theo dõi</h5>
                                         </div>
                                         <div class="modal-body">
                                             <table class="table" style="box-shadow: none">

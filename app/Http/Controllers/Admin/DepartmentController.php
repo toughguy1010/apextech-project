@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 class DepartmentController extends Controller
 {
     //
@@ -50,7 +51,7 @@ class DepartmentController extends Controller
 
         try {
             $validationRules = [
-                'name' => 'required|string|max:255', 
+                'name' => 'required|string|max:255',
             ];
             $customMessages = [
                 'name.required' => 'Tên phòng ban không được để trống.',
@@ -80,6 +81,15 @@ class DepartmentController extends Controller
             $department->leader_id = $request->input('leader_id');
             $department->role = $request->input('role');
             $department->save();
+            $leaderId =   $department->leader_id;
+            if ($leaderId > 0) {
+                $leaderUser = User::find($leaderId);
+                if ($leaderUser) {
+                    $leaderUser->department_id = $department->id;
+                    $leaderUser->save();
+                }
+            }
+
             if ($request->input('employees_id') > 0) {
                 $employeeIds = $request->input('employees_id');
                 User::whereIn('id', $employeeIds)->update(['department_id' => $department->id]);
@@ -142,11 +152,12 @@ class DepartmentController extends Controller
             'users' => $usersWithDepartments,
         ]);
     }
-    public function updateEmployee(Request $request, $id){
-        if($id){
+    public function updateEmployee(Request $request, $id)
+    {
+        if ($id) {
             $user = User::findOrFail($id);
             $department = $request->post('department');
-            if($department == null){
+            if ($department == null) {
                 $user->department_id = null;
                 $user->save();
                 return response()->json([

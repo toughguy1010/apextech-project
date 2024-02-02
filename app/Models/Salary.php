@@ -31,8 +31,11 @@ class Salary extends Model
         if ($user && $this->hours_worked > 0 && $user->base_salary > 0) {
 
             $standard_hours = $this->gerStandardHour($month, $year);
+            
             $salary = ($this->hours_worked / $standard_hours) * $user->base_salary;
-
+            // var_dump($standard_hours );
+            // var_dump($this->hours_worked );
+            // die;
             // Làm tròn số lương nếu cần
             $salary = round($salary, 2);
 
@@ -91,7 +94,7 @@ class Salary extends Model
 
 
         $query = self::where('user_id', $userId);
-
+        $query->orderBy("id", "DESC");
         if ($month !== null) {
             $query->where('month', $month);
         }

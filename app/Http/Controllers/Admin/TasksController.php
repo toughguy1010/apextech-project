@@ -21,10 +21,10 @@ class TasksController extends Controller
     {
         $limit = 5;
         $search = $request->input('search', '');
-        $user = Auth::user(); 
+        $user = Auth::user();
         $task_creater = $user->id;
         if ($user->position_id == 3 || $user->position_id == 1) {
-            $tasks = Task::getTaskByCreater( $task_creater, $limit ,$search );
+            $tasks = Task::getTaskByCreater($task_creater, $limit, $search);
         } else {
             $tasks = Task::getAllTask($limit, $search);
         }
@@ -43,9 +43,8 @@ class TasksController extends Controller
                 $employees = Department::getAllUsersByDepartment($department->id, null, $search = null, $all = 1);
             }
             $task_managers = null;
-            
         } else {
-            
+
             $task_managers = User::getTaskManager();
             $employees = User::getUserEmployee();
         }
@@ -68,10 +67,10 @@ class TasksController extends Controller
 
         try {
             $validationRules = [
-                'name' => 'required|string|max:255', 
-                'priority' => 'required', 
-                'start_date' => 'required', 
-                'end_date' => 'required', 
+                'name' => 'required|string|max:255',
+                'priority' => 'required',
+                'start_date' => 'required',
+                'end_date' => 'required',
             ];
             $customMessages = [
                 'name.required' => 'Tên công việc không được để trống.',
@@ -123,6 +122,7 @@ class TasksController extends Controller
             if ($employeesID !== null) {
                 // Lấy danh sách nhân viên đã được gán cho công việc
                 $currentEmployees = $task->assignees->pluck('id')->toArray();
+                // Gửi thông báo tạo công việc
 
                 if (!empty($currentEmployees)) {
                     // Tìm những nhân viên bị bỏ chọn
@@ -139,6 +139,9 @@ class TasksController extends Controller
                     // Nếu không có nhân viên nào được gán trước đó, thì gán mới
                     $task->assignees()->sync($employeesID);
                     // Add notification
+                    if ($id == null) {
+                        ReportNotification::addNotification($task_creater, $employeesID, 3, $task->id);
+                    }
                 }
             } else {
                 // Nếu không có nhân viên được chọn, loại bỏ tất cả nhân viên được gán trước đó
@@ -157,11 +160,17 @@ class TasksController extends Controller
                     }
                 } else {
                     $task->managers()->sync($task_mangersID);
+                    if ($id == null) {
+                        ReportNotification::addNotification($task_creater, $task_mangersID, 3, $task->id);
+                    }
                 }
             } else {
                 // $task->managers()->detach();
                 $task->managers()->sync($task->task_creater);
+                // Add notification
+            
             }
+
             if ($id === null) {
                 Session::flash('success', 'Tạo công việc thành công');
             } else {

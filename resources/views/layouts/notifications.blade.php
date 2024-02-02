@@ -107,34 +107,47 @@ use App\Models\Task;
     @foreach ($notifications as $notification)
         <?php
         $is_read = $notification->is_readed == 1 ? '' : 'unread';
-        $task_id = $notification->notifications->task_id;
-        ?>
+        $task_id = optional($notification->notifications)->task_id;
+        if($task_id != null){
+?>
         <div class="dropdown-item {{ $is_read }} notification-item"
             data-url="{{ url('/leader/show-task-detail', $task_id) }}" data-id="{{ $notification->id }}">
             @php
-                $from_user = User::getUserNameByID($notification->notifications->from_user);
-                $task_name = Task::getTaskNameByID($notification->notifications->task_id);
-                $originalDateTimeString = $notification->notifications->datetime;
+                $from_user = User::getUserNameByID(optional($notification->notifications)->from_user);
+                $task_name = Task::getTaskNameByID(optional($notification->notifications)->task_id);
+                $originalDateTimeString = optional($notification->notifications)->datetime;
                 $originalDateTime = new DateTime($originalDateTimeString);
                 $noti_datetime = $originalDateTime->format('H:i d-m-Y');
+
+                // die();
+
             @endphp
 
-            @if ($notification->notifications->type == 1)
+            @if (optional($notification->notifications)->type == 1)
                 <strong>{{ $from_user }}</strong> đã báo cáo công việc {{ $task_name }}
-            @elseif($notification->notifications->type == 2)
+            @elseif(optional($notification->notifications)->type == 2)
                 @php
-                    $task = Task::findOrFail($notification->notifications->task_id);
+                    $task = Task::findOrFail(optional($notification->notifications)->task_id);
                     $task_status = Task::getStatus($task->status);
                 @endphp
                 <strong>{{ $from_user }}</strong> đã xác nhận công việc {{ $task_name }}
                 <span style="text-transform: lowercase">{{ $task_status }}</span>
+            @elseif(optional($notification->notifications)->type == 3)
+                <strong>{{ $from_user }}</strong> đã giao công việc {{ $task_name }} cho bạn
+            @else
             @endif
 
             <div class="noti-datetime">
                 {{ $noti_datetime }}
             </div>
         </div>
+        <?php
+        }
+        ?>
     @endforeach
+    <?php
+    
+    ?>
 </div>
 
 

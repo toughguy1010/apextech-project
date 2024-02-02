@@ -24,11 +24,7 @@ class Task extends Model
     const HIGH = 2;
     const URGENT = 3;
 
-    public function processes()
-    {
-        return $this->hasMany(TaskProcess::class, 'task_id', 'id');
-    }
-
+ 
     public static function getStatus($status)
     {
         switch ($status) {
@@ -76,7 +72,7 @@ class Task extends Model
                 $query->orWhere('task_creater', $task_creater);
             };
         });
-
+        $query->orderBy('created_at', 'desc');
         if ($limit !== null) {
             $tasks = $query->paginate($limit);
         } else {
@@ -116,8 +112,7 @@ class Task extends Model
         if ($search) {
             $query->where('name', 'like', '%' . $search . '%');
         }
-
-
+        $query->orderBy('id', 'DESC');
         $tasks = $query->paginate($limit);
         return $tasks;
     }
@@ -140,11 +135,7 @@ class Task extends Model
         return null;
     }
 
-    public function assignees()
-    {
-        return $this->belongsToMany(User::class, 'task_assignees', 'task_id', 'user_id')
-            ->withPivot('id');
-    }
+ 
     public static function getCurrentUserAndAssigneesId($taskId)
     {
         $user = Auth::user();
@@ -164,6 +155,13 @@ class Task extends Model
         return null;
     }
 
+
+    
+    public function assignees()
+    {
+        return $this->belongsToMany(User::class, 'task_assignees', 'task_id', 'user_id')
+            ->withPivot('id');
+    }
     public function managers()
     {
         return $this->belongsToMany(User::class, 'task_managers', 'task_id', 'manager_id');
@@ -188,4 +186,9 @@ class Task extends Model
     {
         return $this->hasMany(TaskComments::class);
     }
+    public function processes()
+    {
+        return $this->hasMany(TaskProcess::class, 'task_id', 'id');
+    }
+
 }

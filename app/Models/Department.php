@@ -68,6 +68,7 @@ class Department extends Model
                     ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
+        $query->where("status",  '=',1);
         if ($all == 1) {
             $users = $query->get();
         } else {

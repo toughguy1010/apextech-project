@@ -29,6 +29,9 @@ class ReceiverNotification extends Model
     {
         return self::where('receiver_ids', $receiverId)
         ->where('is_readed', 0)
+        ->whereHas('notifications', function ($query) {
+            $query->whereNotNull('task_id');
+        })
         ->count();
     }
 }

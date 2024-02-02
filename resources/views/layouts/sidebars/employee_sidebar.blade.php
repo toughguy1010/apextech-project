@@ -55,7 +55,7 @@
     <li class="siderbar__submenu-item">
         <a href="{{ url('employee/department-manager/list') }}" class="sidebar__link">
             <i class="fa-solid fa-person-shelter text-white"></i>
-            <span class="text-white ms-2">Quản lý phòng </span>
+            <span class="text-white ms-2">Quản lý phòng ban </span>
         </a>
     </li>
 @elseif(Auth::user()->role == 3)

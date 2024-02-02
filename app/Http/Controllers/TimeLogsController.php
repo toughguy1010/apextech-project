@@ -8,14 +8,15 @@ use App\Models\TimeLog;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
-
 class TimeLogsController extends Controller
 {
     //
     public function index(Request $request)
     {
-        $currentDate = now();
-        // $currentDate = now()->month(10)->year(2022);
+        // $currentDate = now()->timezone('Asia/Ho_Chi_Minh');
+        $currentDate = now()->startOfMonth()->month(2)->year(2023)->timezone('Asia/Ho_Chi_Minh');
+        // dd($currentDate);
+        
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentDate->month, $currentDate->year);
 
 

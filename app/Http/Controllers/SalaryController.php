@@ -51,7 +51,6 @@ class SalaryController extends Controller
             $success = false;
             return $success;
         }
-
         // Lặp qua danh sách người dùng và tạo phiếu lương
         foreach ($usersWithLoggedHours as $user) {
             // Kiểm tra xem đã có phiếu lương cho người dùng đó trong tháng đó chưa

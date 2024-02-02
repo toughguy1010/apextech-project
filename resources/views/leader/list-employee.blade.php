@@ -8,7 +8,7 @@
         </div>
         <div class="list_user_header">
             <div class="row align-items-center">
-                <h4 class="col-6" >
+                <h4 class="col-6">
                     Danh sách nhân viên
                     <span style="text-transform:lowercase">
                         {{ $department->name }}
@@ -26,7 +26,7 @@
                         </form>
                     </div>
                     <div class="export-excel ms-4">
-                        <form action="{{url('leader/export',$department->id) }}" class="me-0" method="get">
+                        <form action="{{ url('leader/export', $department->id) }}" class="me-0" method="get">
                             <button type="submit" class="btn btn-success " type="button" id="button-addon1"
                                 style="height: 45px">
                                 <i class="fa-regular fa-file-excel"></i>
@@ -57,7 +57,7 @@
                         Ngày bắt đầu
                     </th>
                     <th>
-                       Chức vụ
+                        Chức vụ
                     </th>
                     <th>
                         Trạng thái
@@ -69,7 +69,7 @@
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
-                        <tr id="user-{{ $user->id}}">
+                        <tr id="user-{{ $user->id }}">
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->username }}</td>
                             <td class="have-wrap">
@@ -90,10 +90,13 @@
                                 </div>
                             </td>
                             <td class="">
-                                
-                                <a href="#" class="btn-delete" data-url="{{ url('leader/remove-employee', $user->id) }}">
-                                    <i class="fa-solid fa-user-minus"></i>
-                                </a>
+                                @if (Auth::user()->id !== $user->id)
+                                    <a href="#" class="btn-delete"
+                                        data-url="{{ url('leader/remove-employee', $user->id) }}">
+                                        <i class="fa-solid fa-user-minus"></i>
+                                    </a>
+                                @endif
+
                             </td>
                         </tr>
                     @endforeach
@@ -101,7 +104,7 @@
             </table>
             <div class="pagination-wrap">
                 {{-- {{ $users->links('layouts.pagination') }} --}}
-                {{ $users->appends(['search' => $search ])->links('layouts.pagination') }}
+                {{ $users->appends(['search' => $search])->links('layouts.pagination') }}
 
             </div>
         </div>
