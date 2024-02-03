@@ -13,8 +13,8 @@ class TimeLogsController extends Controller
     //
     public function index(Request $request)
     {
-        // $currentDate = now()->timezone('Asia/Ho_Chi_Minh');
-        $currentDate = now()->startOfMonth()->month(2)->year(2023)->timezone('Asia/Ho_Chi_Minh');
+        $currentDate = now()->timezone('Asia/Ho_Chi_Minh');
+        // $currentDate = now()->startOfMonth()->month(1)->year(2023)->timezone('Asia/Ho_Chi_Minh');
         // dd($currentDate);
         
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentDate->month, $currentDate->year);
